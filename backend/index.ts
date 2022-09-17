@@ -1,19 +1,50 @@
-import * as http from "http";
-import App from "./app";
-import { Logger } from "./logger/logger";
+import { ApolloServer } from 'apollo-server-express';
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageLocalDefault,
+} from 'apollo-server-core';
+import express  from 'express';
+import http from 'http';
+import {TypeDefs} from './schema/schema'
+import {resolvers} from './resolvers/JobResolver'
 
-const port = 3080;
 
-App.set("port", port);
-const server = http.createServer(App);
-server.listen(port);
 
-const logger = new Logger();
+async function startApolloServer(typeDefs: any, resolvers: any) {
+  // Required logic for integrating with Express
+  const app = express();
+  // Our httpServer handles incoming requests to our Express app.
+  // Below, we tell Apollo Server to "drain" this httpServer,
+  // enabling our servers to shut down gracefully.
+  const httpServer = http.createServer(app);
 
-server.on("listening", function(): void {
-    const addr = server.address();
-    const bind = (typeof addr === "string") ? `pipe ${addr}` : `port ${addr.port}`;
-    logger.info(`Listening on ${bind}`);
- });
+  // Same ApolloServer initialization as before, plus the drain plugin
+  // for our httpServer.
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    csrfPrevention: true,
+    cache: 'bounded',
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ],
+  });
 
-module.exports = App;
+  // More required logic for integrating with Express
+  await server.start();
+  server.applyMiddleware({
+    app,
+
+    // By default, apollo-server hosts its GraphQL endpoint at the
+    // server root. However, *other* Apollo Server packages host it at
+    // /graphql. Optionally provide this to match apollo-server.
+    path: '/'
+  });
+
+  // Modified server startup
+  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+}
+
+startApolloServer(TypeDefs, resolvers);
