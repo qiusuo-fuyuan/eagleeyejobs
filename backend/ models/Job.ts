@@ -1,4 +1,4 @@
-class Job {
+export class Job {
     title: String
 
     constructor(title: String) {

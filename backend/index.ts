@@ -5,9 +5,8 @@ import {
 } from 'apollo-server-core';
 import express  from 'express';
 import http from 'http';
-import {TypeDefs} from './schema/schema'
-import {resolvers} from './resolvers/JobResolver'
-
+import { TypeDefs } from './schema.js'
+import { resolvers } from './JobResolver.js'
 
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
