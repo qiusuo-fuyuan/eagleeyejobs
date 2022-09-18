@@ -7,8 +7,8 @@
                  recently added to the ECMA-262 JS spec */
        ],
       "noImplicitAny": true,
-      "moduleResolution": "NodeNext", 
-      "module": "NodeNext",
+      "moduleResolution": "node", 
+      "module": "esNext",
       "esModuleInterop": true,
       "target": "ES2021",
       "allowJs": true
