@@ -13,10 +13,15 @@
       "target": "ES2021",
       "allowJs": true
     },
+    "baseUrl": ".",
+    "paths": {
+        "@modules/*": ["./src/models/*"],
+        "@services/*": ["./src/services/*"]
+    },
     "ts-node": {
       "esm": true
     },
     "exclude":[
       "node_modules"
-    ]
+    ],
   }

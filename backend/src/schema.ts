@@ -5,6 +5,11 @@ export const TypeDefs = gql`
     title: String
   }
   type Query {
-    allJobs: [Job]
+    searchJobs(pageNo: Int): [Job]
+    jobDetail(jobId: String!): Job
+  }
+
+  type Mutation {
+    removeJob(jobId: String!): Job
   }
 `;
