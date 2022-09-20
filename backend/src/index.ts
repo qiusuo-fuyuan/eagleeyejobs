@@ -4,6 +4,8 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
 } from 'apollo-server-core';
 import express  from 'express';
+import { expressjwt } from "express-jwt";
+
 import http from 'http';
 import { TypeDefs } from './schema.js'
 import { resolvers } from './resolvers.js'
@@ -12,10 +14,23 @@ import { resolvers } from './resolvers.js'
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
   const app = express();
+
+  //
+  app.use(
+    expressjwt({
+      secret: "f1BtnWgD3VKY",
+      algorithms: ["HS256"],
+      credentialsRequired: false
+    })
+  );
+
+
   // Our httpServer handles incoming requests to our Express app.
   // Below, we tell Apollo Server to "drain" this httpServer,
   // enabling our servers to shut down gracefully.
   const httpServer = http.createServer(app);
+
+
 
   // Same ApolloServer initialization as before, plus the drain plugin
   // for our httpServer.
