@@ -10,9 +10,9 @@ export const resolvers = {
          * Jobs Query Resolvers
          */
         searchJobs: () => service.searchJobsByPageNo(0),
-        jobDetail(jobId: String) {
-            console.log("query job detail jobId:" + jobId)
-            return service.queryJobDetail(jobId);
+        jobDetail(_: any, args: any) {
+            console.log("query job detail jobId:" + args.jobId)
+            return service.queryJobDetail(args.jobId);
         }
 
         /**
