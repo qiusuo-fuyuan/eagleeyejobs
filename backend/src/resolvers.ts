@@ -10,6 +10,8 @@ export const resolvers = {
          * Jobs Query Resolvers
          */
         searchJobs: () => service.searchJobsByPageNo(0),
+
+        //https://stackoverflow.com/questions/54158775/graphql-schema-query-not-recognizing-passed-input-parameters-in-the-resolver-fun
         jobDetail(_: any, args: any) {
             console.log("query job detail jobId:" + args.jobId)
             return service.queryJobDetail(args.jobId);
