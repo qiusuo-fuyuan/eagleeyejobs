@@ -1,0 +1,5 @@
+query ExampleQuery($jobId: String!) {
+  jobDetail(jobId: $jobId) { 
+    title
+  }
+}
