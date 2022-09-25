@@ -35,22 +35,21 @@ export const resolvers = {
 
     Mutation: {
         /**
-         * Jobs Query Resolvers
+         * Jobs Mutation Resolvers
         */
 
         /**
-         * User Query Resolvers
+         * User Mutation Resolvers
          */
 
 
         /**
-         * Membership Query Resolvers
+         * Membership Mutation Resolvers
          */
 
 
         /**
-         * Community Story Query Resolvers
+         * Community Story Mutation Resolvers
          */
-
     }
 };

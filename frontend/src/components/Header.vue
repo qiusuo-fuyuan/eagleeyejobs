@@ -1,20 +1,24 @@
 <template>
-   <div class="header">
-     <label>Jobs</label>
-     <label>Internal Recommendation</label>
-     <label>Membership</label>
-     <label>Community</label>
-     <label>About Us</label>
-   </div>
-
+  <div class="header">
+    <nav class="header_menu">
+      <ul>
+        <li>
+          <router-link to="/jobs">Job</router-link>
+        </li>
+        <li>
+          <router-link to="/referral">Referral</router-link>
+        </li>
+        <li>
+          <router-link to="/aboutUs">AboutUs</router-link>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import Component from 'vue-class-component'
-@Component
-export default class Headerc extends Vue {
-  // Declared as component data
-  message = 'Vue.js With NodeJS - Typescript'
-}
+export default {
+  name: "Header",
+  components: {},
+};
 </script>
