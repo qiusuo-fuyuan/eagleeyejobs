@@ -9,6 +9,7 @@ import { expressjwt } from "express-jwt";
 import http from 'http';
 import { TypeDefs } from './schema.js'
 import { resolvers } from './resolvers.js'
+import mongoClientOps from './mongoOps.js'
 
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
@@ -60,5 +61,18 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
+
+
+mongoClientOps.startConnectMongoServer()
+mongoClientOps.startCreateModel()
+
+mongoClientOps.jobModel.find((err: any, docs: any) => {
+  if(!err){
+    console.log("find jobs:", docs)
+  } else {
+    console.log(err)
+  }
+})
+
 
 startApolloServer(TypeDefs, resolvers);

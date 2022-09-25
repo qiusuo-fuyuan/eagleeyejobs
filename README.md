@@ -19,6 +19,13 @@ npm install
 
 npm start => will start the server on 🚀 Server ready at http://localhost:4000/. U can open the link
 
+2. Run Mongodb in local docker container
+
+```bash
+cd docker-compose
+docker-compose up
+```
+
 
 
 
