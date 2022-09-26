@@ -11,12 +11,6 @@ export class JobSearchService {
         return new Array();
     }
 
-    queryJobDetail(jobId: String) {
-        const job = new Job("title123", "location123");
-        return job;
-    }
-
-
     searchJobsByUserInput(userInput: String): Array<Job> {
         return new Array();
     }
