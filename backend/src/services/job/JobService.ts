@@ -3,23 +3,16 @@ import { Job } from '../../models/Job.js'
 
 
 export class JobService {
-    addJob(job: Job) {
-        // new mongoClientOps.jobModel(job).save((err:any ,docs:any) => {
-        //     if(!err){
-        //         console.log(docs)
-        //     } else {
-        //         console.log(err)
-        //     }
-        // })
+    async addJob(job: Job): Promise<Job> {
+        return await new mongoClientOps.JobModel(job).save();
     }
 
     async findJobs() : Promise<Array<Job>> {
-        let data = await mongoClientOps.jobModel.find();
+        let data = await mongoClientOps.JobModel.find();
         return data
     }
 
     async queryJobDetail(jobId: String) {
-        let data = await mongoClientOps.jobModel.findById(jobId)
-        return data
+        return await mongoClientOps.JobModel.findById(jobId)
     }
 }

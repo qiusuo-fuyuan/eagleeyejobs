@@ -1,9 +1,10 @@
 import config from 'config'
 import mongoose from 'mongoose'
 import util  from 'util'
+import {Job} from "./models/Job";
 
 class MongoClientOps {
-    jobModel: any
+    JobModel: any
 
     startConnectMongoServer() {
         const host = config.get('mongo.host')
@@ -23,12 +24,12 @@ class MongoClientOps {
     startCreateModel() {
         var Schema = mongoose.Schema;
 
-        var jobSchema = new Schema({
+        var jobSchema = new Schema<Job>({
             title: {type:String, required: true},
             location: String
-        }, { timestamps:true })
+        }, { timestamps:true, collation: { locale: 'en_US', strength: 1 }})
 
-        this.jobModel = mongoose.model('job', jobSchema, 'job')
+        this.JobModel = mongoose.model('job', jobSchema, 'job')
 
         // this.jobModel.create({
         //     title: "job-test1",

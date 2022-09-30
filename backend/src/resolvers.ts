@@ -37,6 +37,10 @@ export const resolvers = {
         /**
          * Jobs Mutation Resolvers
         */
+        addJob(_:any, args:any) {
+            console.log("[Mutation] add job:" + args.job)
+            return jobService.addJob(args.job);
+        }
 
         /**
          * User Mutation Resolvers

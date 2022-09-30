@@ -66,7 +66,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 mongoClientOps.startConnectMongoServer()
 mongoClientOps.startCreateModel()
 
-mongoClientOps.jobModel.find((err: any, docs: any) => {
+mongoClientOps.JobModel.find((err: any, docs: any) => {
   if(!err){
     console.log("find jobs:", docs)
   } else {
