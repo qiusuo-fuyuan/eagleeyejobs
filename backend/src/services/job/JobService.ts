@@ -1,18 +1,22 @@
-import mongoClientOps from "../../mongoOps.js"
 import { Job } from '../../models/Job.js'
-
+import { JobRepository } from '../../repositories/JobRepository.js';
 
 export class JobService {
+    private jobRepository: JobRepository
+
+    constructor() {
+        this.jobRepository = new JobRepository()
+    }
+
     async addJob(job: Job): Promise<Job> {
-        return await new mongoClientOps.JobModel(job).save();
+        return this.jobRepository.createJob(job)
     }
 
-    async findJobs() : Promise<Array<Job>> {
-        let data = await mongoClientOps.JobModel.find();
-        return data
+    async findJobs(): Promise<Array<Job>> {
+        return this.jobRepository.findAllJobs();
     }
 
-    async queryJobDetail(jobId: String) {
-        return await mongoClientOps.JobModel.findById(jobId)
+    async queryJobDetail(jobId: string): Promise<Job> {
+        return this.jobRepository.findJobById(jobId)
     }
 }
