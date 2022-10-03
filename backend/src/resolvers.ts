@@ -2,16 +2,13 @@ import { Job } from "./models/Job.js";
 import { JobService } from "./services/job/JobService.js";
 import { JobSearchService } from "./services/job/JobSearchService.js";
 
-let jobSearchService;
-let jobService: JobService
 
 function getJobService(): JobService {
     if(jobService == undefined) {
-        jobService = new JobService()
+        var jobService = new JobService()
     }
     return jobService
 }
-
 
 export const resolvers = {
     Query: {
@@ -48,7 +45,7 @@ export const resolvers = {
         */
         addJob(_:any, args:any) {
             console.log("[Mutation] add job:" + args.job)
-            return jobService.addJob(args.job);
+            return getJobService().addJob(args.job);
         }
 
         /**
