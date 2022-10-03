@@ -7,8 +7,16 @@ import express  from 'express';
 import { expressjwt } from "express-jwt";
 
 import http from 'http';
+
+/**
+ * Here, js ending has to be used, and the problem is reported here.
+ * Currently no idea why the index.ts has to specify the js as ending. It could be
+ * that after ts-loader transpile the ts file into js file. The file actually has 
+ * ending of js
+ * https://github.com/microsoft/TypeScript/issues/42151
+ */
 import { TypeDefs } from './schema.js'
-import { resolvers } from './resolvers.js'
+import { resolvers } from './resolvers'
 import mongoClientOps from './mongoOps.js'
 
 
@@ -37,6 +45,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // for our httpServer.
   const server = new ApolloServer({
     typeDefs,
+    mocks: true,
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',

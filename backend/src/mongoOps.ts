@@ -1,10 +1,25 @@
 import config from 'config'
 import mongoose from 'mongoose'
 import util  from 'util'
-import {Job} from "./models/Job";
 
-class MongoClientOps {
-    JobModel: any
+/**
+ * Mongoose is based on Mongodb nodejs driver 
+ * https://mongodb.github.io/node-mongodb-native/api-generated/collection.html
+ * 
+ * The major API used by user is 
+ * db.createCollection() => creates collection(simiar to create database in mysql)
+ * https://www.mongodb.com/docs/manual/reference/method/db.createCollection/ * collection.insertDocument() => insert a json object(insert record in mysql)
+ * 
+ * create collection offers validation options by providing a second argument. These validation
+ * rules are created from our schema definition. This is why we provide a schema.
+ * 
+ * 
+ * collection.insertDocument => insert document (similar to create table in mysql)
+ * https://www.mongodb.com/docs/manual/tutorial/insert-documents/
+ * 
+ */
+class MongoClient {
+    jobModel: any
 
     startConnectMongoServer() {
         const host = config.get('mongo.host')
@@ -22,14 +37,12 @@ class MongoClientOps {
     }
 
     startCreateModel() {
-        var Schema = mongoose.Schema;
-
-        var jobSchema = new Schema<Job>({
+        var jobSchema = new mongoose.Schema({
             title: {type:String, required: true},
             location: String
-        }, { timestamps:true, collation: { locale: 'en_US', strength: 1 }})
+        }, { timestamps:true })
 
-        this.JobModel = mongoose.model('job', jobSchema, 'job')
+        this.jobModel = mongoose.model<mongoose.Schema>('job', jobSchema, 'job')
 
         // this.jobModel.create({
         //     title: "job-test1",
@@ -43,5 +56,5 @@ class MongoClientOps {
     }
 }
 
-const mongoClientOps = new MongoClientOps()
-export default mongoClientOps
+const mongoClient = new MongoClient()
+export default mongoClient
