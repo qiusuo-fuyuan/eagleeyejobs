@@ -48,8 +48,8 @@ export class MongoClient {
         return this.documentModelsRegistry[schemaName]
     }
 
-        /**
-     * try to connect to mongo db server
+    /**
+     * connect to mongo db server. How to report error? Exception should be thrown in case of error
      */
     private connectMongoServer() {
         const host = config.get('mongo.host')
@@ -66,6 +66,9 @@ export class MongoClient {
         })
     }
 
+    /**
+     * 
+     */
     private initializeDocumentSchemaModels() {
         let self = this //we need to use lamda capture in order to access parent object
         allDocumentSchemaDefinitions.forEach(function(schemaDefinition){  
