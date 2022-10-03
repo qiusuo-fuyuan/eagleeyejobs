@@ -4,6 +4,7 @@ import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
 export const JobDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
 {
     name: "Job",
+    tableName: 'job',
     schemaDefinition: {
         title: {
             type:String, 

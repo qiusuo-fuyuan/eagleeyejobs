@@ -19,12 +19,12 @@ export class JobRepository extends BaseRepository{
     }
 
     findAllJobs(): PromiseLike<Array<Job>> | Array<Job> {
-        return this.JobDocumentModel.findById()
+        return this.JobDocumentModel.find()
     }
 
     createJob(job: Job): Job | PromiseLike<Job> {
-        let jobDocument = new this.JobDocumentModel()
-        return jobDocument.save(job)
+        let jobDocument = new this.JobDocumentModel(job)
+        return jobDocument.save()
     }
 }
 
