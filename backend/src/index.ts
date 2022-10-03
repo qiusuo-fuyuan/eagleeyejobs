@@ -16,8 +16,8 @@ import http from 'http';
  * https://github.com/microsoft/TypeScript/issues/42151
  */
 import { TypeDefs } from './schema.js'
-import { resolvers } from './resolvers'
-import mongoClientOps from './mongoOps.js'
+import { resolvers } from './resolvers.js'
+import { MongoClient } from './db/MongoClient.js'
 
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
@@ -72,16 +72,8 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }
 
 
-mongoClientOps.startConnectMongoServer()
-mongoClientOps.startCreateModel()
-
-mongoClientOps.JobModel.find((err: any, docs: any) => {
-  if(!err){
-    console.log("find jobs:", docs)
-  } else {
-    console.log(err)
-  }
-})
+const mongoClient = new MongoClient()
+mongoClient.init()
 
 
 startApolloServer(TypeDefs, resolvers);
