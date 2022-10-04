@@ -45,7 +45,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // for our httpServer.
   const server = new ApolloServer({
     typeDefs,
-    mocks: true,
+    // mocks: true,
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',
