@@ -1,13 +1,20 @@
 import { Job } from "./models/Job.js";
 import { JobService } from "./services/job/JobService.js";
 import { JobSearchService } from "./services/job/JobSearchService.js";
-
+import { QAService } from "./services/QAService.js";
 
 function getJobService(): JobService {
     if(jobService == undefined) {
         var jobService = new JobService()
     }
     return jobService
+}
+
+function getQAService(): QAService {
+    if(QAService == undefined) {
+        var qaService = new QAService()
+    }
+    return qaService
 }
 
 export const resolvers = {
@@ -46,7 +53,13 @@ export const resolvers = {
         addJob(_:any, args:any) {
             console.log("[Mutation] add job:" + args.job)
             return getJobService().addJob(args.job);
+        },
+
+        createQuestion: (_:any, args: any) => {
+            console.log("createQuestion:" + args)
+            return getQAService().createQuestion(args.title, args.content)
         }
+
 
         /**
          * User Mutation Resolvers
