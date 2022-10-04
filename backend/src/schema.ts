@@ -9,10 +9,17 @@ export const TypeDefs = gql`
     companyName: String
   }
   
-  input JobSave {
+  input JobInput {
     title: String!
     location: String!
-}
+  }
+
+  input JobUpdate {
+    jobId: String!
+    title: String
+    location: String
+  }
+  
   
   type Query {
     searchJobs(pageNo: Int): [Job]
@@ -20,7 +27,8 @@ export const TypeDefs = gql`
   }
 
   type Mutation {
-    addJob(job: JobSave): Job
+    addJob(job: JobInput): Job
+    updateJob(job: JobUpdate): Job
     removeJob(jobId: String!): Job
   }
 `;

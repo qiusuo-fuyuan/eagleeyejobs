@@ -56,14 +56,19 @@ export class MongoClient {
         const port = config.get('mongo.port')
         const db = config.get('mongo.db')
         const connectAddress = util.format("mongodb://%s:%s/%s", host, port, db)
-        mongoose.connect(connectAddress)
+        const options = {
+            serverSelectionTimeoutMS: 6000,
+            connectTimeoutMS: 6000
+        };
 
-        mongoose.connection.once('open',()=>{
-            console.log('Mongodb connected %s successfully...', connectAddress)
-        })
-        mongoose.connection.once('error',()=>{
-            console.log('Mongodb connected %s failed...', connectAddress)
-        })
+        mongoose.connect(connectAddress, options).then(
+            () => { console.log("Mongodb connected %s successfully", connectAddress) },
+            errors => {
+                console.log("Mongodb connected %s failed!", connectAddress)
+                throw new Error(errors)
+            }
+        )
+
     }
 
     /**
