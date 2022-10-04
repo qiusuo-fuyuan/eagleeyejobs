@@ -85,7 +85,7 @@ export class MongoClient {
      */
     private registerDocumentSchema(documentSchemaDefinition: DocumentSchemaDefinitionType): any {
         var documentSchema = new mongoose.Schema(documentSchemaDefinition.schemaDefinition, { timestamps:true })
-        var documentModel = mongoose.model<mongoose.Schema>(documentSchemaDefinition.name, documentSchema, documentSchemaDefinition.name)
+        var documentModel = mongoose.model(documentSchemaDefinition.name, documentSchema, documentSchemaDefinition.tableName)
         this.documentModelsRegistry[documentSchemaDefinition.name] = documentModel
     }
 
