@@ -1,7 +1,8 @@
 import { Job } from "./models/Job.js";
 import { JobService } from "./services/job/JobService.js";
 import { JobSearchService } from "./services/job/JobSearchService.js";
-import { QAService } from "./services/QAService.js";
+import { QAService } from "./services/qa/QAService.js";
+import { argv } from "process";
 
 function getJobService(): JobService {
     if(jobService == undefined) {
@@ -57,7 +58,7 @@ export const resolvers = {
 
         createQuestion: (_:any, args: any) => {
             console.log("createQuestion:" + args)
-            return getQAService().createQuestion(args.title, args.content)
+            return getQAService().addQuestion(args.title, args.content)
         }
 
 
