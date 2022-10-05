@@ -21,6 +21,10 @@ export const resolvers = {
         jobDetail(_: any, args: any) {
             console.log("query job detail jobId:" + args.jobId)
             return getJobService().queryJobDetail(args.jobId);
+        },
+
+        findJobsByTitle(_: any, args: any) {
+            return getJobService().findJobsByTitle(args.titleKeyword, args.page, args.size);
         }
 
         /**
@@ -43,9 +47,13 @@ export const resolvers = {
         /**
          * Jobs Mutation Resolvers
         */
-        addJob(_:any, args:any) {
+        addJob(_:any, args: any) {
             console.log("[Mutation] add job:" + args.job)
             return getJobService().addJob(args.job);
+        },
+
+        updateJob(_:any, args: any) {
+            return getJobService().updateJob(args.job);
         }
 
         /**

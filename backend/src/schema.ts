@@ -4,26 +4,48 @@ export const TypeDefs = gql`
   type Job {
     _id: String
     title: String
-    location: String
     content: String
     companyName: String
+    country: String
+    city: String
+    address: String
+    createdAt: String
+    updatedAt: String
+    isDeleted: Int
   }
-  
+
   input JobInput {
     title: String!
-    location: String!
+    content: String!
+    companyName: String
+    country: String
+    city: String
+    address: String
+    isDeleted: Int
   }
 
   input JobUpdate {
-    jobId: String!
+    _id: String!
     title: String
-    location: String
+    content: String
+    companyName: String
+    country: String
+    city: String
+    address: String
+    isDeleted: Int
   }
   
-  
+  type findJobsOutput {
+    jobs: [Job]
+    size: Int
+    current: Int
+    total: Int
+  }
+
   type Query {
     searchJobs(pageNo: Int): [Job]
     jobDetail(jobId: String!): Job
+    findJobsByTitle(titleKeyword: String!, page: Int, size: Int): findJobsOutput
   }
 
   type Mutation {
