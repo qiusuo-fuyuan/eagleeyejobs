@@ -4,8 +4,6 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
 } from 'apollo-server-core';
 import express  from 'express';
-import { expressjwt } from "express-jwt";
-
 import http from 'http';
 
 /**
