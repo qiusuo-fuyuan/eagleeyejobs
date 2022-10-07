@@ -42,7 +42,7 @@ export const TypeDefs = gql`
   }
 
   type Query {
-    searchJobs(pageNo: Int, userInput: String): JobSearchPagingResult
+    searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
     jobDetail(jobId: String!): Job
   }
 
