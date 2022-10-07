@@ -16,7 +16,6 @@ import http from 'http';
  * https://github.com/microsoft/TypeScript/issues/42151
  */
 import { TypeDefs } from './schema.js'
-import { resolvers } from './resolvers.js'
 import { MongoClient } from './db/MongoClient.js'
 
 
@@ -76,4 +75,7 @@ const mongoClient = new MongoClient()
 mongoClient.init()
 
 
+
+//we need to dynamically import the javascript file. Use it when needed.
+let { resolvers } = await import('./resolvers.js');
 startApolloServer(TypeDefs, resolvers);

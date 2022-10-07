@@ -1,4 +1,4 @@
-import { Job , JobPageOutput} from '../../models/Job.js'
+import { Job } from '../../models/Job.js'
 import { JobRepository } from '../../repositories/JobRepository.js';
 
 export class JobService {
@@ -16,16 +16,7 @@ export class JobService {
         return this.jobRepository.updateJob(job)
     }
 
-    async findJobs(): Promise<Array<Job>> {
-        return this.jobRepository.findAllJobs();
-    }
-
     async queryJobDetail(jobId: string): Promise<Job> {
         return this.jobRepository.findJobById(jobId)
     }
-
-    async findJobsByTitle(titleKeyword: string, page: number, size: number): Promise<JobPageOutput> {
-        return this.jobRepository.findJobsByTitle(titleKeyword, page, size);
-    }
-
 }

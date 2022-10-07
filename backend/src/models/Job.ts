@@ -38,10 +38,3 @@ export class Job {
     updatedAt: String
     isDeleted: Number
 }
-
-export class JobPageOutput {
-    size: Number
-    current: Number
-    total: Number
-    jobs: [Job]
-}

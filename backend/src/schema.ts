@@ -11,7 +11,6 @@ export const TypeDefs = gql`
     address: String
     createdAt: String
     updatedAt: String
-    isDeleted: Int
   }
 
   input JobInput {
@@ -35,17 +34,16 @@ export const TypeDefs = gql`
     isDeleted: Int
   }
   
-  type findJobsOutput {
+  type JobSearchPagingResult {
     jobs: [Job]
-    size: Int
-    current: Int
-    total: Int
+    pageSize: Int
+    pageNumber: Int
+    totalCount: Int
   }
 
   type Query {
-    searchJobs(pageNo: Int): [Job]
+    searchJobs(pageNo: Int, userInput: String): JobSearchPagingResult
     jobDetail(jobId: String!): Job
-    findJobsByTitle(titleKeyword: String!, page: Int, size: Int): findJobsOutput
   }
 
   type Mutation {
