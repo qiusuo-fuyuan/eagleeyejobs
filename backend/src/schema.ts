@@ -2,12 +2,12 @@ import { gql } from "apollo-server-express";
 
 export const TypeDefs = gql`
   type Job {
-    _id: String
-    title: String
-    content: String
-    companyName: String
-    country: String
-    city: String
+    _id: String!
+    title: String!
+    description: String
+    companyName: String!
+    country: String!
+    city: String!
     address: String
     createdAt: String
     updatedAt: String

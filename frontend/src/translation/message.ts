@@ -4,15 +4,34 @@
 export const messages = {
     en: {
         message: {
-            menu: {
-                job: 'Job'
+            header: {
+                menu: {
+                    job: 'Job'
+                }
+            },
+            page: {
+                jobsearch: {
+                    jobItem: {
+                        country: 'Country'
+                    }
+                }
             }
+
         }
     },
     zh: {
         message: {
-            menu: {
-                job: 'gong zuo'
+            header: {
+                menu: {
+                    job: 'Gong Zuo'
+                }
+            },
+            page: {
+                jobsearch: {
+                    jobItem: {
+                        country: 'Guo Jia'
+                    }
+                }
             }
         }
 
