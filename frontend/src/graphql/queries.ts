@@ -8,8 +8,8 @@ export const JobDetail = gql`query JobDetail($jobId: String!) {
   }
 }`
 
-export const SearchJobs = gql`query SearchJobs($userInput: String, $pageNo: Int) {
-  searchJobs(userInput: $userInput, pageNo: $pageNo) {
+export const SearchJobs = gql`query SearchJobs($userInput: String, $pageNumber: Int) {
+  searchJobs(userInput: $userInput, pageNumber: $pageNumber) {
     pageSize
     pageNumber
     jobs {

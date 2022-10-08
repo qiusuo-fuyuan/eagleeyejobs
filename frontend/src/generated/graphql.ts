@@ -89,7 +89,7 @@ export type QueryJobDetailArgs = {
 
 
 export type QuerySearchJobsArgs = {
-  pageNo?: InputMaybe<Scalars['Int']>;
+  pageNumber?: InputMaybe<Scalars['Int']>;
   userInput?: InputMaybe<Scalars['String']>;
 };
 
@@ -102,7 +102,7 @@ export type JobDetailQuery = { __typename?: 'Query', jobDetail?: { __typename?: 
 
 export type SearchJobsQueryVariables = Exact<{
   userInput?: InputMaybe<Scalars['String']>;
-  pageNo?: InputMaybe<Scalars['Int']>;
+  pageNumber?: InputMaybe<Scalars['Int']>;
 }>;
 
 
