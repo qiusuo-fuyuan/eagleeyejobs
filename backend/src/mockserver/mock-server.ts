@@ -15,7 +15,6 @@ import http from 'http';
  */
 import { TypeDefs } from '../schema.js'
 
-
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
   const app = express();

@@ -1,6 +1,0 @@
-query JobDetailQuery($jobId: String!) {
-  jobDetail(jobId: $jobId) { 
-    title
-    content
-  }
-}
