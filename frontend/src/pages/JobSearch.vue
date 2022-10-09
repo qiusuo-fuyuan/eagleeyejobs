@@ -1,5 +1,8 @@
 <template>
   <div class=jobsearch>
+    <div>
+      <input type="search" id="job-search" placeholder="Search Job" @keyup.enter="onSubmitUserInput($event)"/>
+    </div>
     <p v-if="error">Something went wrong...</p>
     <p v-if="loading">Loading...</p>
     <div
@@ -17,12 +20,21 @@ import JobSearchListItem from "../components/JobSearchListItem.vue";
 import { useQuery } from "@vue/apollo-composable";
 import { SearchJobs } from "../graphql/queries";
 import type { SearchJobsQuery } from "../generated/graphql";
-import { watchEffect } from "vue";
+import type { SearchJobsQueryVariables } from "../generated/graphql"
+import { reactive, watchEffect } from "vue";
 
-const { result, loading, error } = useQuery<SearchJobsQuery>(SearchJobs);
+const searchJobsQueryVariables: SearchJobsQueryVariables = reactive({userInput: "", pageNumber: 0})
+const { result, loading, error } = useQuery<SearchJobsQuery, SearchJobsQueryVariables>(SearchJobs, searchJobsQueryVariables);
+
+function onSubmitUserInput(event: Event) {
+  searchJobsQueryVariables.userInput = (event.target as HTMLInputElement).value
+}
 
 watchEffect(() => {
-  console.log("this is really hard to debug");
-  console.log(result.value);
-});
+  console.log("result has being changed")
+})
+
 </script>
+
+<style lang="scss">
+</style>
