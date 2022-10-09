@@ -1,5 +1,4 @@
 <template>
-  <p>Is this working</p>
   <div>{{jobItem.title}}</div>
   <div><label>{{ $t("message.page.jobsearch.jobItem.country") }}</label>: {{jobItem.country}}</div>
 </template>

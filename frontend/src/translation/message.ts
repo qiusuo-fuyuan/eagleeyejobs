@@ -6,7 +6,9 @@ export const messages = {
         message: {
             header: {
                 menu: {
-                    job: 'Job'
+                    job: 'Job',
+                    referral: 'Referral',
+                    aboutUs: 'aboutUs'
                 }
             },
             page: {
@@ -23,7 +25,9 @@ export const messages = {
         message: {
             header: {
                 menu: {
-                    job: 'Gong Zuo'
+                    job: 'Gong Zuo',
+                    referral: 'Nei Tui',
+                    aboutUs: 'Guan Yu Wo Men'
                 }
             },
             page: {
