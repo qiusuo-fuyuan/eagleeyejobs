@@ -14,7 +14,8 @@ export const messages = {
             page: {
                 jobsearch: {
                     jobItem: {
-                        country: 'Country'
+                        country: 'Country',
+                        city: 'City'
                     }
                 }
             }
@@ -33,7 +34,8 @@ export const messages = {
             page: {
                 jobsearch: {
                     jobItem: {
-                        country: '国家'
+                        country: '国家',
+                        city: '城市'
                     }
                 }
             }
