@@ -25,15 +25,15 @@ export const messages = {
         message: {
             header: {
                 menu: {
-                    job: 'Gong Zuo',
-                    referral: 'Nei Tui',
-                    aboutUs: 'Guan Yu Wo Men'
+                    job: '职位',
+                    referral: '内推',
+                    aboutUs: '关于我们'
                 }
             },
             page: {
                 jobsearch: {
                     jobItem: {
-                        country: 'Guo Jia'
+                        country: '国家'
                     }
                 }
             }
