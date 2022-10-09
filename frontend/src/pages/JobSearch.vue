@@ -1,11 +1,11 @@
 <template>
   <div class=jobsearch>
-    <div>
+    <div class="jobsearch-input">
       <input type="search" id="job-search" placeholder="Search Job" @keyup.enter="onSubmitUserInput($event)"/>
     </div>
     <p v-if="error">Something went wrong...</p>
     <p v-if="loading">Loading...</p>
-    <div
+    <div class="jobsearch-items"
       v-else
       v-for="job in result?.searchJobs?.jobs"
       :key="job?._id"
@@ -37,4 +37,10 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
+  .jobsearch {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center
+  }
 </style>
