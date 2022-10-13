@@ -1,4 +1,5 @@
 import { Job } from '../../models/Job.js'
+import { JobSearchPagingResult } from '../../models/JobSearchPagingResult.js'
 import { JinaClient } from '../../search/jina/JinaClient.js'
 
 /**
@@ -7,11 +8,12 @@ import { JinaClient } from '../../search/jina/JinaClient.js'
 export class JobSearchService {
     private jinaClient: JinaClient
 
-    searchJobsByPageNo(pageNo: number): Array<Job> {
-        return new Array();
+
+    constructor() {
+        this.jinaClient = new JinaClient()        
     }
 
-    searchJobsByUserInput(userInput: String): Array<Job> {
-        return new Array();
+    searchJobs(userInput: string, pageNumber: number): Promise<JobSearchPagingResult> {
+        return Promise.resolve(new JobSearchPagingResult())    
     }
 }

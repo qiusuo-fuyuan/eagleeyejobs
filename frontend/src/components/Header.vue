@@ -1,24 +1,33 @@
 <template>
   <div class="header">
-    <nav class="header_menu">
-      <ul>
+    <LanguagePicker />
+      <ul class=header_menu>
         <li>
-          <router-link to="/jobs">Job</router-link>
+          <router-link to="/jobs">{{ $t("message.header.menu.job") }}</router-link>
         </li>
         <li>
-          <router-link to="/referral">Referral</router-link>
+          <router-link to="/referral">{{ $t("message.header.menu.referral") }}</router-link>
         </li>
         <li>
-          <router-link to="/aboutUs">AboutUs</router-link>
+          <router-link to="/aboutUs">{{ $t("message.header.menu.aboutUs") }}</router-link>
         </li>
       </ul>
-    </nav>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Header",
-  components: {},
-};
+<script setup>
+import LanguagePicker from "./LanguagePicker.vue";
 </script>
+
+<style lang="scss">
+
+.header_menu {
+  list-style-type: none;
+  display: flex; /* or inline-flex */
+  justify-content: flex-end;
+
+  li {
+    flex-basis: 40rem
+  }
+}
+</style>

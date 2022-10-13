@@ -3,7 +3,7 @@ import { BaseRepository } from "./BaseRepository.js"
 import { Job, JobDocumentSchemaDefinition } from "../models/Job.js"
 
 export class JobRepository extends BaseRepository{
-    private JobDocumentModel: any
+    public JobDocumentModel: any
 
     constructor() {
         super()
@@ -14,17 +14,13 @@ export class JobRepository extends BaseRepository{
         return this.JobDocumentModel.findById(jobId)
     }
 
-    findJobByTitle(): PromiseLike<Job> | Job {
-        return this.JobDocumentModel.findById()        
-    }
-
-    findAllJobs(): PromiseLike<Array<Job>> | Array<Job> {
-        return this.JobDocumentModel.find()
-    }
-
     createJob(job: Job): Job | PromiseLike<Job> {
         let jobDocument = new this.JobDocumentModel(job)
         return jobDocument.save()
+    }
+
+    updateJob(job: Job): Job | PromiseLike<Job> {
+        return this.JobDocumentModel.findByIdAndUpdate(job._id, job, {new: true})
     }
 }
 

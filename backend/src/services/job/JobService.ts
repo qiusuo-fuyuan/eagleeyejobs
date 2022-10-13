@@ -12,8 +12,8 @@ export class JobService {
         return this.jobRepository.createJob(job)
     }
 
-    async findJobs(): Promise<Array<Job>> {
-        return this.jobRepository.findAllJobs();
+    async updateJob(job: Job): Promise<Job> {
+        return this.jobRepository.updateJob(job)
     }
 
     async queryJobDetail(jobId: string): Promise<Job> {

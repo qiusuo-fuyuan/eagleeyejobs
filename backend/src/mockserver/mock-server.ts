@@ -4,8 +4,6 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
 } from 'apollo-server-core';
 import express  from 'express';
-import { expressjwt } from "express-jwt";
-
 import http from 'http';
 
 /**
@@ -15,23 +13,11 @@ import http from 'http';
  * ending of js
  * https://github.com/microsoft/TypeScript/issues/42151
  */
-import { TypeDefs } from './schema.js'
-import { MongoClient } from './db/MongoClient.js'
-
+import { TypeDefs } from '../schema.js'
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
   const app = express();
-
-  //
-  app.use(
-    expressjwt({
-      secret: "f1BtnWgD3VKY",
-      algorithms: ["HS256"],
-      credentialsRequired: false
-    })
-  );
-
 
   // Our httpServer handles incoming requests to our Express app.
   // Below, we tell Apollo Server to "drain" this httpServer,
@@ -44,7 +30,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // for our httpServer.
   const server = new ApolloServer({
     typeDefs,
-    // mocks: true,
+    mocks: true,
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',
@@ -71,11 +57,4 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 }
 
 
-const mongoClient = new MongoClient()
-mongoClient.init()
-
-
-
-//we need to dynamically import the javascript file. Use it when needed.
-let { resolvers } = await import('./resolvers.js');
-startApolloServer(TypeDefs, resolvers);
+startApolloServer(TypeDefs, {});
