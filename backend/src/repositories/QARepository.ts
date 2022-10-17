@@ -23,8 +23,8 @@ export class QuestionRepository extends BaseRepository{
     }
 
     createQuestion(question: Question): Question | PromiseLike<Question> {
-        let QuestionDocument = new this.QuestionDocumentModel(question)
-        return QuestionDocument.save()
+        let questionDocument = new this.QuestionDocumentModel(question)
+        return questionDocument.save()
     }
 }
 

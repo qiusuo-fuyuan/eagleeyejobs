@@ -7,12 +7,14 @@ import { QAService } from "./services/qa/QAService.js";
 let jobService = new JobService()
 let jobSearchService: JobSearchService = new JobSearchService()
 
-function getQAService(): QAService {
-    if(QAService == undefined) {
-        var qaService = new QAService()
-    }
-    return qaService
-}
+let qaService: QAService = new QAService()
+
+// function getQAService(): QAService {
+//     if(qaService == undefined) {
+//         var qaService = new QAService()
+//     }
+//     return qaService
+// }
 
 export const resolvers = {
     Query: {
@@ -28,7 +30,12 @@ export const resolvers = {
         searchJobs(_: any, args: any) {
             console.log("user search job input:" + args.userInput)
             return jobSearchService.searchJobs(args.userInput, args.pageNumber)
-        }
+        },
+
+        questionDetail(_: any, args: any) {
+            console.log("query question detail questionId:" + args.questionId)
+            return qaService.queryQuestionDetail(args.questionId);
+        },
 
         /**
          * User Query Resolvers
@@ -61,8 +68,7 @@ export const resolvers = {
 
         createQuestion: (_:any, args: any) => {
             console.log("createQuestion:" + args)
-            return getQAService().addQuestion(args.title, args.content)
-            return jobService.addJob(args.job);
+            return qaService.addQuestion(args.title, args.content, args.userId)
         }
 
 

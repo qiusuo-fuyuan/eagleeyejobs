@@ -8,7 +8,7 @@ export class QAService {
         this.questionRepository = new QuestionRepository()
     }
 
-    async addQuestion(title: string, content: string): Promise<Question> {
+    async addQuestion(title: string, content: string, userId: string): Promise<Question> {
         return this.questionRepository.createQuestion(new Question(title, content))
     }
 

@@ -39,30 +39,45 @@ export const TypeDefs = gql`
     totalCount: Int
   }
 
+
+  type User {
+    _id: String!
+    name: String!
+    email: String!
+  }
+
   type Question {
     _id: String
     title: String
     content: String
     answers: [Answer]
+    user: User
   }
 
   type Answer {
     _id: String
     content: String
-    question: Question
+    comments: [Comment]
+    user: User
   }
 
-
+  type Comment {
+    _id: String
+    content: String
+    user: User
+  }
+  
   type Query {
     searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
     jobDetail(jobId: String!): Job
-    questionDetail(QuestionId: String!): Question
+    questionDetail(questionId: String!): Question
   }
 
   type Mutation {
     addJob(job: JobInput): Job
     updateJob(job: JobUpdate): Job
     removeJob(jobId: String!): Job
-    createQuestion(title: String, content: String): Question
+    createQuestion(title: String, content: String, userId: String): Question
+
   }
 `;
