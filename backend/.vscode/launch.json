@@ -7,10 +7,21 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Prod",
             "runtimeExecutable": "npx",
             "runtimeArgs": ["--nolazy", "--inspect",  "ts-node"],
             "args": ["src/index.ts"],
+            "skipFiles": ["<node_internals>/**", "node_modules/**"],
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mock Dev",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["--nolazy", "--inspect",  "ts-node"],
+            "args": ["src/mockserver/mock-server.ts"],
             "skipFiles": ["<node_internals>/**", "node_modules/**"],
             "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}"

@@ -93,12 +93,14 @@ export type QuerySearchJobsArgs = {
   userInput?: InputMaybe<Scalars['String']>;
 };
 
+export type JobBaseAttributesFragment = { __typename?: 'Job', title: string, country: string, city: string, companyName: string };
+
 export type JobDetailQueryVariables = Exact<{
   jobId: Scalars['String'];
 }>;
 
 
-export type JobDetailQuery = { __typename?: 'Query', jobDetail?: { __typename?: 'Job', title: string, description?: string | null } | null };
+export type JobDetailQuery = { __typename?: 'Query', jobDetail?: { __typename?: 'Job', description?: string | null, title: string, country: string, city: string, companyName: string } | null };
 
 export type SearchJobsQueryVariables = Exact<{
   userInput?: InputMaybe<Scalars['String']>;
@@ -106,4 +108,4 @@ export type SearchJobsQueryVariables = Exact<{
 }>;
 
 
-export type SearchJobsQuery = { __typename?: 'Query', searchJobs?: { __typename?: 'JobSearchPagingResult', pageSize?: number | null, pageNumber?: number | null, jobs?: Array<{ __typename?: 'Job', city: string, country: string, companyName: string, title: string, _id: string } | null> | null } | null };
+export type SearchJobsQuery = { __typename?: 'Query', searchJobs?: { __typename?: 'JobSearchPagingResult', pageSize?: number | null, pageNumber?: number | null, jobs?: Array<{ __typename?: 'Job', _id: string, title: string, country: string, city: string, companyName: string } | null> | null } | null };

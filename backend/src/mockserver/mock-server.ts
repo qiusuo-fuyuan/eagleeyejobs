@@ -1,60 +1,30 @@
-import { ApolloServer } from 'apollo-server-express';
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from 'apollo-server-core';
-import express  from 'express';
-import http from 'http';
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
-/**
- * Here, js ending has to be used, and the problem is reported here.
- * Currently no idea why the index.ts has to specify the js as ending. It could be
- * that after ts-loader transpile the ts file into js file. The file actually has 
- * ending of js
- * https://github.com/microsoft/TypeScript/issues/42151
- */
-import { TypeDefs } from '../schema.js'
-
-async function startApolloServer(typeDefs: any, resolvers: any) {
-  // Required logic for integrating with Express
-  const app = express();
-
-  // Our httpServer handles incoming requests to our Express app.
-  // Below, we tell Apollo Server to "drain" this httpServer,
-  // enabling our servers to shut down gracefully.
-  const httpServer = http.createServer(app);
+import  {createServer } from '@graphql-yoga/node';
+import {readFileSync}  from 'fs';
+import { addMocksToSchema, mockServer } from '@graphql-tools/mock';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { resolvers } from './resolvers.js';
+import { join } from 'path';
 
 
+const typeDefs =  readFileSync(join(process.cwd(), "src/schema.graphql"), { encoding: "utf-8"})
 
-  // Same ApolloServer initialization as before, plus the drain plugin
-  // for our httpServer.
-  const server = new ApolloServer({
-    typeDefs,
-    mocks: true,
-    resolvers,
-    csrfPrevention: true,
-    cache: 'bounded',
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-    ],
+const schema = makeExecutableSchema({typeDefs})
+
+const preserveResolvers = false
+
+const server = new ApolloServer({
+    // addMocksToSchema accepts a schema instance and provides
+    // mocked data for each field in the schema
+    schema: addMocksToSchema({
+      schema: makeExecutableSchema({ typeDefs, resolvers }),
+      preserveResolvers: true, 
+    }),
   });
 
-  // More required logic for integrating with Express
-  await server.start();
-  server.applyMiddleware({
-    app,
+ 
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
 
-    // By default, apollo-server hosts its GraphQL endpoint at the
-    // server root. However, *other* Apollo Server packages host it at
-    // /graphql. Optionally provide this to match apollo-server.
-    path: '/'
-  });
-
-  // Modified server startup
-  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
-}
-
-
-startApolloServer(TypeDefs, {});
+  console.log(`🚀 Server listening at: ${url}`);
