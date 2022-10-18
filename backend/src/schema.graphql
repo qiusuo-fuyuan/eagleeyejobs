@@ -13,7 +13,7 @@ type Job {
 
   input JobInput {
     title: String!
-    content: String!
+    description: String!
     companyName: String
     country: String
     city: String
@@ -23,7 +23,7 @@ type Job {
   input JobUpdate {
     _id: String!
     title: String
-    content: String
+    description: String
     companyName: String
     country: String
     city: String
