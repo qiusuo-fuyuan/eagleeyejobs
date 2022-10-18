@@ -2,7 +2,12 @@ import { ApolloServer } from 'apollo-server-express';
 import {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageLocalDefault,
+  gql,
 } from 'apollo-server-core';
+
+import { readFileSync }  from 'fs';
+import { join } from 'path';
+
 import express  from 'express';
 import { expressjwt } from "express-jwt";
 
@@ -15,9 +20,7 @@ import http from 'http';
  * ending of js
  * https://github.com/microsoft/TypeScript/issues/42151
  */
-import { TypeDefs } from './schema.js'
 import { MongoClient } from './db/MongoClient.js'
-
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
@@ -74,8 +77,13 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 const mongoClient = new MongoClient()
 mongoClient.init()
 
-
+//read the schema graphql file synchronously
+const typeDefs =  readFileSync(join(process.cwd(), "src/schema.graphql"), { encoding: "utf-8"})
+const TypeDefs = gql`${typeDefs}`;
 
 //we need to dynamically import the javascript file. Use it when needed.
 let { resolvers } = await import('./resolvers.js');
 startApolloServer(TypeDefs, resolvers);
+
+
+

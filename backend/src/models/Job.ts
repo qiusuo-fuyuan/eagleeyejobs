@@ -10,15 +10,11 @@ export const JobDocumentSchemaDefinition: DocumentSchemaDefinitionType =
             type: String,
             required: true 
         },
-        content: String,
+        description: String,
         companyName: String,
         country: String,
         city: String,
         address: String,
-        isDeleted: {
-            type: Number,
-            default: 0
-        }
     }
 }
 
@@ -27,14 +23,13 @@ export const JobDocumentSchemaDefinition: DocumentSchemaDefinitionType =
  * _id: is the auto index created by mongodb.
  */
 export class Job {
-    _id: Types.ObjectId
+    _id: String
     title: String
-    content: String
+    description: String
     companyName: String
     country: String
     city: String
     address: String
     createdAt: String
     updatedAt: String
-    isDeleted: Number
 }
