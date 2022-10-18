@@ -31,7 +31,6 @@ export type JobInput = {
   companyName?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   country?: InputMaybe<Scalars['String']>;
-  isDeleted?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
 };
 
@@ -50,7 +49,6 @@ export type JobUpdate = {
   companyName?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
-  isDeleted?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
 };
 

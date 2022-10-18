@@ -2,8 +2,8 @@
     <p v-if="error">Something went wrong...</p>
     <p v-if="loading">Loading...</p>
     <div>{{result?.jobDetail?.title}}</div>
-    <div><label>{{ $t("message.page.jobsearch.jobItem.country") }}</label>: {{result.jobDetail}}</div>
-  <div><label>{{ $t("message.page.jobsearch.jobItem.city") }}</label>: {{jobItem.city}}</div>
+    <div><label>{{ $t("message.page.jobsearch.jobItem.country") }}</label>: {{result?.jobDetail?.country}}</div>
+  <div><label>{{ $t("message.page.jobsearch.jobItem.city") }}</label>: {{result?.jobDetail?.city}}</div>
     <div>{{result?.jobDetail?.description}}</div>
 
 </template>
