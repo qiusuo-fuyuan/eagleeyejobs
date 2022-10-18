@@ -1,7 +1,5 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-
-import  {createServer } from '@graphql-yoga/node';
 import {readFileSync}  from 'fs';
 import { addMocksToSchema, mockServer } from '@graphql-tools/mock';
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -10,11 +8,6 @@ import { join } from 'path';
 
 
 const typeDefs =  readFileSync(join(process.cwd(), "src/schema.graphql"), { encoding: "utf-8"})
-
-const schema = makeExecutableSchema({typeDefs})
-
-const preserveResolvers = false
-
 const server = new ApolloServer({
     // addMocksToSchema accepts a schema instance and provides
     // mocked data for each field in the schema
