@@ -8,6 +8,7 @@ export const messages = {
                 menu: {
                     job: 'Job',
                     referral: 'Referral',
+                    forum: 'Forum',
                     aboutUs: 'aboutUs'
                 }
             },
@@ -27,6 +28,7 @@ export const messages = {
                 menu: {
                     job: '职位',
                     referral: '内推',
+                    forum: '论坛',
                     aboutUs: '关于我们'
                 }
             },
