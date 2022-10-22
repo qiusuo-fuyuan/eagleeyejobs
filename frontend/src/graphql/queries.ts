@@ -21,3 +21,18 @@ export const SearchJobs = gql`query SearchJobs($userInput: String, $pageNumber: 
     }
   }
 }`
+
+export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
+  questionDetail(questionId: $questionId) { 
+    title
+    content
+  }
+}`
+
+
+export const CreateQuestion = gql`mutation CreateQuestion($userId: String, $content: String, $title: String) {
+  createQuestion(userId: $userId, content: $content, title: $title) {
+    title
+    content
+    }
+}`

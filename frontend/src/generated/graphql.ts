@@ -12,6 +12,21 @@ export type Scalars = {
   Float: number;
 };
 
+export type Answer = {
+  __typename?: 'Answer';
+  _id?: Maybe<Scalars['String']>;
+  comments?: Maybe<Array<Maybe<Comment>>>;
+  content?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type Comment = {
+  __typename?: 'Comment';
+  _id?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
 export type Job = {
   __typename?: 'Job';
   _id: Scalars['String'];
@@ -57,6 +72,7 @@ export type JobUpdate = {
 export type Mutation = {
   __typename?: 'Mutation';
   addJob?: Maybe<Job>;
+  createQuestion?: Maybe<Question>;
   removeJob?: Maybe<Job>;
   updateJob?: Maybe<Job>;
 };
@@ -64,6 +80,13 @@ export type Mutation = {
 
 export type MutationAddJobArgs = {
   job?: InputMaybe<JobInput>;
+};
+
+
+export type MutationCreateQuestionArgs = {
+  content?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -79,6 +102,7 @@ export type MutationUpdateJobArgs = {
 export type Query = {
   __typename?: 'Query';
   jobDetail?: Maybe<Job>;
+  questionDetail?: Maybe<Question>;
   searchJobs?: Maybe<JobSearchPagingResult>;
 };
 
@@ -88,9 +112,30 @@ export type QueryJobDetailArgs = {
 };
 
 
+export type QueryQuestionDetailArgs = {
+  questionId: Scalars['String'];
+};
+
+
 export type QuerySearchJobsArgs = {
   pageNumber?: InputMaybe<Scalars['Int']>;
   userInput?: InputMaybe<Scalars['String']>;
+};
+
+export type Question = {
+  __typename?: 'Question';
+  _id?: Maybe<Scalars['String']>;
+  answers?: Maybe<Array<Maybe<Answer>>>;
+  content?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type User = {
+  __typename?: 'User';
+  _id: Scalars['String'];
+  email: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type JobDetailQueryVariables = Exact<{
@@ -107,3 +152,19 @@ export type SearchJobsQueryVariables = Exact<{
 
 
 export type SearchJobsQuery = { __typename?: 'Query', searchJobs?: { __typename?: 'JobSearchPagingResult', pageSize?: number | null, pageNumber?: number | null, jobs?: Array<{ __typename?: 'Job', city: string, country: string, companyName: string, title: string, _id: string } | null> | null } | null };
+
+export type QuestionDetailQueryVariables = Exact<{
+  questionId: Scalars['String'];
+}>;
+
+
+export type QuestionDetailQuery = { __typename?: 'Query', questionDetail?: { __typename?: 'Question', title?: string | null, content?: string | null } | null };
+
+export type CreateQuestionMutationVariables = Exact<{
+  userId?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateQuestionMutation = { __typename?: 'Mutation', createQuestion?: { __typename?: 'Question', title?: string | null, content?: string | null } | null };
