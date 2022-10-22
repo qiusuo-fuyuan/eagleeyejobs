@@ -5,7 +5,7 @@
     </div>
     <p v-if="error">Something went wrong...</p>
     <p v-if="loading">Loading...</p>
-    <div class="jobsearch-items"
+    <div class="jobsearch-item-card"
       v-else
       v-for="job in result?.searchJobs?.jobs"
       :key="job?._id"
@@ -41,6 +41,18 @@ watchEffect(() => {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    align-items: center
+    align-items: center; 
+
+    .jobsearch-item-card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 30%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .jobsearch-item-card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
   }
 </style>
