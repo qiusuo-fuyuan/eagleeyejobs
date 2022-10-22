@@ -71,6 +71,7 @@ export const TypeDefs = gql`
     searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
     jobDetail(jobId: String!): Job
     questionDetail(questionId: String!): Question
+    allQuestions:[Question]
   }
 
   type Mutation {
