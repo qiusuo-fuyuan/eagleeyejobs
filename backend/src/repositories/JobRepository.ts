@@ -1,4 +1,3 @@
-import { MongoClient } from "../db/MongoClient.js"
 import { BaseRepository } from "./BaseRepository.js"
 import { Job, JobDocumentSchemaDefinition } from "../models/Job.js"
 
@@ -7,7 +6,7 @@ export class JobRepository extends BaseRepository{
 
     constructor() {
         super()
-        this.JobDocumentModel = this.mongoClient.getDocumentModel(JobDocumentSchemaDefinition.name)
+        this.JobDocumentModel = this.getDocumentModel(JobDocumentSchemaDefinition.name)
     }
 
     findJobById(jobId: string): PromiseLike<Job> | Job {

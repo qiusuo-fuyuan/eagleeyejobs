@@ -35,7 +35,7 @@ const searchJobList: JobSearchPagingResult = {
 }
 
 
-export const resolvers = {
+export const mockData = {
     Query: {
       searchJobs: () => searchJobList,
       jobDetail: () => angularJob

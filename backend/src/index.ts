@@ -20,7 +20,10 @@ import http from 'http';
  * ending of js
  * https://github.com/microsoft/TypeScript/issues/42151
  */
-import { MongoClient } from './db/MongoClient.js'
+import { MongoClient } from './core/db/MongoClient.js'
+
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
