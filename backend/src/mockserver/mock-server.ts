@@ -51,12 +51,6 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
   const app = express();
 
-  // GET method route
-  app.get('/wechat', function (req, res) {
-    res.send('GET request to the homepage');
-  });
-
-  
   //
   app.use(
     expressjwt({
@@ -97,9 +91,20 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     // By default, apollo-server hosts its GraphQL endpoint at the
     // server root. However, *other* Apollo Server packages host it at
     // /graphql. Optionally provide this to match apollo-server.
-    path: '/'
+    path: '/graphql'
   });
 
+
+  // apply wechat router
+  const weChatRouter = express.Router();
+  weChatRouter.use('/', function (req, res) {
+    res.send('GET request to the homepage');
+  });
+  app.use("/wechat", weChatRouter);
+
+
+  // apply alipay router
+  
   // Modified server startup
   await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
