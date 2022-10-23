@@ -1,3 +1,35 @@
+enum UserType {
+  RECRUITER
+  TEMPORARY_USER
+  ENTRY_MEMBERSHIP
+  INTERMEDIATE_MEMBERSHIP
+  ADVANCED_MEMBERSHIP
+}
+
+
+type MemberShipStatus {
+  lastPaymentAt: String!
+  willExpireAt: String!
+}
+
+type User {
+  email: String
+  name: String
+  firstName: String
+  lastName: String
+  companyName: String
+  role: UserType
+  membershipStatus: MemberShipStatus
+}
+
+input UserRegistrationInput {
+  email: String!
+  firstName: String
+  lastName: String
+  companyName: String
+    
+}
+
 type Job {
     _id: String!
     title: String!
@@ -17,23 +49,6 @@ input JobInput {
   country: String
   city: String
   address: String
-}
-
-
-enum Role {
-  RECRUITER
-  TEMPORARY_USER
-  ENTRY_MEMBERSHIP
-  INTERMEDIATE_MEMBERSHIP
-  ADVANCED_MEMBERSHIP
-}
-
-input UserRegistrationInput {
-  email: String!
-  firstName: String
-  lastName: String
-  companyName: String
-    
 }
 
 input JobUpdate {
