@@ -1,8 +1,7 @@
-import config from 'config'
 import mongoose from 'mongoose'
 import util  from 'util'
-import { DocumentSchemaDefinitionType } from '../models/BaseTypes.js'
-import { AllDocumentSchemaDefinitions as allDocumentSchemaDefinitions } from '../models/DocumentSchema.js'
+import { DocumentSchemaDefinitionType } from '../../models/BaseTypes.js'
+import { AllDocumentSchemaDefinitions as allDocumentSchemaDefinitions } from '../../models/DocumentSchema.js'
 
 /**
  * Mongoose is based on Mongodb nodejs driver 
@@ -20,6 +19,7 @@ import { AllDocumentSchemaDefinitions as allDocumentSchemaDefinitions } from '..
  * https://www.mongodb.com/docs/manual/tutorial/insert-documents/
  * 
  */
+
 export class MongoClient {
     static instance: MongoClient
     /**
@@ -52,9 +52,9 @@ export class MongoClient {
      * connect to mongo db server. How to report error? Exception should be thrown in case of error
      */
     private connectMongoServer() {
-        const host = config.get('mongo.host')
-        const port = config.get('mongo.port')
-        const db = config.get('mongo.db')
+        const host = process.env.MONGO_HOST
+        const port = process.env.MONGO_PORT
+        const db = process.env.MONGO_DATABASE
         const connectAddress = util.format("mongodb://%s:%s/%s", host, port, db)
         const options = {
             serverSelectionTimeoutMS: 6000,
@@ -76,7 +76,7 @@ export class MongoClient {
      */
     private initializeDocumentSchemaModels() {
         let self = this //we need to use lamda capture in order to access parent object
-        allDocumentSchemaDefinitions.forEach(function(schemaDefinition){  
+        allDocumentSchemaDefinitions.forEach(function(schemaDefinition: DocumentSchemaDefinitionType){  
             self.registerDocumentSchema(schemaDefinition)  
           }
         )
