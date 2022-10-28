@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { WechatServerResponse, WeChatURLParams } from './DataTypes.js';
+import { WechatServerResponse, WeChatURLParams, WeChatUserInfo } from './DataTypes.js';
 import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH } from "./WeChatConstants.js";
 
 
@@ -7,21 +7,24 @@ import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_RE
  * WeChat API Gateway contains all the APIs we will use for calling wechat API
  */
 
- function dictToURI(dict: WeChatURLParams) {
+ function urlParamsToURI(dict: WeChatURLParams) {
     var str = [];
-    for(var p in dict){
-       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(dict[p]));
+    for (const [key, value] of Object.entries(dict)) {
+        if(typeof value !==  'undefined')  {
+            str.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+        }
     }
     return str.join("&");
 }
 
-class WeChatAPIGateway {
-    APP_ID: string
-    APP_SECRET: string
-    WECHAT_HOST: string
+export class WeChatAPIGateway {
+    private APP_ID: string
+    private APP_SECRET: string
+    private WECHAT_HOST: string
 
-    accessToken: string
-    refreshToken: string
+    private accessToken: string
+    private refreshToken: string
+    private openId: string
 
     constructor() {
         this.APP_ID = process.env.WECHAT_APP_ID
@@ -34,32 +37,57 @@ class WeChatAPIGateway {
      */
     async requestAccessToken(authorizationCode: string) {
         let urlParams: WeChatURLParams
+
         urlParams.appId = this.APP_ID
         urlParams.secret = this.APP_SECRET
         urlParams.code = authorizationCode
         urlParams.grant_type = "authorization_code"
 
-        const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_ACCESS_TOKEN_PATH +  dictToURI(urlParams))
+        const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_ACCESS_TOKEN_PATH +  urlParamsToURI(urlParams))
         this.accessToken = res.data.access_token
         this.refreshToken = res.data.refresh_token
+        this.openId = res.data.openid
     }
 
 
     /**
      * send refresh access token request
      */
-    refreshAccessToken() {
+    async refreshAccessToken() {
+        let urlParams: WeChatURLParams
+        urlParams.appId = this.APP_ID
+        urlParams.secret = this.APP_SECRET
+        urlParams.refresh_token = this.refreshToken
+        urlParams.grant_type = "authorization_code"
 
+        const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_REFRESH_TOKEN_PATH +  urlParamsToURI(urlParams))
+        this.accessToken = res.data.access_token
+        this.refreshToken = res.data.refresh_token
     }
 
     /**
+     * request user information by openid
+     * https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
      * request the user info
      */
-    requestUserInfo() {
+    async requestUserInfo(): Promise<WeChatUserInfo> {
+        let urlParams: WeChatURLParams
+        urlParams.access_token = this.accessToken
+        urlParams.openid = this.openId
+        urlParams.lang = "zh_CN"
 
+        const res = await axios.get<WeChatUserInfo>(this.WECHAT_HOST + REQUEST_USER_INFO_PATH +  urlParamsToURI(urlParams))
+        return res.data
     }
 
 
+    /**
+     * Wechat payment API. We should request wechat to generate the QR code with specific amount, then user can scan
+     * the scan code to finish payment.
+     * 
+     * third party request wechat => wechat return qr code => user scan qr code to finish the payment. Our frontend will 
+     * update the qr code to reflect the user payment has finished
+     */
     requestPayment() {
         
     }

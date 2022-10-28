@@ -8,7 +8,7 @@ export class UserService {
         this.userRepository = new UserRepository()
     }
 
-    async addJob(user: User): Promise<User> {
+    async addUser(user: User): Promise<User> {
         return this.userRepository.createUser(user)
     }
 
