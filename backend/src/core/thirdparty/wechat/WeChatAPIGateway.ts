@@ -22,10 +22,6 @@ export class WeChatAPIGateway {
     private APP_SECRET: string
     private WECHAT_HOST: string
 
-    private accessToken: string
-    private refreshToken: string
-    private openId: string
-
     constructor() {
         this.APP_ID = process.env.WECHAT_APP_ID
         this.APP_SECRET = process.env.WECHAT_API_SECRET

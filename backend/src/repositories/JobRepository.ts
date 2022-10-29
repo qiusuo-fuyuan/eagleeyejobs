@@ -1,25 +1,18 @@
 import { BaseRepository } from "./BaseRepository.js"
 import { Job, JobDocumentSchemaDefinition } from "../models/Job.js"
 
-export class JobRepository extends BaseRepository{
-    public JobDocumentModel: any
-
+export class JobRepository extends BaseRepository<Job>{
     constructor() {
-        super()
-        this.JobDocumentModel = this.getDocumentModel(JobDocumentSchemaDefinition.name)
-    }
-
-    findJobById(jobId: string): Promise<Job> {
-        return this.JobDocumentModel.findById(jobId)
+        super(JobDocumentSchemaDefinition.name)
     }
 
     createJob(job: Job): Job | Promise<Job> {
-        let jobDocument = new this.JobDocumentModel(job)
+        let jobDocument = new this.documentModel(job)
         return jobDocument.save()
     }
 
     updateJob(job: Job): Job | Promise<Job> {
-        return this.JobDocumentModel.findByIdAndUpdate(job._id, job, {new: true})
+        return this.documentModel.findByIdAndUpdate(job._id, job, {new: true})
     }
 }
 

@@ -30,3 +30,10 @@ export type WeChatUserInfo = {
     errcode: string
     errmsg: null
 }
+
+export type WeChatAuthorizationSessionData = {
+    state: string
+    accessToken: string
+    refreshToken: string
+    openId: string
+}
