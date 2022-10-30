@@ -1,28 +1,3 @@
-/*import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import {readFileSync}  from 'fs';
-import { addMocksToSchema } from '@graphql-tools/mock';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import { mockData } from './mockData.js';
-import { join } from 'path';
-
-
-const typeDefs =  readFileSync(join(process.cwd(), "src/schema.graphql"), { encoding: "utf-8"})
-const server = new ApolloServer({
-    // addMocksToSchema accepts a schema instance and provides
-    // mocked data for each field in the schema
-    schema: addMocksToSchema({
-      schema: makeExecutableSchema({ typeDefs, resolvers: mockData }),
-      preserveResolvers: true, 
-    }),
-  });
-
- 
-  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
-
-  console.log(`🚀 Server listening at: ${url}`);
-*/
-
 import { ApolloServer } from 'apollo-server-express';
 import {
   ApolloServerPluginDrainHttpServer,
