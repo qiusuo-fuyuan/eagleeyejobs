@@ -3,7 +3,7 @@ import { WeChatAPIGateway } from "../../../core/thirdparty/wechat/WeChatAPIGatew
 import { UserService } from "../../user/UserService.js";
 
 
-export class WeChatAuthorizationProvider implements OAuth2AuthorizationProvider {
+class WeChatLoginProvider implements OAuth2LoginProvider {
     private authorizationState: WeChatAuthorizationSessionData
     private userService: UserService
     private wechatGateway: WeChatAPIGateway
@@ -13,12 +13,18 @@ export class WeChatAuthorizationProvider implements OAuth2AuthorizationProvider 
         this.wechatGateway = new WeChatAPIGateway()
     }
 
-    async acceptAuthorizationCode(authorizationCode: string): string {
-        await this.wechatGateway.requestAccessToken(authorizationCode)
-        const wechatUserInfoResponse = await this.wechatGateway.requestUserInfo()
 
-        this.userService.
+    getLoginUrl(): string {
+        return this.wechatGateway.getOpenConnectUrl()
     }
 
+    async loginByAuthorizationCode(authorizationCode: string): Promise<string> {
+        await this.wechatGateway.requestAccessToken(authorizationCode)
+        const wechatUserInfo = await this.wechatGateway.requestUserInfo()
 
+
+        this.userService
+    }
 }
+
+export default new WeChatLoginProvider()

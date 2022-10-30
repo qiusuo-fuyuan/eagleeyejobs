@@ -1,11 +1,11 @@
 import { Job } from '../../models/Job.js'
-import { JobRepository } from '../../repositories/JobRepository.js';
+import jobRepository, { JobRepository } from '../../repositories/JobRepository.js';
 
 export class JobService {
     private jobRepository: JobRepository
 
     constructor() {
-        this.jobRepository = new JobRepository()
+        this.jobRepository = jobRepository
     }
 
     async addJob(job: Job): Promise<Job> {
@@ -17,6 +17,8 @@ export class JobService {
     }
 
     async queryJobDetail(jobId: string): Promise<Job> {
-        return this.jobRepository.findJobById(jobId)
+        return this.jobRepository.findById(jobId)
     }
 }
+
+export default new JobService()

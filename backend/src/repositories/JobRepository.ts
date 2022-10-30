@@ -16,3 +16,5 @@ export class JobRepository extends BaseRepository<Job>{
     }
 }
 
+
+export default new JobRepository()

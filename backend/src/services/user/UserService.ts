@@ -1,11 +1,11 @@
 import { User } from "../../models/User.js"
-import { UserRepository } from "../../repositories/UserRepository.js"
+import userRepository, { UserRepository } from "../../repositories/UserRepository.js"
 
 export class UserService {
     private userRepository: UserRepository
 
     constructor() {
-        this.userRepository = new UserRepository()
+        this.userRepository = userRepository
     }
 
     async addUser(user: User): Promise<User> {
@@ -13,6 +13,7 @@ export class UserService {
     }
 
     async queryUserDetail(userId: string): Promise<User> {
-        return this.userRepository.findUserById(userId)
+        return this.userRepository.findById(userId)
     }
 }
+

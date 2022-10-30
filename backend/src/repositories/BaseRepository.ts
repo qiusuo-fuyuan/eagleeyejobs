@@ -6,14 +6,14 @@ export class BaseRepository<Result> {
     
     constructor(schemaName: string) {
         this.mongoClient = MongoClient.instance
-        this.documentModel = this.getDocumentModel(schemaName)    
+        this.documentModel = this.getDocumentModel(schemaName) 
     }
 
     findById(id: string): Promise<Result> {
         return this.documentModel.findById(id)
     }
 
-    private getDocumentModel(schemaName: string) {
-        this.mongoClient.getDocumentModel(schemaName)
+    private getDocumentModel(schemaName: string): any {
+        return this.mongoClient.getDocumentModel(schemaName)
     }
 }

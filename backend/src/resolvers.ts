@@ -1,10 +1,6 @@
 import { Job } from "./models/Job.js";
-import { JobService } from "./services/job/JobService.js";
-import { JobSearchService } from "./services/job/JobSearchService.js";
-import { argsToArgsConfig } from "graphql/type/definition";
-
-let jobService = new JobService()
-let jobSearchService: JobSearchService = new JobSearchService()
+import jobService from "./services/job/JobService.js";
+import jobSearchService from "./services/job/JobSearchService.js";
 
 export const resolvers = {
     Query: {

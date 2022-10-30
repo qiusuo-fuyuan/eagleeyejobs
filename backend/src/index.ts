@@ -9,7 +9,6 @@ import { readFileSync }  from 'fs';
 import { join } from 'path';
 
 import express  from 'express';
-import { expressjwt } from "express-jwt";
 
 import http from 'http';
 
@@ -28,16 +27,6 @@ dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
 async function startApolloServer(typeDefs: any, resolvers: any) {
   // Required logic for integrating with Express
   const app = express();
-
-  //
-  app.use(
-    expressjwt({
-      secret: "f1BtnWgD3VKY",
-      algorithms: ["HS256"],
-      credentialsRequired: false
-    })
-  );
-
 
   // Our httpServer handles incoming requests to our Express app.
   // Below, we tell Apollo Server to "drain" this httpServer,
@@ -84,7 +73,11 @@ mongoClient.init()
 const typeDefs =  readFileSync(join(process.cwd(), "src/schema.graphql"), { encoding: "utf-8"})
 const TypeDefs = gql`${typeDefs}`;
 
-//we need to dynamically import the javascript file. Use it when needed.
+/* 
+The import of the resolvers has to be placed after mongoClient.init(). This is very important. Because ther resolvers internally
+import services, services internally import Repository. When repositories are being constructed, the database has to be connected, 
+otherwise repositories construction will fail.
+*/
 let { resolvers } = await import('./resolvers.js');
 startApolloServer(TypeDefs, resolvers);
 

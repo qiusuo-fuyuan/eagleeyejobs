@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { WechatServerResponse, WeChatURLParams, WeChatUserInfo } from './DataTypes.js';
-import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH } from "./WeChatConstants.js";
+import crypto from 'crypto';
+import { WeChatAuthorizationSessionData, WechatServerResponse, WeChatURLParams, WeChatUserInfo } from './DataTypes.js';
+import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH, WECHAT_QRCODE_LOGIN_PATH } from "./WeChatConstants.js";
 
 
 /**
@@ -22,16 +23,35 @@ export class WeChatAPIGateway {
     private APP_SECRET: string
     private WECHAT_HOST: string
 
+    private wechatAuthorizationSessionData: WeChatAuthorizationSessionData
+
     constructor() {
         this.APP_ID = process.env.WECHAT_APP_ID
         this.APP_SECRET = process.env.WECHAT_API_SECRET
         this.WECHAT_HOST = process.env.WECHAT_API_HOST
+
+        this.wechatAuthorizationSessionData = {}
+    }
+
+
+    getOpenConnectUrl(): string {
+        const sessionState = crypto.randomUUID()
+        this.wechatAuthorizationSessionData.state = sessionState
+        
+        let urlParams: WeChatURLParams
+        urlParams.appId = this.APP_ID
+        urlParams.redirect_url = process.env.WECHAT_AUTHORIZE_CALLBACK_URL
+        urlParams.response_type = "code"
+        urlParams.scope = "snsapi_login"
+        urlParams.state = this.wechatAuthorizationSessionData.state
+        
+        return this.WECHAT_HOST + WECHAT_QRCODE_LOGIN_PATH +  urlParamsToURI(urlParams)
     }
 
     /**
      * send request access token
      */
-    async requestAccessToken(authorizationCode: string) {
+    async requestAccessToken(authorizationCode: string): Promise<WechatServerResponse> {
         let urlParams: WeChatURLParams
 
         urlParams.appId = this.APP_ID
@@ -40,9 +60,7 @@ export class WeChatAPIGateway {
         urlParams.grant_type = "authorization_code"
 
         const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_ACCESS_TOKEN_PATH +  urlParamsToURI(urlParams))
-        this.accessToken = res.data.access_token
-        this.refreshToken = res.data.refresh_token
-        this.openId = res.data.openid
+        
     }
 
 

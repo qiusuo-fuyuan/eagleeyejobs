@@ -11,6 +11,10 @@ export type WeChatURLParams = {
     appId: string
     secret: string
     code: string
+    scope: string
+    state: string
+    response_type: string
+    redirect_url: string
     grant_type: string
     access_token: string
     refresh_token: string
@@ -28,12 +32,12 @@ export type WeChatUserInfo = {
     priviledge: string[]
     unionid: string
     errcode: string
-    errmsg: null
+    errmsg: string
 }
 
 export type WeChatAuthorizationSessionData = {
-    state: string
-    accessToken: string
-    refreshToken: string
-    openId: string
+    state?: string
+    accessToken?: string
+    refreshToken?: string
+    openId?: string
 }
