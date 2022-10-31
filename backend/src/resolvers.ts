@@ -37,6 +37,11 @@ export const resolvers = {
             return qaService.queryQuestionDetail(args.questionId);
         },
 
+        allQuestions(_: any, args: any) {
+            console.log("query all questions")
+            return qaService.allQuestions()
+        }
+
         /**
          * User Query Resolvers
          */

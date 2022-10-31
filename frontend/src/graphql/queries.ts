@@ -32,6 +32,7 @@ ${jobBaseAttributes}
 
 export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
   questionDetail(questionId: $questionId) { 
+    _id
     title
     content
   }
@@ -40,7 +41,16 @@ export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
 
 export const CreateQuestion = gql`mutation CreateQuestion($userId: String, $content: String, $title: String) {
   createQuestion(userId: $userId, content: $content, title: $title) {
+    _id
     title
     content
     }
+}`
+
+export const AllQuestions = gql`query AllQuestions {
+  allQuestions {
+    _id
+    title
+    content
+  }
 }`

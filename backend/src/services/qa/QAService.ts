@@ -12,7 +12,7 @@ export class QAService {
         return this.questionRepository.createQuestion(new Question(title, content))
     }
 
-    async findQuestions(): Promise<Array<Question>> {
+    async allQuestions(): Promise<Array<Question>> {
         return this.questionRepository.findAllQuestions();
     }
 

@@ -34,11 +34,33 @@ const searchJobList: JobSearchPagingResult = {
   jobs: [angularJob, reactJob]
 }
 
+const question1 = {
+  _id: "0100",
+  title: "question NO.1",
+  content: "how to use apollo?"
+}
+
+const question2 = {
+  _id: "0101",
+  title: "question NO.2",
+  content: "how to use vue?"
+}
+
+const question3 = {
+  _id: "0102",
+  title: "question NO.3",
+  content: "how to use graghQL?"
+}
+
+const allQuestions = [ question1, question2, question3 ]
+
+
 
 export const resolvers = {
     Query: {
       searchJobs: () => searchJobList,
-      jobDetail: () => angularJob
+      jobDetail: () => angularJob,
+      allQuestions: () => allQuestions
     }
 };
 
