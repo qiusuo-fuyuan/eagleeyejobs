@@ -1,78 +1,122 @@
+enum UserType {
+  RECRUITER
+  TEMPORARY_USER
+  ENTRY_MEMBERSHIP
+  INTERMEDIATE_MEMBERSHIP
+  ADVANCED_MEMBERSHIP
+}
+
+
+type MemberShipStatus {
+  lastPaymentAt: String!
+  willExpireAt: String!
+}
+
+type User {
+  email: String
+  name: String
+  firstName: String
+  lastName: String
+  companyName: String
+  role: UserType
+  membershipStatus: MemberShipStatus
+}
+
+input UserRegistrationInput {
+  email: String!
+  firstName: String
+  lastName: String
+  companyName: String
+}
 
 type Job {
-    _id: String!
-    title: String!
-    description: String
-    companyName: String!
-    country: String!
-    city: String!
-    address: String
-    createdAt: String
-    updatedAt: String
-  }
-  input JobInput {
-    title: String!
-    description: String!
-    companyName: String
-    country: String
-    city: String
-    address: String
-  }
-  input JobUpdate {
-    _id: String!
-    title: String
-    description: String
-    companyName: String
-    country: String
-    city: String
-    address: String
-  }
-  
-  type JobSearchPagingResult {
-    jobs: [Job]
-    pageSize: Int
-    pageNumber: Int
-    totalCount: Int
-  }
+  _id: String!
+  title: String!
+  description: String
+  companyName: String!
+  country: String!
+  city: String!
+  address: String
+  createdAt: String
+  updatedAt: String
+}
+
+input JobInput {
+  title: String!
+  description: String!
+  companyName: String
+  country: String
+  city: String
+  address: String
+}
+
+input JobUpdate {
+  _id: String!
+  title: String
+  description: String
+  companyName: String
+  country: String
+  city: String
+  address: String
+}
+
+type JobSearchPagingResult {
+  jobs: [Job]
+  pageSize: Int
+  pageNumber: Int
+  totalCount: Int
+}
 
 
-  type User {
-    _id: String!
-    name: String!
-    email: String!
-  }
+type User {
+  _id: String!
+  name: String!
+  email: String!
+}
 
-  type Question {
-    _id: String
-    title: String
-    content: String
-    answers: [Answer]
-    user: User
-  }
+type Question {
+  _id: String
+  title: String
+  content: String
+  answers: [Answer]
+  user: User
+}
 
-  type Answer {
-    _id: String
-    content: String
-    comments: [Comment]
-    user: User
-  }
+type Answer {
+  _id: String
+  content: String
+  comments: [Comment]
+  user: User
+}
 
-  type Comment {
-    _id: String
-    content: String
-    user: User
-  }
-  
-  type Query {
-    searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
-    jobDetail(jobId: String!): Job
-    questionDetail(questionId: String!): Question
-    allQuestions:[Question]
-  }
+type Comment {
+  _id: String
+  content: String
+  user: User
+}
 
-  type Mutation {
-    addJob(job: JobInput): Job
-    updateJob(job: JobUpdate): Job
-    removeJob(jobId: String!): Job
-    createQuestion(title: String, content: String, userId: String): Question
-  }
+type Query {
+  ### Job related
+  searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
+  jobDetail(jobId: String!): Job
+
+  ### Question related
+  questionDetail(questionId: String!): Question
+  allQuestions:[Question]
+
+  ### Registration related
+  requestLoginQrCodeImage(provider: String): String
+}
+
+type Mutation {
+  ### Job related
+  addJob(job: JobInput): Job
+  updateJob(job: JobUpdate): Job
+  removeJob(jobId: String!): Job
+
+  ### Question related
+  createQuestion(title: String, content: String, userId: String): Question
+
+  ### Registration related
+  registerNewUser: String
+}

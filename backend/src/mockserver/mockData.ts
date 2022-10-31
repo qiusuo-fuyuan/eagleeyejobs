@@ -56,7 +56,7 @@ const allQuestions = [ question1, question2, question3 ]
 
 
 
-export const resolvers = {
+export const mockData = {
     Query: {
       searchJobs: () => searchJobList,
       jobDetail: () => angularJob,

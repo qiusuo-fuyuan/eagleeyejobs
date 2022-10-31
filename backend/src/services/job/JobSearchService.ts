@@ -17,3 +17,5 @@ export class JobSearchService {
         return Promise.resolve(new JobSearchPagingResult())    
     }
 }
+
+export default new JobSearchService()

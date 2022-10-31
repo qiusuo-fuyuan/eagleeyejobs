@@ -106,3 +106,4 @@ dist
 **/package-lock.json
 backend/docker-compose/mongo/db/
 backend/docker-compose/mongo/log/
+**/generated/**

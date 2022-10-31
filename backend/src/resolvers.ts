@@ -9,13 +9,6 @@ let jobSearchService: JobSearchService = new JobSearchService()
 
 let qaService: QAService = new QAService()
 
-// function getQAService(): QAService {
-//     if(qaService == undefined) {
-//         var qaService = new QAService()
-//     }
-//     return qaService
-// }
-
 export const resolvers = {
     Query: {
         /**

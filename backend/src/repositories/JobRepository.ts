@@ -1,26 +1,20 @@
-import { MongoClient } from "../db/MongoClient.js"
 import { BaseRepository } from "./BaseRepository.js"
 import { Job, JobDocumentSchemaDefinition } from "../models/Job.js"
 
-export class JobRepository extends BaseRepository{
-    public JobDocumentModel: any
-
+export class JobRepository extends BaseRepository<Job>{
     constructor() {
-        super()
-        this.JobDocumentModel = this.mongoClient.getDocumentModel(JobDocumentSchemaDefinition.name)
+        super(JobDocumentSchemaDefinition.name)
     }
 
-    findJobById(jobId: string): PromiseLike<Job> | Job {
-        return this.JobDocumentModel.findById(jobId)
-    }
-
-    createJob(job: Job): Job | PromiseLike<Job> {
-        let jobDocument = new this.JobDocumentModel(job)
+    createJob(job: Job): Job | Promise<Job> {
+        let jobDocument = new this.documentModel(job)
         return jobDocument.save()
     }
 
-    updateJob(job: Job): Job | PromiseLike<Job> {
-        return this.JobDocumentModel.findByIdAndUpdate(job._id, job, {new: true})
+    updateJob(job: Job): Job | Promise<Job> {
+        return this.documentModel.findByIdAndUpdate(job._id, job, {new: true})
     }
 }
 
+
+export default new JobRepository()

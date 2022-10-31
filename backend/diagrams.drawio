@@ -1,9 +1,13 @@
 <mxfile host="65bd71144e">
     <diagram id="ZX4aQEUyQadxjjJjLnqc" name="Backend Class Diagram">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <mxGraphModel dx="2133" dy="-430" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
 =======
         <mxGraphModel dx="1871" dy="-628" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+>>>>>>> main
+=======
+        <mxGraphModel dx="1774" dy="-278" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
 >>>>>>> main
             <root>
                 <mxCell id="0"/>
@@ -94,7 +98,11 @@
         </mxGraphModel>
     </diagram>
     <diagram id="cdPPZ4Ov6ylWLtgUCjX5" name="Backend-WeChat-Login">
+<<<<<<< HEAD
         <mxGraphModel dx="916" dy="1947" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+=======
+        <mxGraphModel dx="947" dy="2060" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+>>>>>>> main
             <root>
                 <mxCell id="0XPbtWitW9-o974dTGqW-0"/>
                 <mxCell id="0XPbtWitW9-o974dTGqW-1" parent="0XPbtWitW9-o974dTGqW-0"/>
@@ -116,8 +124,8 @@
                 <mxCell id="0XPbtWitW9-o974dTGqW-6" value="" style="shape=umlLifeline;participant=umlEntity;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
                     <mxGeometry x="870" y="-150" width="40" height="1650" as="geometry"/>
                 </mxCell>
-                <mxCell id="0XPbtWitW9-o974dTGqW-7" value="WorkAbroad Frontend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
-                    <mxGeometry x="141" y="-200" width="140" height="30" as="geometry"/>
+                <mxCell id="0XPbtWitW9-o974dTGqW-7" value="Frontend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
+                    <mxGeometry x="170" y="-195" width="60" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="0XPbtWitW9-o974dTGqW-8" value="WeChat Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
                     <mxGeometry x="840" y="-200" width="100" height="30" as="geometry"/>
@@ -149,11 +157,11 @@
                 <mxCell id="0XPbtWitW9-o974dTGqW-15" value="Tencent" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
                     <mxGeometry x="1100" y="-200" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="0XPbtWitW9-o974dTGqW-16" value="WorkAbroad Backend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
-                    <mxGeometry x="479" y="-200" width="140" height="30" as="geometry"/>
+                <mxCell id="0XPbtWitW9-o974dTGqW-16" value="Backend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
+                    <mxGeometry x="528" y="-200" width="60" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="0XPbtWitW9-o974dTGqW-17" value="OAuth2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
-                    <mxGeometry x="563" y="-60" width="60" height="30" as="geometry"/>
+                <mxCell id="0XPbtWitW9-o974dTGqW-17" value="request wechat for QR code" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
+                    <mxGeometry x="513" y="-55" width="160" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="0XPbtWitW9-o974dTGqW-18" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=-0.4;exitY=0.625;exitDx=0;exitDy=0;exitPerimeter=0;" parent="0XPbtWitW9-o974dTGqW-1" source="0XPbtWitW9-o974dTGqW-10" target="0XPbtWitW9-o974dTGqW-2" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
@@ -161,8 +169,8 @@
                         <mxPoint x="1145" y="290.03999999999996" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="0XPbtWitW9-o974dTGqW-19" value="Return QR Code For Current Session(Authorization Code, QR Code Encode the current session id)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
-                    <mxGeometry x="345" y="-8" width="550" height="30" as="geometry"/>
+                <mxCell id="0XPbtWitW9-o974dTGqW-19" value="Return QR Code Plus Some javascript file, the javascript will poll wechat for user scan status" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
+                    <mxGeometry x="365" y="-3" width="510" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="0XPbtWitW9-o974dTGqW-20" value="Return Confirmation Page, User Confirm" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
                     <mxGeometry x="895" y="203" width="240" height="30" as="geometry"/>
@@ -172,9 +180,6 @@
                         <mxPoint x="1135" y="305" as="sourcePoint"/>
                         <mxPoint x="199.5" y="305" as="targetPoint"/>
                     </mxGeometry>
-                </mxCell>
-                <mxCell id="0XPbtWitW9-o974dTGqW-22" value="Redirect To Redirect Url Plus User Profile Infomattion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
-                    <mxGeometry x="479" y="240" width="310" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="0XPbtWitW9-o974dTGqW-23" value="/graphql (login with user information)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="0XPbtWitW9-o974dTGqW-1" vertex="1">
                     <mxGeometry x="240" y="388" width="220" height="30" as="geometry"/>
@@ -272,6 +277,57 @@
                         <mxPoint x="560" y="748" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="-QXgfusQ2J3i_BbRd2M--0" value="javascript returns user already scaned, possibly the javascript will use window.location to direct user to callback" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="230" y="263" width="610" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-0" value="" style="shape=umlLifeline;participant=umlEntity;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="190" y="1660" width="40" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-1" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="XhwBoGexgT2e0CAdgZfc-0" target="XhwBoGexgT2e0CAdgZfc-2">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="20" y="130" as="sourcePoint"/>
+                        <mxPoint x="180" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-2" value="" style="shape=umlLifeline;participant=umlEntity;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="488" y="1660" width="40" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-3" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.188;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="XhwBoGexgT2e0CAdgZfc-2">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="20" y="130" as="sourcePoint"/>
+                        <mxPoint x="180" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-4" value="" style="shape=umlLifeline;participant=umlEntity;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="780" y="1660" width="40" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-5" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.188;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="XhwBoGexgT2e0CAdgZfc-4">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="20" y="130" as="sourcePoint"/>
+                        <mxPoint x="180" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-6" value="FE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="200" y="1630" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-7" value="Backend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="479" y="1630" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-8" value="Wechat Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="755" y="1630" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-9" value="" style="shape=umlLifeline;participant=umlEntity;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="1065" y="1660" width="40" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-10" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.188;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="XhwBoGexgT2e0CAdgZfc-9">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="20" y="130" as="sourcePoint"/>
+                        <mxPoint x="180" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XhwBoGexgT2e0CAdgZfc-11" value="WeChat Server" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="0XPbtWitW9-o974dTGqW-1">
+                    <mxGeometry x="1035" y="1630" width="100" height="20" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
@@ -293,9 +349,13 @@
     </diagram>
     <diagram id="wmFd-ex46cuL4LU5NQwa" name="Seite-5">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <mxGraphModel dx="983" dy="525" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
 =======
         <mxGraphModel dx="1044" dy="541" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+>>>>>>> main
+=======
+        <mxGraphModel dx="947" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
 >>>>>>> main
             <root>
                 <mxCell id="VkcaGktGtCpgOUmyMUh7-0"/>
