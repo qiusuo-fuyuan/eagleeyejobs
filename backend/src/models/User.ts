@@ -11,9 +11,14 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
             required: true 
         },
         name: String,
+        nickName: String,
         firstName: String,
         lastName: String,
+        gender: String,
         role: String,
+
+        platform: String,
+        openid: String, //this can not be empty when platform="wechat" or others for identifying one user
     }
 }
 
@@ -31,11 +36,18 @@ export class MemberShipStatus {
 }
 
 export class User {
-  email: String
-  name: String
-  firstName: String
-  lastName: String
-  companyName: String
-  role: UserType
-  membershipStatus: MemberShipStatus
+    _id: String
+    email: String
+    name: String
+    nickName: String
+    firstName: String
+    lastName: String
+    gender: String
+    companyName: String
+    role: UserType
+    membershipStatus: MemberShipStatus
+        
+    //platform denotes where the user come from "wechat or alipay"
+    platform: String
+    openid: String
 }

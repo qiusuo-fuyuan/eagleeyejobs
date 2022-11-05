@@ -6,12 +6,12 @@ export class JobRepository extends BaseRepository<Job>{
         super(JobDocumentSchemaDefinition.name)
     }
 
-    createJob(job: Job): Job | Promise<Job> {
+    createJob(job: Job): Promise<Job> {
         let jobDocument = new this.documentModel(job)
         return jobDocument.save()
     }
 
-    updateJob(job: Job): Job | Promise<Job> {
+    updateJob(job: Job): Promise<Job> {
         return this.documentModel.findByIdAndUpdate(job._id, job, {new: true})
     }
 }

@@ -6,6 +6,12 @@ enum UserType {
   ADVANCED_MEMBERSHIP
 }
 
+enum UserPlatform {
+  WECHAT
+  ALIPAY
+}
+
+
 
 type MemberShipStatus {
   lastPaymentAt: String!
@@ -15,8 +21,11 @@ type MemberShipStatus {
 type User {
   email: String
   name: String
+  nickName: String
   firstName: String
   lastName: String
+  gender: String
+  platform: String
   companyName: String
   role: UserType
   membershipStatus: MemberShipStatus
