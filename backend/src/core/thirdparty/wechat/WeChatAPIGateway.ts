@@ -1,5 +1,6 @@
 import axios from 'axios';
 import crypto from 'crypto';
+import { urlParamsToURI } from '../utils/Utils.js';
 import { WeChatAuthorizationSessionData, WechatServerResponse, WeChatURLParams, WeChatUserInfo } from './DataTypes.js';
 import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH, WECHAT_QRCODE_LOGIN_PATH } from "./WeChatConstants.js";
 
@@ -7,16 +8,6 @@ import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_RE
 /**
  * WeChat API Gateway contains all the APIs we will use for calling wechat API
  */
-
- function urlParamsToURI(dict: WeChatURLParams) {
-    var str = [];
-    for (const [key, value] of Object.entries(dict)) {
-        if(typeof value !==  'undefined')  {
-            str.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
-        }
-    }
-    return str.join("&");
-}
 
 export class WeChatAPIGateway {
     private APP_ID: string
@@ -60,7 +51,7 @@ export class WeChatAPIGateway {
         urlParams.grant_type = "authorization_code"
 
         const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_ACCESS_TOKEN_PATH +  urlParamsToURI(urlParams))
-        
+        return res.data
     }
 
 
@@ -71,12 +62,12 @@ export class WeChatAPIGateway {
         let urlParams: WeChatURLParams
         urlParams.appId = this.APP_ID
         urlParams.secret = this.APP_SECRET
-        urlParams.refresh_token = this.refreshToken
+        urlParams.refresh_token = this.wechatAuthorizationSessionData.refreshToken
         urlParams.grant_type = "authorization_code"
 
         const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_REFRESH_TOKEN_PATH +  urlParamsToURI(urlParams))
-        this.accessToken = res.data.access_token
-        this.refreshToken = res.data.refresh_token
+        this.wechatAuthorizationSessionData.accessToken = res.data.access_token
+        this.wechatAuthorizationSessionData.refreshToken = res.data.refresh_token
     }
 
     /**
@@ -86,8 +77,8 @@ export class WeChatAPIGateway {
      */
     async requestUserInfo(): Promise<WeChatUserInfo> {
         let urlParams: WeChatURLParams
-        urlParams.access_token = this.accessToken
-        urlParams.openid = this.openId
+        urlParams.access_token = this.wechatAuthorizationSessionData.accessToken
+        urlParams.openid = this.wechatAuthorizationSessionData.openId
         urlParams.lang = "zh_CN"
 
         const res = await axios.get<WeChatUserInfo>(this.WECHAT_HOST + REQUEST_USER_INFO_PATH +  urlParamsToURI(urlParams))

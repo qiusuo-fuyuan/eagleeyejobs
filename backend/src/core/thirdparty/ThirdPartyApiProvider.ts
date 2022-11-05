@@ -1,5 +1,6 @@
+import { WeChatUserInfo } from "./wechat/DataTypes.js"
 
-interface OAuth2LoginProvider {
+export interface ThirdPartyApiProvider {
     
     /**
      * get the login url for third party. 
@@ -14,12 +15,12 @@ interface OAuth2LoginProvider {
     getLoginUrl(): string
 
     /**
-     * Login the user by the authorizationCode. The steps involved are
+     * get the thirdparty userInfo by authorization code
      * 
      * 1. use authorizationCode to get access_token
      * 2. use the access_token to get the UserInfo from the third pary
      *      if the user already exist DB, then generate JWT token for the user, then return
      *      if the user does not exist, then persist the user information in DB. Create JWT token for user, return
      */
-    loginByAuthorizationCode(authorizationCode: string): Promise<String>
+    getUserInfo(authorizationCode: string): Promise<WeChatUserInfo>
 }
