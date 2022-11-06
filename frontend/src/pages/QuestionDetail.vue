@@ -3,6 +3,7 @@
     <p v-if="loading">Loading...</p>
     <p> Questions Details:</p>
     <ul v-if="result && result.questionDetail">
+       {{result.questionDetail._id }} 
      {{ result.questionDetail.title }} {{ result.questionDetail.content}} 
     </ul>
 </template>
@@ -15,10 +16,13 @@ import { useQuery } from '@vue/apollo-composable'
 import { QuestionDetail } from "../graphql/queries";
 import type { QuestionDetailQuery } from "../generated/graphql";
 import type { QuestionDetailQueryVariables } from "../generated/graphql";
+import { useRoute } from 'vue-router';
 
 
 // details
-const questionDetailQueryVariables: QuestionDetailQueryVariables = reactive({questionId: '6353aa5d7e47559281806133'})
+const route = useRoute(); 
+
+const questionDetailQueryVariables: QuestionDetailQueryVariables = { questionId: route.params.questionId as string }
 const { result, loading, error } = useQuery<QuestionDetailQuery, QuestionDetailQueryVariables>(QuestionDetail, questionDetailQueryVariables);
 
 watchEffect(() => {

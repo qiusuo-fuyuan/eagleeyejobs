@@ -9,14 +9,14 @@ export class QAService {
     }
 
     async addQuestion(title: string, content: string, userId: string): Promise<Question> {
-        return this.questionRepository.createQuestion(new Question(title, content))
+        return this.questionRepository.save(new Question(title, content))
     }
 
     async allQuestions(): Promise<Array<Question>> {
-        return this.questionRepository.findAllQuestions();
+        return this.questionRepository.findAll();
     }
 
     async queryQuestionDetail(questionId: string): Promise<Question> {
-        return this.questionRepository.findQuestionById(questionId)
+        return this.questionRepository.findById(questionId)
     }
 }

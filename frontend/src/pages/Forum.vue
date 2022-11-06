@@ -2,7 +2,7 @@
     <p>All Questions Lists:</p>
     <ul v-if="questions">
       <li v-for="question of questions">
-       <router-link :to="{name:'question', params:{questionId: question._id}}">{{ question.title }} {{ question.content}} </router-link>
+       <router-link :to="{name:'question', params:{questionId: question?._id}}">{{ question?.title }} {{ question?.content}} </router-link>
       </li>
     </ul>
 

@@ -1,30 +1,11 @@
-import { MongoClient } from "../db/MongoClient.js"
 import { BaseRepository } from "./BaseRepository.js"
 import { Question, QuestionDocumentSchemaDefinition } from "../models/Question.js"
 
-export class QuestionRepository extends BaseRepository{
+export class QuestionRepository extends BaseRepository<Question>{
     private QuestionDocumentModel: any
 
     constructor() {
-        super()
-        this.QuestionDocumentModel = this.mongoClient.getDocumentModel(QuestionDocumentSchemaDefinition.name)
-    }
-
-    findQuestionById(questionId: string): PromiseLike<Question> | Question {
-        return this.QuestionDocumentModel.findById(questionId)
-    }
-
-    findQuestionByTitle(): PromiseLike<Question> | Question {
-        return this.QuestionDocumentModel.findById()        
-    }
-
-    findAllQuestions(): PromiseLike<Array<Question>> | Array<Question> {
-        return this.QuestionDocumentModel.find()
-    }
-
-    createQuestion(question: Question): Question | PromiseLike<Question> {
-        let questionDocument = new this.QuestionDocumentModel(question)
-        return questionDocument.save()
+        super(QuestionDocumentSchemaDefinition.name)
     }
 }
 
