@@ -1,19 +1,18 @@
 import express, { Request, Response } from "express";
-import { PROVIDER_TYPE_STRINGS } from "../services/login/provider/LoginProviderFactory";
-import thirdPartyLoginService from "../services/login/ThirdPartyLoginService";
+import { PROVIDER_TYPE_STRINGS } from "../core/thirdparty/ThirdPartyApiProviderFactory.js";
+import thirdPartyLoginService from "../services/login/ThirdPartyLoginService.js";
 
 const thirdPartyLoginRouter = express.Router();
 
-thirdPartyLoginRouter.use("requestLoginUrl", function (req: Request, res: Response) {
-      const providerType = (req.query.provider as string).toUpperCase() as PROVIDER_TYPE_STRINGS
+thirdPartyLoginRouter.use("/:provider/requestLoginUrl", function (req: Request, res: Response) {
+      const providerType = (req.params.provider as string).toUpperCase() as PROVIDER_TYPE_STRINGS
       res.send(thirdPartyLoginService.getLoginUrl(providerType))
 });
 
-thirdPartyLoginRouter.use("authorizationCallback", function (req: Request, res: Response) {
-    const providerType = (req.query.provider as string).toUpperCase() as PROVIDER_TYPE_STRINGS
-    const authorizationCode = req.query.code as string
+thirdPartyLoginRouter.use("/:provider/authorizationCallback", function (req: Request, res: Response) {
+    const providerType = (req.params.provider as string).toUpperCase() as PROVIDER_TYPE_STRINGS
     
-    res.send(thirdPartyLoginService.loginUserByAuthorizationCode(providerType, authorizationCode))
+    res.send(thirdPartyLoginService.loginUserByAuthorizationCode(providerType, req))
 })
 
 export default thirdPartyLoginRouter

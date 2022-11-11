@@ -34,9 +34,9 @@ const wechatUserInfo: WeChatUserInfo = {
   errmsg: null
 }
 
-const weChatRouter = express.Router();
+const weChatMockServerRouter = express.Router();
 
-weChatRouter.use(REQUEST_ACCESS_TOKEN_PATH, function (req, res) {
+weChatMockServerRouter.use(REQUEST_ACCESS_TOKEN_PATH, function (req, res) {
     const appId = req.query.appid;
     const appSecret = req.query.secret; 
     const authorizationCode = req.query.code
@@ -44,18 +44,18 @@ weChatRouter.use(REQUEST_ACCESS_TOKEN_PATH, function (req, res) {
   res.json(accessToken)
 });
 
-weChatRouter.use(REQUEST_REFRESH_TOKEN_PATH, function (req, res) {
+weChatMockServerRouter.use(REQUEST_REFRESH_TOKEN_PATH, function (req, res) {
     res.json(refreshToken)
 });
 
-weChatRouter.use(CHECK_ACCESS_TOKEN_VALIDITY_PATH, function (req, res) {
+weChatMockServerRouter.use(CHECK_ACCESS_TOKEN_VALIDITY_PATH, function (req, res) {
   res.json(refreshToken)
 });
 
-weChatRouter.use(REQUEST_USER_INFO_PATH, function (req, res) {
+weChatMockServerRouter.use(REQUEST_USER_INFO_PATH, function (req, res) {
   res.json(refreshToken)
 });
 
-export default weChatRouter
+export default weChatMockServerRouter
 
 

@@ -36,18 +36,18 @@ export class MemberShipStatus {
 }
 
 export class User {
-    _id: String
-    email: String
-    name: String
-    nickName: String
-    firstName: String
-    lastName: String
-    gender: String
-    companyName: String
+    _id: string
+    email: string
+    name: string
+    nickName: string
+    firstName: string
+    lastName: string
+    gender: string
+    companyName: string
     role: UserType
     membershipStatus: MemberShipStatus
         
     //platform denotes where the user come from "wechat or alipay"
-    platform: String
-    openid: String
+    platform: string
+    openid: string
 }

@@ -12,6 +12,8 @@ import express  from 'express';
 import { expressjwt } from "express-jwt";
 
 import http from 'http';
+import weChatMockServerRouter from './wechatMockServerRouter.js';
+import thirdPartyLoginRouter from '../router/ThirdPartyLoginRouter.js';
 
 /**
  * Here, js ending has to be used, and the problem is reported here.
@@ -27,14 +29,6 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   const app = express();
 
   //
-  app.use(
-    expressjwt({
-      secret: "f1BtnWgD3VKY",
-      algorithms: ["HS256"],
-      credentialsRequired: false
-    })
-  );
-
 
   // Our httpServer handles incoming requests to our Express app.
   // Below, we tell Apollo Server to "drain" this httpServer,
@@ -75,7 +69,10 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   weChatRouter.use('/', function (req, res) {
     res.send('GET request to the homepage');
   });
+
   app.use("/wechat", weChatRouter);
+  app.use("/", weChatMockServerRouter)
+  app.use("/", thirdPartyLoginRouter)
 
 
   // apply alipay router

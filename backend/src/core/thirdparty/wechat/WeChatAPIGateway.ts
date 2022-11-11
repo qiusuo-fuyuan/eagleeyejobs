@@ -25,16 +25,14 @@ export class WeChatAPIGateway {
     }
 
 
-    getOpenConnectUrl(): string {
-        const sessionState = crypto.randomUUID()
-        this.wechatAuthorizationSessionData.state = sessionState
+    getOpenConnectUrl(state: string): string {
         
         let urlParams: WeChatURLParams
         urlParams.appId = this.APP_ID
         urlParams.redirect_url = process.env.WECHAT_AUTHORIZE_CALLBACK_URL
         urlParams.response_type = "code"
         urlParams.scope = "snsapi_login"
-        urlParams.state = this.wechatAuthorizationSessionData.state
+        urlParams.state = state
         
         return this.WECHAT_HOST + WECHAT_QRCODE_LOGIN_PATH +  urlParamsToURI(urlParams)
     }
@@ -42,13 +40,14 @@ export class WeChatAPIGateway {
     /**
      * send request access token
      */
-    async requestAccessToken(authorizationCode: string): Promise<WechatServerResponse> {
+    async requestAccessToken(authorizationCode: string, state: string): Promise<WechatServerResponse> {
         let urlParams: WeChatURLParams
 
         urlParams.appId = this.APP_ID
         urlParams.secret = this.APP_SECRET
         urlParams.code = authorizationCode
         urlParams.grant_type = "authorization_code"
+        urlParams.state = state
 
         const res = await axios.get<WechatServerResponse>(this.WECHAT_HOST + REQUEST_ACCESS_TOKEN_PATH +  urlParamsToURI(urlParams))
         return res.data
@@ -75,10 +74,10 @@ export class WeChatAPIGateway {
      * https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
      * request the user info
      */
-    async requestUserInfo(): Promise<WeChatUserInfo> {
+    async requestUserInfo(accessToken: string, openId: string): Promise<WeChatUserInfo> {
         let urlParams: WeChatURLParams
-        urlParams.access_token = this.wechatAuthorizationSessionData.accessToken
-        urlParams.openid = this.wechatAuthorizationSessionData.openId
+        urlParams.access_token = accessToken
+        urlParams.openid = openId
         urlParams.lang = "zh_CN"
 
         const res = await axios.get<WeChatUserInfo>(this.WECHAT_HOST + REQUEST_USER_INFO_PATH +  urlParamsToURI(urlParams))
@@ -97,3 +96,6 @@ export class WeChatAPIGateway {
         
     }
 }
+
+
+export default new WeChatAPIGateway()

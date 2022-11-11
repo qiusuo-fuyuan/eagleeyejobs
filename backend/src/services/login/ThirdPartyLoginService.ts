@@ -1,31 +1,26 @@
-import thirdPartyApiProviderFactory, { PROVIDER_TYPE_STRINGS } from '../../core/thirdparty/ThirdPartyApiProviderFactory.js'
+import { Request } from 'express'
 import { User } from '../../models/User.js'
 import userRepository, { UserRepository } from '../../repositories/UserRepository.js'
+import thirdPartyUserLoginStrategyFactory, {ThirdPartyUserLoginStrategyFactory, PROVIDER_TYPE_STRINGS } from './strategy/ThirdPartyUserLoginStrategyFactory.js'
+import {generateJwtToken} from '../../utils/jwt/JwtUtil.js'
+
 
 class ThirdPartyLoginService {
-    private userRepository: UserRepository
+    private  thirdPartyUserLoginStrategyFactory: ThirdPartyUserLoginStrategyFactory
 
     constructor() {
-        this.userRepository = userRepository
+        this.thirdPartyUserLoginStrategyFactory = thirdPartyUserLoginStrategyFactory
     }
 
     public getLoginUrl(providerType: PROVIDER_TYPE_STRINGS): string {
-        return thirdPartyApiProviderFactory.getProvider(providerType).getLoginUrl()
+        return thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).getLoginUrl()
     }
 
-    public async loginUserByAuthorizationCode(providerType: PROVIDER_TYPE_STRINGS, authorizationCode: string): Promise<String> {
-        const wechatUserInfo = await thirdPartyApiProviderFactory.getProvider(providerType).getUserInfo(authorizationCode)
-        const wechatUserInDB = await userRepository.findOne({openid: wechatUserInfo.openid})
-        if (wechatUserInDB) {
-
-        } else {
-            const user = new User()
-            user.platform = "wechat"
-            user.openid = wechatUserInfo.openid
-            user.gender = wechatUserInfo.sex.toString()
-            user.nickName = wechatUserInfo.nickname
-        }
+    public async loginUserByAuthorizationCode(providerType: PROVIDER_TYPE_STRINGS, req: Request): Promise<string> {
+        const authorizedUser =  await thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(req)
+        return generateJwtToken(authorizedUser._id)
     }
 }
 
 export default  new ThirdPartyLoginService()
+
