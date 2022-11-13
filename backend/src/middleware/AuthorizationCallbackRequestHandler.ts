@@ -1,22 +1,22 @@
 import { Request, Response } from 'express'
-import { AuthorizationProviderFactory, PROVIDER_TYPE } from '../services/login/provider/LoginProviderFactory.js'
+import thirdPartyApiProviderFactory,  {ThirdPartyApiProviderFactory,  PROVIDER_TYPE_STRINGS } from '../core/thirdparty/ThirdPartyApiProviderFactory.js'
 
 class AuthorizationRequestHandler {
-    authorizationProviderFactory: AuthorizationProviderFactory
+    thirdPartyApiProviderFactory: ThirdPartyApiProviderFactory
 
 
     constructor() {
-        this.authorizationProviderFactory = new AuthorizationProviderFactory()
+        this.thirdPartyApiProviderFactory =  thirdPartyApiProviderFactory
     }
 
     public handleRequest(req: Request, res: Response) {
         const authorizationCode = req.query.code as string
         const providerType = req.query.provider
-        this.acceptAuthorizationCode(authorizationCode, providerType as PROVIDER_TYPE)
+        this.acceptAuthorizationCode(authorizationCode, providerType as PROVIDER_TYPE_STRINGS)
     }
 
-    private acceptAuthorizationCode(authorizationCode: string, provider: PROVIDER_TYPE) {  
-        this.authorizationProviderFactory.getProvider(provider).acceptAuthorizationCode(authorizationCode)
+    private acceptAuthorizationCode(authorizationCode: string, provider: PROVIDER_TYPE_STRINGS) {  
+        this.thirdPartyApiProviderFactory.getProvider(provider).getUserInfo(authorizationCode)
     }
 
 }
