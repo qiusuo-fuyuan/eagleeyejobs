@@ -5,10 +5,7 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
     name: "User",
     tableName: 'user',
     schemaDefinition: {
-        email: {
-            type: String,
-            required: true 
-        },
+        email: String,
         name: String,
         nickName: String,
         firstName: String,

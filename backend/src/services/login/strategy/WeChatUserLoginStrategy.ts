@@ -43,8 +43,7 @@ export class WeChatUserLoginStrategy implements ThirdPartyUserLoginStrategy {
             newWeChatUser.openid = wechatUserInfo.openid
             newWeChatUser.gender = wechatUserInfo.sex
             newWeChatUser.nickName = wechatUserInfo.nickname
-            this.userRepository.save(newWeChatUser)
-            wechatUserInDB = newWeChatUser
+            wechatUserInDB = await this.userRepository.save(newWeChatUser)
         }
         return wechatUserInDB
     }
