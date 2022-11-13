@@ -8,18 +8,18 @@ export type WechatServerResponse = {
 }
 
 export type WeChatURLParams = {
-    appId: string
-    secret: string
-    code: string
-    scope: string
-    state: string
-    response_type: string
-    redirect_url: string
-    grant_type: string
-    access_token: string
-    refresh_token: string
-    openid: string
-    lang: string
+    appId?: string
+    secret?: string
+    code?: string
+    scope?: string
+    state?: string
+    response_type?: string
+    redirect_url?: string
+    grant_type?: string
+    access_token?: string
+    refresh_token?: string
+    openid?: string
+    lang?: string
 }
 
 export type WeChatUserInfo = {

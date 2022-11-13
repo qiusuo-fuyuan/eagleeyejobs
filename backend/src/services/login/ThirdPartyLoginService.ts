@@ -12,11 +12,11 @@ class ThirdPartyLoginService {
         this.thirdPartyUserLoginStrategyFactory = thirdPartyUserLoginStrategyFactory
     }
 
-    public getLoginUrl(providerType: PROVIDER_TYPE_STRINGS): string {
+    public getLoginUrl(providerType: string): string {
         return thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).getLoginUrl()
     }
 
-    public async loginUserByAuthorizationCode(providerType: PROVIDER_TYPE_STRINGS, req: Request): Promise<string> {
+    public async loginUserByAuthorizationCode(providerType: string, req: Request): Promise<string> {
         const authorizedUser =  await thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(req)
         return generateJwtToken(authorizedUser._id)
     }

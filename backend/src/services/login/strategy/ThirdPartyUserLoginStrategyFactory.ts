@@ -21,7 +21,7 @@ export class ThirdPartyUserLoginStrategyFactory {
         this.userLoginStrategies[PROVIDER_TYPE.WECHAT] = weChatUserLoginStrategy
     }
 
-    public getLoginStrategy(providerType: PROVIDER_TYPE_STRINGS) {
+    public getLoginStrategy(providerType: string) {
         return this.userLoginStrategies[providerType]
     }
 }

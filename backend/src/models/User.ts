@@ -1,5 +1,4 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
-import  { Types } from 'mongoose'
 
 export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
 {
@@ -42,7 +41,7 @@ export class User {
     nickName: string
     firstName: string
     lastName: string
-    gender: string
+    gender: number
     companyName: string
     role: UserType
     membershipStatus: MemberShipStatus

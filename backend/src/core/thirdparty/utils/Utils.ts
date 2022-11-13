@@ -8,5 +8,5 @@ import { WeChatURLParams } from "../wechat/DataTypes.js";
             str.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
         }
     }
-    return str.join("&");
+    return '?'+ str.join("&")
 }

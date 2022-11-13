@@ -26,8 +26,7 @@ export class WeChatAPIGateway {
 
 
     getOpenConnectUrl(state: string): string {
-        
-        let urlParams: WeChatURLParams
+        let urlParams: WeChatURLParams = {}
         urlParams.appId = this.APP_ID
         urlParams.redirect_url = process.env.WECHAT_AUTHORIZE_CALLBACK_URL
         urlParams.response_type = "code"
@@ -41,7 +40,7 @@ export class WeChatAPIGateway {
      * send request access token
      */
     async requestAccessToken(authorizationCode: string, state: string): Promise<WechatServerResponse> {
-        let urlParams: WeChatURLParams
+        let urlParams: WeChatURLParams = {}
 
         urlParams.appId = this.APP_ID
         urlParams.secret = this.APP_SECRET
@@ -58,7 +57,7 @@ export class WeChatAPIGateway {
      * send refresh access token request
      */
     async refreshAccessToken() {
-        let urlParams: WeChatURLParams
+        let urlParams: WeChatURLParams = {}
         urlParams.appId = this.APP_ID
         urlParams.secret = this.APP_SECRET
         urlParams.refresh_token = this.wechatAuthorizationSessionData.refreshToken
@@ -75,7 +74,7 @@ export class WeChatAPIGateway {
      * request the user info
      */
     async requestUserInfo(accessToken: string, openId: string): Promise<WeChatUserInfo> {
-        let urlParams: WeChatURLParams
+        let urlParams: WeChatURLParams = {}
         urlParams.access_token = accessToken
         urlParams.openid = openId
         urlParams.lang = "zh_CN"
