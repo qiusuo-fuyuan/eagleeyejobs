@@ -8,8 +8,9 @@ thirdPartyLoginRouter.use("/:provider/requestLoginUrl", function (req: Request, 
       res.send(thirdPartyLoginService.getLoginUrl(providerType))
 });
 
-thirdPartyLoginRouter.use("/:provider/authorizationCallback", function (req: Request, res: Response) {
+thirdPartyLoginRouter.use("/:provider/authorizationCallback",async function (req: Request, res: Response) {
     const providerType = req.params.provider as string
-    res.send(thirdPartyLoginService.loginUserByAuthorizationCode(providerType, req))
+    const jwtToken =  await thirdPartyLoginService.loginUserByAuthorizationCode(providerType, req)
+    res.send(jwtToken)
 })
 

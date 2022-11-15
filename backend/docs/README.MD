@@ -27,3 +27,10 @@ can directly modify the schema file. Mock data will be returned to frontend. So 
 
 
 npm run start:mock
+
+
+
+
+# Wechat mock server logs in
+
+Our mockserver contains the functionality for mocking wechat for local development. The wechat 
