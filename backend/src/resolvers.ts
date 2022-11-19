@@ -1,7 +1,8 @@
 import { Job } from "./models/Job.js";
 import jobService from "./services/job/JobService.js";
-import jobSearchService from "./services/job/JobSearchService.js";
+import { JobSearchService } from "./services/job/JobSearchService.js";
 
+const jobSearchService =  new JobSearchService();
 export const resolvers = {
     Query: {
         /**
@@ -15,7 +16,9 @@ export const resolvers = {
 
         searchJobs(_: any, args: any) {
             console.log("user search job input:" + args.userInput)
-            return jobSearchService.searchJobs(args.userInput, args.pageNumber)
+            // todo
+            var jobs = jobSearchService.searchJobs(args.userInput, args.pageNumber)
+            return {"jobs": jobs, "pageSize":0, "pageNumber":0, "totalCount": 0}
         }
 
         /**

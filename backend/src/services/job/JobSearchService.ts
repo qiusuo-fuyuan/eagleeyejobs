@@ -1,21 +1,26 @@
 import { Job } from '../../models/Job.js'
-import { JobSearchPagingResult } from '../../models/JobSearchPagingResult.js'
-import { JinaClient } from '../../search/jina/JinaClient.js'
+import { JobSearchRepository } from "../../repositories/JobSearchRepository.js";
 
 /**
  * Uses JinaClient to search for job information
  */
 export class JobSearchService {
-    private jinaClient: JinaClient
-
+    private jobSearchRepository : JobSearchRepository
 
     constructor() {
-        this.jinaClient = new JinaClient()        
+        this.jobSearchRepository = new JobSearchRepository()
     }
 
-    searchJobs(userInput: string, pageNumber: number): Promise<JobSearchPagingResult> {
-        return Promise.resolve(new JobSearchPagingResult())    
+    async searchJobs(userInput: string, pageNumber: number): Promise<Array<Job>> {
+        var queryBody = {
+            query: {
+                multi_match: {
+                    query: userInput,
+                    fields: ['title','description', 'companyName', 'country', 'city']
+                }
+            }
+        }
+        return this.jobSearchRepository.search(queryBody);
     }
+
 }
-
-export default new JobSearchService()

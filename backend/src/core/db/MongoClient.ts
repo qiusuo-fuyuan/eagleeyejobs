@@ -55,7 +55,14 @@ export class MongoClient {
         const host = process.env.MONGO_HOST
         const port = process.env.MONGO_PORT
         const db = process.env.MONGO_DATABASE
-        const connectAddress = util.format("mongodb://%s:%s/%s", host, port, db)
+        const username = process.env.MONGO_USERNAME
+        const password = process.env.MONGO_PASSWORD
+        let connectAddress: string
+        if (username != null && username != '') {
+            connectAddress = util.format("mongodb://%s:%s@%s:%s/%s",username, password, host, port, db)
+        } else {
+            connectAddress = util.format("mongodb://%s:%s/%s", host, port, db)
+        }
         const options = {
             serverSelectionTimeoutMS: 6000,
             connectTimeoutMS: 6000
