@@ -39,6 +39,8 @@ export class BaseRepository<T> {
     private getDocumentModel(schemaName: string): any {
         return this.mongoClient.getDocumentModel(schemaName)
     }
-
-
 }
+
+
+
+

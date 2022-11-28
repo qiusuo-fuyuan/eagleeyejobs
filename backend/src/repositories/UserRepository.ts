@@ -6,11 +6,6 @@ export class UserRepository extends BaseRepository<User> {
     constructor() {
         super(UserDocumentSchemaDefinition.name)
     }
-
-    createUser(user: User): Promise<User> {
-        let userDocument = new this.documentModel(user)
-        return userDocument.save()
-    }
 }
 
 
