@@ -1,3 +1,4 @@
+import { stringify } from "querystring"
 import { MongoClient } from "../core/db/MongoClient.js"
 
 export class BaseRepository<T> {
@@ -30,8 +31,14 @@ export class BaseRepository<T> {
         return newDocument.save()
     }
 
+    // public updateById(id: string, keyValues: {[key: string]: any} ): Promise<T> {
+    //     console.log("inside updateByID:" + id + "keyvalues" + ":" + keyValues)
+    //     return this.documentModel.findByIdAndUpdate(id, keyValues)
+    // }
+
     private getDocumentModel(schemaName: string): any {
         return this.mongoClient.getDocumentModel(schemaName)
     }
+
 
 }

@@ -14,7 +14,8 @@ export const QuestionDocumentSchemaDefinition: DocumentSchemaDefinitionType =
         },
         content: String,
         answers: [{content: String}],
-        userId: String
+        userId: String,
+        open: Boolean
     }
 }
 
@@ -23,17 +24,19 @@ export class Question {
     title: String
     content: String
     answers: Array<Answer>
-    user: User
+    userId: String
 
-    constructor(title: String, content: String) {
+    constructor(title: String, content: String, userId: String) {
         this.title = title;
         this.content = content;
+        this.userId = userId;
     }
 }
 
 export class Answer {
+    _id: String
     content: String
-    comments: Array<Comment>
+    user: User
 }
 
 export class Comment {

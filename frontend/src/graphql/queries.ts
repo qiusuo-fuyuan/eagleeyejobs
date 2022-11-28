@@ -30,15 +30,6 @@ export const SearchJobs = gql`query SearchJobs($userInput: String, $pageNumber: 
 ${jobBaseAttributes}
 `
 
-export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
-  questionDetail(questionId: $questionId) { 
-    _id
-    title
-    content
-  }
-}`
-
-
 export const CreateQuestion = gql`mutation CreateQuestion($userId: String, $content: String, $title: String) {
   createQuestion(userId: $userId, content: $content, title: $title) {
     _id
@@ -52,5 +43,27 @@ export const AllQuestions = gql`query AllQuestions {
     _id
     title
     content
+  }
+}`
+
+export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
+  questionDetail(questionId: $questionId) { 
+    _id
+    title
+    content
+    answers{
+      _id
+      content
+    }
+  }
+}`
+
+export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $content: String, $userId: String){
+  createAnswer(questionId: $questionId, content: $content, userId: $userId){
+    _id
+    answers{
+      _id
+      content
+    }
   }
 }`

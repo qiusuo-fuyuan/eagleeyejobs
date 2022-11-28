@@ -104,6 +104,7 @@ type Comment {
   user: User
 }
 
+
 type Query {
   ### Job related
   searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
@@ -125,7 +126,14 @@ type Mutation {
 
   ### Question related
   createQuestion(title: String, content: String, userId: String): Question
+  createAnswer(content: String, userId: String, questionId: String!): Question
 
   ### Registration related
   registerNewUser: String
+}
+
+type createQuestionInput {
+  title: String,
+  content: String,
+  userId: String
 }

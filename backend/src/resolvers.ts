@@ -1,13 +1,13 @@
 import { Job } from "./models/Job.js";
 import { JobService } from "./services/job/JobService.js";
 import { JobSearchService } from "./services/job/JobSearchService.js";
-import { argsToArgsConfig } from "graphql/type/definition";
 import { QAService } from "./services/qa/QAService.js";
 
 let jobService = new JobService()
 let jobSearchService: JobSearchService = new JobSearchService()
 
 let qaService: QAService = new QAService()
+
 
 export const resolvers = {
     Query: {
@@ -29,6 +29,11 @@ export const resolvers = {
             console.log("query question detail questionId:" + args.questionId)
             return qaService.queryQuestionDetail(args.questionId);
         },
+
+        // questionAnswers:(parent, args, context) => {
+        //         const questionId = parent.id;
+        //         return s.filter(product => product.category === categeryId);
+        // }, 
 
         allQuestions(_: any, args: any) {
             console.log("query all questions")
@@ -67,6 +72,11 @@ export const resolvers = {
         createQuestion: (_:any, args: any) => {
             console.log("createQuestion:" + args)
             return qaService.addQuestion(args.title, args.content, args.userId)
+        },
+
+        createAnswer:(_:any, args: any) => { 
+            console.log("createAnswer:" + args.questionId, args.content, args.userId)
+            return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
 
 
@@ -83,5 +93,16 @@ export const resolvers = {
         /**
          * Community Story Mutation Resolvers
          */
-    }
+    },
+    // Question: {
+    //     /**
+    //      * Question Query Resolvers
+    //      */
+    //     answers: (_:any, args: any) => {
+    //         console.log("question answers: "+ args)
+    //         return answerService.questionAnswers(args.questionId)
+    //     }
+
+
+    // }
 };

@@ -2,7 +2,7 @@
     <p>All Questions Lists:</p>
     <ul v-if="questions">
       <li v-for="question of questions">
-       <router-link :to="{name:'question', params:{questionId: question?._id}}">{{ question?.title }} {{ question?.content}} </router-link>
+       <router-link :to="{name:'question', params: {questionId: question?._id}}">{{question?.title }} {{ question?.content}} </router-link>
       </li>
     </ul>
 
@@ -41,11 +41,11 @@ watchEffect(() => {
 console.log("title: " + title.value + " content: " + content.value)
 })
 
-let createQuestionMutationVariables: CreateQuestionMutationVariables = reactive({userId: '6353aa5d7e47559281806133', content: content.value, title: title.value})
+let createQuestionMutationVariables: CreateQuestionMutationVariables = reactive({userId: '63133', content: content.value, title: title.value})
 
 const { mutate: createQuestion } = useMutation<CreateQuestionMutation, CreateQuestionMutationVariables>(CreateQuestion, () => ({
     variables:  {
-        userId: '6353aa5d7e47559281806133', 
+        userId: '63787c45f763a263f00c643c', 
         content: content.value, 
         title: title.value
     },
