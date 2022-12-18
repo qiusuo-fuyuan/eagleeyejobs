@@ -1,24 +1,38 @@
 <template>
-    <p v-if="error">Something went wrong...</p>
-    <p v-if="loading">Loading...</p>
-    <p> Questions Details:</p>
-    <ul v-if="result && result.questionDetail">
-      <li>QuestionId: {{result.questionDetail._id }} </li>
-      <li>Title:{{ result.questionDetail.title }} </li>
-      <li>Content:{{ result.questionDetail.content}} </li>
-      <br>
-      Answers:
-      <li v-if="result.questionDetail.answers">
-        <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
-      </li>
-    </ul>
+  <div class="div-center">
+    <div>
+      <p v-if="error">Something went wrong...</p>
+      <p v-if="loading">Loading...</p>
+      <p class="text-center"> Questions Details</p>
+
+      <div class="div-loop" v-if="result && result.questionDetail">
+        <div class="question" >
+          <p>QuestionId: {{result.questionDetail._id }} </p>
+          <p>Title:{{ result.questionDetail.title }} </p>
+         <p>Content:{{ result.questionDetail.content}} </p>
+        </div>
+        
+      </div>
+
+      
+        <div  class="question" >
+          <p class="text-center"> Answers</p>
+          <p v-if="result.questionDetail.answers">
+            <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
+          </p>
+        </div>
+        
+    </div>
+   
         
 
      <!-- add answer to question -->
-    <p>Add answer:</p>
-    <input type="content" name="content" placeholder="type answer here" v-model="content"/>
-    <button @click="createAnswer()">raise answer</button>
-
+     <div>
+      <p class="text-center">Add answer</p>
+      <input type="content" name="content" placeholder="type answer here" v-model="content"/>
+      <button @click="createAnswer()">raise answer</button>
+    </div>
+  </div>
 </template>
 
 
@@ -53,3 +67,10 @@ const { mutate: createAnswer } = useMutation<CreateAnswerMutation, CreateAnswerM
 }))
 
 </script>
+
+<style>
+.div-loop {
+  width: 100%;
+}
+
+</style>

@@ -1,16 +1,25 @@
 <template>
-    <p>All Questions Lists:</p>
-    <ul v-if="questions">
-      <li v-for="question of questions">
-       <router-link :to="{name:'question', params: {questionId: question?._id}}">{{question?.title }} {{ question?.content}} </router-link>
-      </li>
-    </ul>
-
-    <p>Raise questions here:</p>
-    <input type="text" name="title" placeholder="title" v-model="title"/>
-    <input type="text" placeholder="content" v-model="content"/>
-    <button @click="createQuestion()">raise question</button>
-
+    <div class="div-center">
+      <div style="width: 60%;">
+        <p class="text-center">All Questions Lists</p>
+          <div class="div-loop" v-if="questions">
+            <div class="question" v-for="question of questions">
+              <router-link :to="{name:'question', params: {questionId: question?._id}}">
+                <p>{{question?.title }}</p>
+                <p>{{ question?.content}}</p> 
+                </router-link>
+            </div>
+          </div>
+      </div>
+      
+      <div>
+        <p class="text-center">Raise questions here</p>
+        <input type="text" name="title" placeholder="title" v-model="title"/>
+        <input type="text" placeholder="content" v-model="content"/>
+        <button @click="createQuestion()">raise question</button>
+      </div>
+      
+    </div>
 </template>
 
 
@@ -66,3 +75,43 @@ const { mutate: createQuestion } = useMutation<CreateQuestionMutation, CreateQue
 
 
 </script>
+
+
+
+<style>
+  .div-center {
+    margin: 50px auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    border: 1px solid black;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .div-loop {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .question{
+    width: 80%;
+    padding: 10px 30px;
+    margin: 10px 0;
+    background: lightgrey;
+    border: 1px solid grey;
+    border-radius: 5px;
+  }
+
+  a { 
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: blueviolet;
+  }
+
+</style>
