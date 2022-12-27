@@ -10,6 +10,14 @@ do the checking of the jwt. This is can be achieved by jwt token.
 https://www.apollographql.com/blog/backend/auth/setting-up-authentication-and-authorization-apollo-federation/
 
 
+## Start All Docker Containers
+
+There is a docker-compose folder. 
+In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, and mongo-connector which will synchronize the mongo database to elasticsearch. We currently do not have any configuration yet. But will add configuration later. 
+
+docker-compose  -f ./docker-compose-dev.yml up
+
+
 ## How to debug backend
 
 U have to use vscode
@@ -27,8 +35,6 @@ can directly modify the schema file. Mock data will be returned to frontend. So 
 
 
 npm run start:mock
-
-
 
 
 # Wechat mock server logs in
@@ -52,3 +58,20 @@ http://localhost:4000/connect/confirm?uuid=0215MUmK2z350w3w
 After opening the link. the qrcode page will show as scanned. 
 
 Now click the confirmed button.  The qrcode page will redirect to authorizationCallback and return the jwtToken.
+
+
+
+## ElasticSearch
+
+For local development, the http-ssl is disabled      
+- xpack.security.http.ssl.enabled=false. For production, we should turn it on. 
+
+We should use volume for all docker container data
+
+
+### Test ElasticSearch
+
+To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic. 
+
+Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside docker-compose/elasticsearch/playground. U can fire request to elasticsearch here.
+

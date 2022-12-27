@@ -1,0 +1,163 @@
+version: '3.7'
+services:
+  mongo1:
+    hostname: mongo1
+    image: mongo:4.4.0
+    expose:
+      - 27017
+    ports:
+      - 30001:27017 
+    volumes:
+    - ./mongo1/db:/data/db
+    - ./mongo1/log:/var/log/mongodb
+    restart: always
+    command: ["--replSet", "eagleeyejobs-replica-set", "--bind_ip_all"]
+    #healthcheck:
+
+  mongo2:
+    hostname: mongo2
+    image: mongo:4.4.0
+    expose:
+      - 27017
+    ports:
+      - 30002:27017
+    volumes:
+    - ./mongo2/db:/data/db
+    - ./mongo2/log:/var/log/mongodb
+    restart: always
+    command: ["--replSet", "eagleeyejobs-replica-set", "--bind_ip_all"]
+
+# finally, we can define the initialization server
+# this runs the `rs.initiate` command to intialize
+# the replica set and connect the three servers to each other
+  mongoinit:
+    build: ./mongo-init
+    image: mongo-init:latest
+    # this container will exit after executing the command
+    restart: "no"
+    depends_on:
+      - mongo1
+      - mongo2
+##### setting up elastic search docker container
+  setup:
+    build: 
+      context: ./elasticsearch/setup
+      args:
+        STACK_VERSION: ${STACK_VERSION}
+    environment:
+      - STACK_VERSION=${STACK_VERSION}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    image: es-setup:latest
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+    user: "0"
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+  es01:
+    depends_on:
+      setup:
+        condition: service_healthy
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - ${ES_PORT}:9200
+    environment:
+      - node.name=es01
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02
+      - discovery.seed_hosts=es02
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.http.ssl.key=certs/es01/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es01/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  es02:
+    depends_on:
+      - es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata02:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es02
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02
+      - discovery.seed_hosts=es01
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es02/es02.key
+      - xpack.security.http.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es02/es02.key
+      - xpack.security.transport.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+  mongo-connector:
+    build: 
+      context: ./mongo-connector
+      args:
+        STACK_VERSION: ${STACK_VERSION}
+    environment:
+      - MONGO=mongo1
+      - ELASTICSEARCH=es01
+    image: mongo-connector:latest
+    depends_on:
+      - mongo1
+      - es01
+    tty: true
+
+volumes:
+  certs:
+    driver: local
+  esdata01:
+    driver: local
+  esdata02:
+    driver: local
