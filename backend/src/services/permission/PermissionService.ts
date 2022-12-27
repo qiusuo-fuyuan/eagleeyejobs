@@ -1,10 +1,11 @@
 import { UserPermission, readUserPermissions } from './UserPermissions.js'
+// import { join } from 'path';
 
 export class PermissionService {
     private userPermissions: UserPermission;
 
     constructor() {
-      this.userPermissions = readUserPermissions('./permissions.json');
+      this.userPermissions = readUserPermissions('src/services/permission/permissions.json');
     };
 
     hasPermission(user: any, targetFunction: any) {
