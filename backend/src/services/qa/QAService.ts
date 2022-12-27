@@ -6,10 +6,13 @@ export class QAService {
     constructor() {
         this.questionRepository = new QuestionRepository()
     }
+    
+    // hasPermission
 
     async addQuestion(title: string, content: string, userId: string): Promise<Question> {
         return this.questionRepository.save(new Question(title, content, userId))
     }
+
 
     async allQuestions(): Promise<Array<Question>> {
         return this.questionRepository.findAll();

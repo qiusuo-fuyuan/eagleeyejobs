@@ -1,0 +1,8 @@
+ {
+    "ADMIN": ['create', 'update', 'delete'],
+    "TEMPORARY_USER": ['searchJobs', 'delete', 'allQuestions', 'questionDetail'],
+    "ENTRY_MEMBERSHIP": ['searchJobs','jobDetail', 'searchJobs','allQuestions','questionDetail', 'createQuestion', 'createAnswer'],
+    "INTERMEDIATE_MEMBERSHIP": ['searchJobs','jobDetail', 'allQuestions','questionDetail', 'createQuestion','createAnswer'],
+    "ADVANCED_MEMBERSHIP": ['searchJobs','jobDetail','allQuestions', 'questionDetail', 'createQuestion','createAnswer'],
+    "RECUITER": ['addJob', 'updateJob', 'allQuestions','questionDetail']
+  }

@@ -2,11 +2,16 @@ import { Job } from "./models/Job.js";
 import { JobService } from "./services/job/JobService.js";
 import { JobSearchService } from "./services/job/JobSearchService.js";
 import { QAService } from "./services/qa/QAService.js";
+import { UserService } from "./services/user/UserService.js";
+import { PermissionService } from "./services/permission/PermissionService.js";
 
 let jobService = new JobService()
 let jobSearchService: JobSearchService = new JobSearchService()
 
 let qaService: QAService = new QAService()
+let userService: UserService = new UserService()
+
+let permissionService: PermissionService = new PermissionService();
 
 
 export const resolvers = {
@@ -35,7 +40,9 @@ export const resolvers = {
         //         return s.filter(product => product.category === categeryId);
         // }, 
 
-        allQuestions(_: any, args: any) {
+        allQuestions(_: any, args: any, {user2}:any) {
+            console.log(user2, user2.role)
+            permissionService.hasPermission(user2, "allQuestions")
             console.log("query all questions")
             return qaService.allQuestions()
         }
@@ -69,12 +76,18 @@ export const resolvers = {
             return jobService.updateJob(args.job);
         },
 
-        createQuestion: (_:any, args: any) => {
+        createQuestion: (_:any, args: any, {user1}:any) => {
+            console.log(user1, user1.role)
+            // console.log(userPermissions)
+            console.log(args.callee.caller.name)
+            permissionService.hasPermission(user1, args.callee.caller.name )
+    
             console.log("createQuestion:" + args)
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
         createAnswer:(_:any, args: any) => { 
+            // permissionService.hasPermission(ctx)
             console.log("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
@@ -94,15 +107,13 @@ export const resolvers = {
          * Community Story Mutation Resolvers
          */
     },
-    // Question: {
-    //     /**
-    //      * Question Query Resolvers
-    //      */
-    //     answers: (_:any, args: any) => {
-    //         console.log("question answers: "+ args)
-    //         return answerService.questionAnswers(args.questionId)
-    //     }
-
-
-    // }
+    Question: {
+        /**
+         * Question Query Resolvers
+         */
+        user: (parent:any, args: any) => {
+            console.log("question's user: "+ args)
+            return userService.queryUserDetail(parent.userId)
+        }
+    }
 };

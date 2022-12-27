@@ -10,7 +10,7 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
         nickName: String,
         firstName: String,
         lastName: String,
-        gender: String,
+        gender: Number,
         role: String,
 
         platform: String,

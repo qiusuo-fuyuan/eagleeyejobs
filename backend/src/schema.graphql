@@ -19,12 +19,14 @@ type MemberShipStatus {
 }
 
 type User {
+  _id: String!
   email: String
   name: String
   nickName: String
   firstName: String
   lastName: String
-  gender: String
+  # gender: String
+  gender: Int
   platform: String
   companyName: String
   role: UserType
@@ -76,13 +78,6 @@ type JobSearchPagingResult {
   totalCount: Int
 }
 
-
-type User {
-  _id: String!
-  name: String!
-  email: String!
-}
-
 type Question {
   _id: String
   title: String
@@ -116,6 +111,9 @@ type Query {
 
   ### Registration related
   requestLoginQrCodeImage(provider: String): String
+
+  ### User related
+  queryUserDetail(userId: String!): User
 }
 
 type Mutation {
@@ -130,6 +128,9 @@ type Mutation {
 
   ### Registration related
   registerNewUser: String
+
+  ### User related
+  createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
 }
 
 type createQuestionInput {
