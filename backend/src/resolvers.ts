@@ -1,18 +1,9 @@
 import { Job } from "./models/Job.js";
-import { JobService } from "./services/job/JobService.js";
-import { JobSearchService } from "./services/job/JobSearchService.js";
-import { QAService } from "./services/qa/QAService.js";
-import { UserService } from "./services/user/UserService.js";
-import { PermissionService } from "./services/permission/PermissionService.js";
-
-let jobService = new JobService()
-let jobSearchService: JobSearchService = new JobSearchService()
-
-let qaService: QAService = new QAService()
-let userService: UserService = new UserService()
-
-let permissionService: PermissionService = new PermissionService();
-
+import jobService from "./services/job/JobService.js";
+import jobSearchService from "./services/job/JobSearchService.js";
+import qaService from "./services/qa/QAService.js";
+import userService  from "./services/user/UserService.js";
+import permissionService from "./services/permission/PermissionService.js";
 
 export const resolvers = {
     Query: {

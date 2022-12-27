@@ -27,3 +27,6 @@ export class QAService {
         return this.questionRepository.updateQuestion(questionId,content,userId)
     }
 }
+
+
+export default new QAService()
