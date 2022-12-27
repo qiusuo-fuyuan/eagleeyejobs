@@ -1,8 +1,5 @@
 version: '3.7'
 services:
-# first, we define the three mongo servers that will act as replicas
-# here, we steup the hostname ports, and startup command
-# which is the same as discussed in the previous section
   mongo1:
     hostname: mongo1
     image: mongo:4.4.0
@@ -14,11 +11,8 @@ services:
     - ./mongo1/db:/data/db
     - ./mongo1/log:/var/log/mongodb
     restart: always
-    command: ["--replSet", "workabroad-replica-set", "--bind_ip_all"]
+    command: ["--replSet", "eagleeyejobs-replica-set", "--bind_ip_all"]
     #healthcheck:
-    #  test: test $$(echo "rs.initiate({_id:'workabroad-replica-set',members:[{_id:0,host:\"mongo1:30001\"},{_id:1,host:\"mongo2:30002\"}]}).ok || rs.status().ok" | mongo --port 30001 --quiet) -eq 1
-    #  interval: 10s
-    #  start_period: 30s
 
   mongo2:
     hostname: mongo2
@@ -31,86 +25,32 @@ services:
     - ./mongo2/db:/data/db
     - ./mongo2/log:/var/log/mongodb
     restart: always
-    command: ["--replSet", "workabroad-replica-set", "--bind_ip_all"]
+    command: ["--replSet", "eagleeyejobs-replica-set", "--bind_ip_all"]
 
 # finally, we can define the initialization server
 # this runs the `rs.initiate` command to intialize
 # the replica set and connect the three servers to each other
   mongoinit:
-    image: mongo:4.4.0
+    build: ./mongo-init
+    image: mongo-init:latest
     # this container will exit after executing the command
     restart: "no"
     depends_on:
       - mongo1
       - mongo2
-    command: >
-        /bin/sh -c 'RET=1; 
-        until [ $${RET} -eq 0 ]; do 
-        mongo --host mongo1:27017 --eval 
-        "
-        db = (new Mongo(\"localhost:27017\")).getDB(\"test\");
-        config = {
-        \"_id\" : \"workabroad-mongo-set\",
-        \"members\" : [
-          {
-            \"_id\" : 0,
-            \"host\" : \"mongo1:27017\"
-          },
-          {
-            \"_id\" : 1,
-            \"host\" : \"mongo2:27017\"
-          }
-        ]
-        };
-        rs.initiate(config);";
-        RET=$$?;
-        sleep 10;
-        done'
 ##### setting up elastic search docker container
   setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    build: 
+      context: ./elasticsearch/setup
+      args:
+        STACK_VERSION: ${STACK_VERSION}
+    environment:
+      - STACK_VERSION=${STACK_VERSION}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    image: es-setup:latest
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
     user: "0"
-    command: >
-      bash -c '
-        if [ x${ELASTIC_PASSWORD} == x ]; then
-          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
-          exit 1;
-        fi;
-        if [ ! -f config/certs/ca.zip ]; then
-          echo "Creating CA";
-          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
-          unzip config/certs/ca.zip -d config/certs;
-        fi;
-        if [ ! -f config/certs/certs.zip ]; then
-          echo "Creating certs";
-          echo -ne \
-          "instances:\n"\
-          "  - name: es01\n"\
-          "    dns:\n"\
-          "      - es01\n"\
-          "      - localhost\n"\
-          "    ip:\n"\
-          "      - 127.0.0.1\n"\
-          "  - name: es02\n"\
-          "    dns:\n"\
-          "      - es02\n"\
-          "      - localhost\n"\
-          "    ip:\n"\
-          "      - 127.0.0.1\n"\
-          > config/certs/instances.yml;
-          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
-          unzip config/certs/certs.zip -d config/certs;
-        fi;
-        echo "Setting file permissions"
-        chown -R root:root config/certs;
-        find . -type d -exec chmod 750 \{\} \;;
-        find . -type f -exec chmod 640 \{\} \;;
-        echo "Waiting for Elasticsearch availability";
-        until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
-        echo "All done!";
-      '
     healthcheck:
       test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
       interval: 1s
@@ -130,12 +70,12 @@ services:
     environment:
       - node.name=es01
       - cluster.name=${CLUSTER_NAME}
-      - cluster.initial_master_nodes=es01,es02,es03
-      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02
+      - discovery.seed_hosts=es02
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - bootstrap.memory_lock=true
       - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.enabled=false
       - xpack.security.http.ssl.key=certs/es01/es01.key
       - xpack.security.http.ssl.certificate=certs/es01/es01.crt
       - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
@@ -171,8 +111,8 @@ services:
     environment:
       - node.name=es02
       - cluster.name=${CLUSTER_NAME}
-      - cluster.initial_master_nodes=es01,es02,es03
-      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02
+      - discovery.seed_hosts=es01
       - bootstrap.memory_lock=true
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
@@ -200,6 +140,19 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+  mongo-connector:
+    build: 
+      context: ./mongo-connector
+      args:
+        STACK_VERSION: ${STACK_VERSION}
+    environment:
+      - MONGO=mongo1
+      - ELASTICSEARCH=es01
+    image: mongo-connector:latest
+    depends_on:
+      - mongo1
+      - es01
+    tty: true
 
 volumes:
   certs:
