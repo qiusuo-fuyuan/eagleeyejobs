@@ -15,7 +15,11 @@ https://www.apollographql.com/blog/backend/auth/setting-up-authentication-and-au
 There is a docker-compose folder. 
 In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, and mongo-connector which will synchronize the mongo database to elasticsearch. We currently do not have any configuration yet. But will add configuration later. 
 
-docker-compose  -f ./docker-compose-dev.yml up
+
+Before running the docker-compose up, add 127.0.0.1 mongo1 in the /etc/hosts file
+
+
+docker-compose  -f ./docker-compose-dev.yml up. 
 
 
 ## How to debug backend
@@ -75,3 +79,21 @@ To test elasticsearch, install the extention https://marketplace.visualstudio.co
 
 Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside docker-compose/elasticsearch/playground. U can fire request to elasticsearch here.
 
+
+
+rs.reconfig(
+  {
+    "_id" : "eagleeyejobs-replica-set",
+    "members" : [
+    {
+        "_id" : 0,
+        "host" : "mongo1:27017",
+        "priority": 100,
+    }
+    ]
+  },
+  {
+    "force" : true,
+    "maxTimeMS" : 100
+  }
+)
