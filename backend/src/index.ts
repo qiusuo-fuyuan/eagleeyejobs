@@ -63,6 +63,7 @@ let { resolvers } = await import('./resolvers.js');
    resolvers,
    csrfPrevention: true,
    cache: 'bounded',
+   introspection: true,
    plugins: [
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),

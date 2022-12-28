@@ -5,4 +5,4 @@
     "INTERMEDIATE_MEMBERSHIP": ["searchJobs","jobDetail", "allQuestions","questionDetail", "createQuestion","createAnswer"],
     "ADVANCED_MEMBERSHIP": ["searchJobs","jobDetail","allQuestions", "questionDetail", "createQuestion","createAnswer"],
     "RECUITER": ["addJob", "updateJob", "allQuestions","questionDetail"]
-  }
+}
