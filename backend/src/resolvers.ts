@@ -5,7 +5,6 @@ import qaService from "./services/qa/QAService.js";
 import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 
-const jobSearchService =  new JobSearchService();
 export const resolvers = {
     Query: {
         /**

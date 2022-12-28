@@ -19,7 +19,7 @@ In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, and
 Before running the docker-compose up, add 127.0.0.1 mongo1 in the /etc/hosts file
 
 
-docker-compose  -f ./docker-compose-dev.yml up. 
+docker-compose -f docker-compose-dev.yml up --force-recreate --remove-orphans --build
 
 
 ## How to debug backend

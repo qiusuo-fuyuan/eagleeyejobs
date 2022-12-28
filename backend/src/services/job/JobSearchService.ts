@@ -24,3 +24,5 @@ export class JobSearchService {
     }
 
 }
+
+export default new JobSearchService()

@@ -98,6 +98,12 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
+
+# mongo
+**/docker-compose/mongo/**
+
+
+
 # TernJS port file
 .tern-port
 **/package-lock.json
