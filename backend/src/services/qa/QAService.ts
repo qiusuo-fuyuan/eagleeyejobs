@@ -10,6 +10,8 @@ export class QAService {
     // hasPermission
 
     async addQuestion(title: string, content: string, userId: string): Promise<Question> {
+        console.log("createQuestion for user:"+ userId + "title: " + title + "content: "+content)
+        
         return this.questionRepository.save(new Question(title, content, userId))
     }
 

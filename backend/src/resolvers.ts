@@ -33,9 +33,7 @@ export const resolvers = {
         // }, 
 
         allQuestions(_: any, args: any, {user2}:any) {
-            console.log(user2, user2.role)
             permissionService.hasPermission(user2, "allQuestions")
-            console.log("query all questions")
             return qaService.allQuestions()
         }
 
@@ -68,20 +66,13 @@ export const resolvers = {
             return jobService.updateJob(args.job);
         },
 
-        createQuestion(_:any, args: any, {user1}:any) {
-            console.log(user1, user1.role)
-            // console.log(userPermissions)
-            console.log(args.callee.name)
-            permissionService.hasPermission(user1, args.callee.name )
-    
-            console.log("createQuestion:" + args)
-
-
-            // return qaService.addQuestion(args.title, args.content, args.userId)
+        createQuestion(_: any, args: any, {user2}: any, { fieldName }: any) {
+            permissionService.hasPermission(user2, fieldName)
+            return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
-        createAnswer:(_:any, args: any) => { 
-            // permissionService.hasPermission(ctx)
+        createAnswer:(_:any, args: any, {user2}: any, { fieldName }: any) => { 
+            permissionService.hasPermission(user2, fieldName)
             console.log("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
