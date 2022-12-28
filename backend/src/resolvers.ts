@@ -11,6 +11,7 @@ export const resolvers = {
          * Jobs Query Resolvers
          */
         //https://stackoverflow.com/questions/54158775/graphql-schema-query-not-recognizing-passed-input-parameters-in-the-resolver-fun
+
         jobDetail(_: any, args: any) {
             console.log("query job detail jobId:" + args.jobId)
             return jobService.queryJobDetail(args.jobId);
@@ -110,3 +111,25 @@ export const resolvers = {
         }
     }
 };
+
+function patchResolvers(resolvers: any, beforeResolverCheck: any) {
+    // Loop through the Query and Mutation attributes of the resolvers object
+    for (const type of ['Query', 'Mutation']) {
+      const typeResolvers = resolvers[type];
+      // Loop through the attributes of the Query or Mutation object
+      for (const field in typeResolvers) {
+        // Check if the attribute is a function
+        if (typeof typeResolvers[field] === 'function') {
+          // Save a reference to the original function
+          const originalResolver = typeResolvers[field];
+          // Replace the function with a new function that calls the beforeResolverCheck function before executing the original function
+          typeResolvers[field] = function(...args: any[]) {
+            beforeResolverCheck(args);
+            return originalResolver(...args);
+          }
+        }
+      }
+    }
+  }
+
+patchResolvers(resolvers, () => console.log('Before resolver check'));
