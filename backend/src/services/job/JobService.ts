@@ -9,7 +9,7 @@ export class JobService {
     }
 
     async addJob(job: Job): Promise<Job> {
-        return this.jobRepository.createJob(job)
+        return this.jobRepository.save(job)
     }
 
     async updateJob(job: Job): Promise<Job> {

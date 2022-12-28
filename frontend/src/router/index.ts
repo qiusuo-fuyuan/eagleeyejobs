@@ -9,6 +9,16 @@ const router = createRouter({
       component: () => import('../pages/JobSearch.vue')
     },
     {
+      path: '/forum',
+      name: 'forum',
+      component: () => import('../pages/Forum.vue')
+    },
+    {
+      path: '/question/:questionId',
+      name: 'question',
+      component: () => import('../pages/QuestionDetail.vue')
+    },
+    {
       path: '/job/:jobId',
       name: 'job',
       component: () => import('../pages/JobDetails.vue')

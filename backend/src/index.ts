@@ -12,6 +12,7 @@ import express  from 'express';
 
 import http from 'http';
 
+
 /**
  * Here, js ending has to be used, and the problem is reported here.
  * Currently no idea why the index.ts has to specify the js as ending. It could be
@@ -22,6 +23,7 @@ import http from 'http';
 
 import { MongoClient } from './core/db/MongoClient.js'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import { Socket } from 'dgram';
 
 
 dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
@@ -65,6 +67,23 @@ let { resolvers } = await import('./resolvers.js');
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
    ],
+   context: () => {
+    const user1 = {
+      "_id": "63986378f4f079160d6949ee",
+      "email": "",
+      "name": "Steven",
+      "gender": 1,
+      "role": "TEMPORARY_USER"
+    }
+    const user2 = {
+      "_id": "639862eff4f079160d6949ea",
+      "email": "kevin@google.com",
+      "name": "Kevin",
+      "gender": 1,
+      "role": "ENTRY_MEMBERSHIP"
+    }
+    return { user1, user2 };
+   }
  });
 
  // More required logic for integrating with Express

@@ -19,12 +19,14 @@ type MemberShipStatus {
 }
 
 type User {
+  _id: String!
   email: String
   name: String
   nickName: String
   firstName: String
   lastName: String
-  gender: String
+  # gender: String
+  gender: Int
   platform: String
   companyName: String
   role: UserType
@@ -36,19 +38,18 @@ input UserRegistrationInput {
   firstName: String
   lastName: String
   companyName: String
-    
 }
 
 type Job {
-    _id: String!
-    title: String!
-    description: String
-    companyName: String!
-    country: String!
-    city: String!
-    address: String
-    createdAt: String
-    updatedAt: String
+  _id: String!
+  title: String!
+  description: String
+  companyName: String!
+  country: String!
+  city: String!
+  address: String
+  createdAt: String
+  updatedAt: String
 }
 
 input JobInput {
@@ -69,7 +70,7 @@ input JobUpdate {
   city: String
   address: String
 }
-  
+
 type JobSearchPagingResult {
   jobs: [Job]
   pageSize: Int
@@ -77,13 +78,42 @@ type JobSearchPagingResult {
   totalCount: Int
 }
 
+type Question {
+  _id: String
+  title: String
+  content: String
+  answers: [Answer]
+  user: User
+}
+
+type Answer {
+  _id: String
+  content: String
+  comments: [Comment]
+  user: User
+}
+
+type Comment {
+  _id: String
+  content: String
+  user: User
+}
+
+
 type Query {
   ### Job related
   searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
   jobDetail(jobId: String!): Job
 
+  ### Question related
+  questionDetail(questionId: String!): Question
+  allQuestions:[Question]
+
   ### Registration related
   requestLoginQrCodeImage(provider: String): String
+
+  ### User related
+  queryUserDetail(userId: String!): User
 }
 
 type Mutation {
@@ -92,6 +122,19 @@ type Mutation {
   updateJob(job: JobUpdate): Job
   removeJob(jobId: String!): Job
 
+  ### Question related
+  createQuestion(title: String, content: String, userId: String): Question
+  createAnswer(content: String, userId: String, questionId: String!): Question
+
   ### Registration related
   registerNewUser: String
+
+  ### User related
+  createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
+}
+
+type createQuestionInput {
+  title: String,
+  content: String,
+  userId: String
 }

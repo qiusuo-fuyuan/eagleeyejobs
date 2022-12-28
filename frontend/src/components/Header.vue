@@ -9,6 +9,9 @@
           <router-link to="/referral">{{ $t("message.header.menu.referral") }}</router-link>
         </li>
         <li>
+          <router-link to="/forum">{{ $t("message.header.menu.forum") }}</router-link>
+        </li>
+        <li>
           <router-link to="/aboutUs">{{ $t("message.header.menu.aboutUs") }}</router-link>
         </li>
       </ul>

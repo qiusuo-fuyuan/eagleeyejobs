@@ -1,3 +1,4 @@
+import { stringify } from "querystring"
 import { MongoClient } from "../core/db/MongoClient.js"
 
 export class BaseRepository<T> {
@@ -13,11 +14,6 @@ export class BaseRepository<T> {
         return this.documentModel.findById(id)
     }
 
-    public save(obj: T): Promise<T> {
-        const newDocumentModel = new this.documentModel(obj)
-        return newDocumentModel.save()
-    }
-
     public find(keyValues: {[key: string]: any}): Promise<Array<T>> {
         return this.documentModel.find(keyValues)
     }
@@ -25,6 +21,21 @@ export class BaseRepository<T> {
     public findOne(keyValues: {[key: string]: any}): Promise<T> {
         return this.documentModel.findOne(keyValues)
     }
+
+    public findAll(): Promise<Array<T>> {
+        return this.documentModel.find()
+    }
+
+    public save(obj: T): Promise<T> {
+        let newDocument = new this.documentModel(obj)
+        return newDocument.save()
+    }
+
+    // public updateById(id: string, keyValues: {[key: string]: any} ): Promise<T> {
+    //     console.log("inside updateByID:" + id + "keyvalues" + ":" + keyValues)
+    //     return this.documentModel.findByIdAndUpdate(id, keyValues)
+    // }
+
     private getDocumentModel(schemaName: string): any {
         return this.mongoClient.getDocumentModel(schemaName)
     }

@@ -9,7 +9,7 @@ export class UserService {
     }
 
     async addUser(user: User): Promise<User> {
-        return this.userRepository.createUser(user)
+        return this.userRepository.save(user)
     }
 
     async queryUserDetail(userId: string): Promise<User> {
@@ -17,3 +17,4 @@ export class UserService {
     }
 }
 
+export default new UserService()
