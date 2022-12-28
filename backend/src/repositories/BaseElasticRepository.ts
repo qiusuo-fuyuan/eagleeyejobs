@@ -1,11 +1,11 @@
-import { EsClient } from "../search/es/EsClient.js";
+import { ElasticClient } from "../search/es/ElasticClient.js";
 import { Client } from '@elastic/elasticsearch'
 
-export class BaseEsRepository<T> {
-    private esClient: Client = EsClient.getClient()
+export class BaseElasticRepository<T> {
+    private elasticClient: Client = ElasticClient.getClient()
 
     public async search(index: string, queryBody: any): Promise<Array<T>> {
-        let response = await this.esClient.search<SearchResponse<T>>({
+        let response = await this.elasticClient.search<SearchResponse<T>>({
             index: index,
             body: queryBody
         })

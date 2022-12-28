@@ -1,8 +1,5 @@
 import { UserPermission, readUserPermissions } from './UserPermissions.js'
 import { User } from '../../models/User.js'
- 
-// import { join } from 'path';
-
 export class PermissionService {
     private userPermissions: UserPermission;
 
