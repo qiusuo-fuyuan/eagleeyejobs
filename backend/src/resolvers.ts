@@ -67,12 +67,10 @@ export const resolvers = {
         },
 
         createQuestion(_: any, args: any, {user2}: any, { fieldName }: any) {
-            permissionService.hasPermission(user2, fieldName)
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
         createAnswer:(_:any, args: any, {user2}: any, { fieldName }: any) => { 
-            permissionService.hasPermission(user2, fieldName)
             console.log("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
@@ -114,13 +112,15 @@ function patchResolvers(resolvers: any, beforeResolverCheck: any) {
           // Save a reference to the original function
           const originalResolver = typeResolvers[field];
           // Replace the function with a new function that calls the beforeResolverCheck function before executing the original function
-          typeResolvers[field] = function(...args: any[]) {
-            beforeResolverCheck(args);
-            return originalResolver(...args);
+          typeResolvers[field] = function(source: any, args: any, context: any, info: any) {
+            beforeResolverCheck(source, args, context, info);
+            return originalResolver(source, args, context, info);
           }
         }
       }
     }
-  }
+}
 
-patchResolvers(resolvers, () => console.log('Before resolver check'));
+let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user1, info.fieldName)
+
+patchResolvers(resolvers, permissionCheckBeforeResolver)
