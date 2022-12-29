@@ -1,10 +1,11 @@
-import { BaseEsRepository } from "./BaseEsRepository.js"
+import { BaseElasticRepository } from "./BaseElasticRepository.js"
 import { Job, JobDocumentSchemaDefinition } from "../models/Job.js"
 
-export class JobSearchRepository extends BaseEsRepository<Job>{
+export class JobSearchRepository extends BaseElasticRepository<Job>{
 
     /**
      * Search jobs in Elastic Search
+     * 
      * @param queryBody : Your query Json
      */
     public async search(queryBody: any): Promise<Array<Job>> {

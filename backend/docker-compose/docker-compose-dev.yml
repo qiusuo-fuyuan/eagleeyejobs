@@ -89,19 +89,13 @@ services:
       timeout: 10s
       retries: 120
 
-  mongo-connector:
-    build: 
-      context: ./mongo-connector
-      args:
-        STACK_VERSION: ${STACK_VERSION}
-    environment:
-      - MONGO=mongo1
-      - ELASTICSEARCH=es01
-    image: mongo-connector:latest
+  monstache:
+    build: ./monstache
+    image: eagleeyejobs-monstache:latest
     depends_on:
       - mongo1
       - es01
-    tty: true
+
 
 volumes:
   certs:
