@@ -5,7 +5,7 @@ export class UserRepository extends BaseRepository<User> {
 
     constructor() {
         super(UserDocumentSchemaDefinition.name)
-    }
+    }    
 }
 
 

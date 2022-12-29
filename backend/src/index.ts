@@ -8,7 +8,7 @@ import {
 import { readFileSync }  from 'fs';
 import { join } from 'path';
 
-import express  from 'express';
+import express, { Request, Response }  from 'express';
 
 import http from 'http';
 
@@ -23,8 +23,6 @@ import http from 'http';
 
 import { MongoClient } from './core/db/MongoClient.js'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import { Socket } from 'dgram';
-
 
 dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
 
@@ -57,6 +55,9 @@ let { resolvers } = await import('./resolvers.js');
 
  // Same ApolloServer initialization as before, plus the drain plugin
  // for our httpServer.
+
+ let { getAuthenticatedUserFromToken } = await import('./middleware/JWTAuthenticationValidationMiddleware.js');
+
  const server = new ApolloServer({
    typeDefs,
    // mocks: true,
@@ -68,23 +69,7 @@ let { resolvers } = await import('./resolvers.js');
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
    ],
-   context: () => {
-    const user1 = {
-      "_id": "63986378f4f079160d6949ee",
-      "email": "",
-      "name": "Steven",
-      "gender": 1,
-      "role": "TEMPORARY_USER"
-    }
-    const user2 = {
-      "_id": "639862eff4f079160d6949ea",
-      "email": "kevin@google.com",
-      "name": "Kevin",
-      "gender": 1,
-      "role": "ENTRY_MEMBERSHIP"
-    }
-    return { user1, user2 };
-   }
+   context: async ({req, res}: {req: Request, res: Response}) => { getAuthenticatedUserFromToken(req, res) } 
  });
 
  // More required logic for integrating with Express

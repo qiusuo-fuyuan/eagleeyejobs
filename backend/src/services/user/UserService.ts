@@ -12,8 +12,16 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
-    async queryUserDetail(userId: string): Promise<User> {
+    async getUserById(userId: string): Promise<User> {
         return this.userRepository.findById(userId)
+    }
+
+    async getAnonymousUser(): Promise<User> {
+        return this.userRepository.findOne({name: "Anonymous"});
+    }
+
+    async getAdminUser(): Promise<User> {
+        return this.userRepository.findOne({name: "Admin"});
     }
 }
 

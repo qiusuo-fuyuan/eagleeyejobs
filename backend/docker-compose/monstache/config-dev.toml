@@ -29,7 +29,7 @@ gzip = true
 # generate indexing statistics
 stats = true
 # index statistics into Elasticsearch
-index-stats = true
+index-stats = false
 # use the following user name for Elasticsearch basic auth
 elasticsearch-user = "elastic"
 # use the following password for Elasticsearch basic auth

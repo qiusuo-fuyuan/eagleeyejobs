@@ -96,7 +96,7 @@ export const resolvers = {
          */
         user: (parent:any, args: any) => {
             console.log("question's user: "+ args)
-            return userService.queryUserDetail(parent.userId)
+            return userService.getUserById(parent.userId)
         }
     }
 };
@@ -123,4 +123,4 @@ function patchResolvers(resolvers: any, beforeResolverCheck: any) {
 
 let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user1, info.fieldName)
 
-patchResolvers(resolvers, permissionCheckBeforeResolver)
+//patchResolvers(resolvers, permissionCheckBeforeResolver)

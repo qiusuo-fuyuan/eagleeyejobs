@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch'
 import util  from 'util'
 
-export class EsClient {
+export class ElasticClient {
     private static client: Client
 
     public static getClient() {

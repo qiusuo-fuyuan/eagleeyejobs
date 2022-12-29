@@ -8,3 +8,7 @@ export function generateJwtToken(userId: string): string {
 export function decodeJwtToken(jwtToken: string): string {
     return  jwt.decode(jwtToken) as string
 }
+
+export function verifyJwtToken(jwtToken: string):  void {
+    jwt.verify(jwtToken, process.env.JWT_TOKEN_SECRET)
+}
