@@ -16,16 +16,16 @@ There is a docker-compose folder.
 In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, and mongo-connector which will synchronize the mongo database to elasticsearch. We currently do not have any configuration yet. But will add configuration later. 
 
 
-Before running the docker-compose up, add 127.0.0.1 mongo1 in the /etc/hosts file
-
+Before running the docker-compose up, add "127.0.0.1 mongo1" in the /etc/hosts both MAC and Linux file
 
 docker-compose -f docker-compose-dev.yml up --force-recreate --remove-orphans --build
-
-
 
 ## initialize database
 
 we need to populate some initial data for the database, such as admin, anonymous users. Run the command "npm run initialize:dev" before starting server
+
+If you want to add more users, u can do it from the users.json file. U can also update the roles of some users after u performed wechat login process. In this way, u can test the permissions of different roles.
+
 
 ## How to debug backend
 
@@ -67,7 +67,6 @@ http://localhost:5000/connect/confirm?uuid=0215MUmK2z350w3w
 After opening the link. the qrcode page will show as scanned. 
 
 Now click the confirmed button.  The qrcode page will redirect to authorizationCallback and return the jwtToken.
-
 
 
 ## ElasticSearch
