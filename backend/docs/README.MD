@@ -22,6 +22,11 @@ Before running the docker-compose up, add 127.0.0.1 mongo1 in the /etc/hosts fil
 docker-compose -f docker-compose-dev.yml up --force-recreate --remove-orphans --build
 
 
+
+## initialize database
+
+we need to populate some initial data for the database, such as admin, anonymous users. Run the command "npm run initialize:dev" before starting server
+
 ## How to debug backend
 
 U have to use vscode
