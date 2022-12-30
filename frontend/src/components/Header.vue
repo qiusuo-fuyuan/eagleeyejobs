@@ -14,6 +14,9 @@
         <li>
           <router-link to="/aboutUs">{{ $t("message.header.menu.aboutUs") }}</router-link>
         </li>
+        <li>
+          <router-link to="/login">{{ $t("message.header.menu.login") }}</router-link>
+        </li>
       </ul>
   </div>
 </template>

@@ -9,7 +9,8 @@ export const messages = {
                     job: 'Job',
                     referral: 'Referral',
                     forum: 'Forum',
-                    aboutUs: 'aboutUs'
+                    aboutUs: 'aboutUs',
+                    login: 'login'
                 }
             },
             page: {
@@ -30,7 +31,8 @@ export const messages = {
                     job: '职位',
                     referral: '内推',
                     forum: '论坛',
-                    aboutUs: '关于我们'
+                    aboutUs: '关于我们',
+                    login: '登录'
                 }
             },
             page: {
