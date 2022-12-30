@@ -5,7 +5,6 @@ import { BackendError, ErrorCodeEnum } from "../utils/error/ErrorCode.js";
 import * as JwtUtil from "../utils/jwt/JwtUtil.js";
 import { isIntrospectionQuery } from "../utils/Utils.js";
 
-//https://github.com/apollographql/apollo-server/issues/3600
 export async function getAuthenticatedUserFromToken(req: Request, res: Response) {
     /*introspection query is only used during development. For PROD, introspection is turned off. This if is used to 
       make local development easier
@@ -20,21 +19,26 @@ export async function getAuthenticatedUserFromToken(req: Request, res: Response)
         // Split the header into an array containing the type and the token
         const parts = authorizationHeader.split(' ');
         const type = parts[0];
-        const jwtToken = parts[1];
-        let userId;
-    
+        const jwtToken = parts[1];    
         if (type === 'Bearer') {
-          // If the type is "Bearer", extract the token
-          let jwtPayload: JwtPayload | string =  JwtUtil.verifyJwtToken(jwtToken)
+          /**
+           * there are multiple exceptions this verify function might throw. Please refer to this file
+           * /node_modules/jsonwebtoken/verify.js
+           */
+          let jwtPayload: JwtPayload =  JwtUtil.verifyJwtToken(jwtToken) as JwtPayload
           
-          if(userId === undefined) {
+          if(jwtPayload['userId'] ) {
+            return  await userService.getUserById(jwtPayload['userId']);   
+          } 
+          else {
             return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
           }
-          return  await userService.getUserById(userId);   
-        } else {
+        } 
+        else {
             return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
         }
-    } else {
+    } 
+    else {
         return await userService.getAnonymousUser()
     }
 }

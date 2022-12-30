@@ -49,14 +49,14 @@ run mock server
 npm run start:mock
 
 open the link in browser
-http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our mockserver
+http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our wechat-mockserver
 
-http://localhost:4000/connect/qrconnect?appId=djl%C3%B6ajfdlkasjfoidwquroei%C3%B6dfsa&redirect_url=%2FauthorizeCallback%3Fprovider%3Dwechat&response_type=code&scope=snsapi_login&state=b1f50b74-18ce-4870-9066-170ff35c6fc9
+http://localhost:5000/connect/qrconnect?appId=djl%C3%B6ajfdlkasjfoidwquroei%C3%B6dfsa&redirect_url=%2FauthorizeCallback%3Fprovider%3Dwechat&response_type=code&scope=snsapi_login&state=b1f50b74-18ce-4870-9066-170ff35c6fc9
 
 
 directly open this url in browser. It will show the qrcode for login. This qrcode contains a link. But we can open the link directly from another tab to simulate user scans.
 
-http://localhost:4000/connect/confirm?uuid=0215MUmK2z350w3w
+http://localhost:5000/connect/confirm?uuid=0215MUmK2z350w3w
 
 
 After opening the link. the qrcode page will show as scanned. 

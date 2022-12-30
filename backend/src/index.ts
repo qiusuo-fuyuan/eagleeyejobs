@@ -69,7 +69,10 @@ let { resolvers } = await import('./resolvers.js');
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
    ],
-   context: async ({req, res}: {req: Request, res: Response}) => { user: await getAuthenticatedUserFromToken(req, res) } 
+   context: async ({req, res}: {req: Request, res: Response}) => { 
+      let user =  await getAuthenticatedUserFromToken(req, res)
+      return { user }
+    } 
  });
 
  // More required logic for integrating with Express
