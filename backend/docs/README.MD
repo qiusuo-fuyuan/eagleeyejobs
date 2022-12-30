@@ -78,22 +78,3 @@ We should use volume for all docker container data
 To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic. 
 
 Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside docker-compose/elasticsearch/playground. U can fire request to elasticsearch here.
-
-
-
-rs.reconfig(
-  {
-    "_id" : "eagleeyejobs-replica-set",
-    "members" : [
-    {
-        "_id" : 0,
-        "host" : "mongo1:27017",
-        "priority": 100,
-    }
-    ]
-  },
-  {
-    "force" : true,
-    "maxTimeMS" : 100
-  }
-)

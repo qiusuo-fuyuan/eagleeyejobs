@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import { join } from "path";
-import { WechatServerResponse, WeChatUserInfo } from "../core/thirdparty/wechat/DataTypes.js";
-import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH } from "../core/thirdparty/wechat/WeChatConstants.js";
-import { activeAuthorizationSessions, USER_AUTHORIZATION_STATE } from "./mockData.js";
+import { WechatServerResponse, WeChatUserInfo } from "../mockserver/dataType.js";
+import { CHECK_ACCESS_TOKEN_VALIDITY_PATH, REQUEST_ACCESS_TOKEN_PATH, REQUEST_REFRESH_TOKEN_PATH, REQUEST_USER_INFO_PATH } from "../mockserver/weChatConstants.js";
+import { activeAuthorizationSessions, USER_AUTHORIZATION_STATE } from "../mockserver/mockData.js";
 
 const accessToken: WechatServerResponse = { 
     access_token:"234ljdflöajflödsafd", 
@@ -55,7 +55,7 @@ weChatMockServerRouter.use("/connect/confirm", function (req: Request, res: Resp
 
   if(confirmed === undefined) {
     activeAuthorizationSessions[uuid] = USER_AUTHORIZATION_STATE.SCANNED
-    res.render(join(process.cwd(), "src/mockserver/wechatUserConfirm.html"), {uuid: uuid, confirmed: true});    
+    res.render(join(process.cwd(), "src/assets/html/wechatUserConfirm.html"), {uuid: uuid, confirmed: true});    
   }  
   else if(confirmed){
     activeAuthorizationSessions[uuid] = USER_AUTHORIZATION_STATE.CONFIRMED
@@ -75,12 +75,12 @@ weChatMockServerRouter.use("/a/wx_fed/assets/res/:imageId", function (req: Reque
 
 weChatMockServerRouter.use("/connect/qrcode/:imageId", function (req: Request, res: Response) {
   const imageId = req.params.imageId as string
-  res.sendFile(join(process.cwd(), "src/mockserver/"+ imageId +".svg"));    
+  res.sendFile(join(process.cwd(), "src/assets/images/"+ imageId +".svg"));    
 })
 
 
 weChatMockServerRouter.use("/connect/qrconnect", function (req: Request, res: Response) {
-  res.render(join(process.cwd(), "src/mockserver/wechatOpenConnect.html"));    
+  res.render(join(process.cwd(), "src/assets/html/wechatOpenConnect.html"));    
 })
 
 
@@ -121,5 +121,3 @@ weChatMockServerRouter.use(REQUEST_USER_INFO_PATH, function (req: Request, res: 
 });
 
 export default weChatMockServerRouter
-
-
