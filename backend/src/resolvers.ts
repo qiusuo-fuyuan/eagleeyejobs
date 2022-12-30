@@ -96,7 +96,7 @@ export const resolvers = {
          */
         user: (parent:any, args: any) => {
             console.log("question's user: "+ args)
-            return userService.getUserById(parent.userId)
+            return userService.getUserByUserId(parent.userId)
         }
     }
 };

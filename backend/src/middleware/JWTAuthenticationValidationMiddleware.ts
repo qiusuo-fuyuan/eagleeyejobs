@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import  JsonWebTokenError, { JwtPayload }  from "jsonwebtoken";
+import { User } from "../models/User.js";
 import userService, { UserService } from "../services/user/UserService.js";
 import { BackendError, ErrorCodeEnum } from "../utils/error/ErrorCode.js";
 import * as JwtUtil from "../utils/jwt/JwtUtil.js";
@@ -27,11 +28,13 @@ export async function getAuthenticatedUserFromToken(req: Request, res: Response)
            */
           let jwtPayload: JwtPayload =  JwtUtil.verifyJwtToken(jwtToken) as JwtPayload
           
-          if(jwtPayload['userId'] ) {
-            return  await userService.getUserById(jwtPayload['userId']);   
+          let userId = jwtPayload['userId']
+          if( userId === undefined) {
+            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
           } 
           else {
-            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
+            let user: User =  await userService.getUserByUserId(userId);  
+            return user; 
           }
         } 
         else {

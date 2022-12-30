@@ -5,8 +5,15 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
     name: "User",
     tableName: 'user',
     schemaDefinition: {
-        id: String,
-        email: String,
+        userId: {
+            type: String,
+            unique: true,
+            index: true
+        },
+        email: {
+            type: String,
+            unique: true 
+        },
         name: String,
         nickName: String,
         firstName: String,
@@ -19,11 +26,13 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
 }
 
 export enum UserType {
-    RECRUITER, 
-    TEMPORARY_USER, 
-    ENTRY_MEMBERSHIP, 
-    INTERMEDIATE_MEMBERSHIP,
-    ADVANCED_MEMBERSHIP,
+    RECRUITER = "RECRUITER",
+    NORMAL_USER = "NORMAL_USER", 
+    ENTRY_MEMBERSHIP = "ENTRY_MEMBERSHIP", 
+    INTERMEDIATE_MEMBERSHIP = "INTERMEDIATE_MEMBERSHIP",
+    ADVANCED_MEMBERSHIP = "ADVANCED_MEMBERSHIP",
+    ANONYMOUS = "ANONYMOUS",
+    ADMIN = "ADMIN"
 }
 
 export class MemberShipStatus {
@@ -42,7 +51,7 @@ export class User {
      * user email will be set as the ID. For wechat, or alipay users, we will set this value
      * as as the openid
      */
-    id: string
+    userId: string
     email: string
     name: string
     gender: number

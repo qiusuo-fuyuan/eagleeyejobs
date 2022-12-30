@@ -11,8 +11,8 @@ const readUsersFromFile = (usersJsonFile: string): User[] => {
   
     for (const user of json.users) {
       users.push({
-        id: user["id"] as string,
-        email: user["email"] as string,
+        userId: user.userId as string,
+        email: user.email as string,
         gender: user.gender as number,
         name: user.name as string,
         role: user.role as UserType
@@ -26,6 +26,6 @@ const readUsersFromFile = (usersJsonFile: string): User[] => {
 export const populateInitialUsers = async (usersJsonFile: string) => {
     const users: User[] = readUsersFromFile(usersJsonFile)
     for (const user of users) {
-      await userService.addUser(user);
+      await userService.addUser(user)
     }
 };

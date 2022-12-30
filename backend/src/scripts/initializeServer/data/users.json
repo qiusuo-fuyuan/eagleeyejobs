@@ -1,18 +1,18 @@
 {
     "users": [
       {
-        "id": "anonymous@example.com",
+        "userId": "anonymous",
         "email": "anonymous@example.com",
         "gender": "1",
         "name": "anonymous",
-        "role": "Anonymous"
+        "role": "ANONYMOUS"
       },
       {
-        "id": "admin@example.com",
+        "userId": "admin",
         "email": "admin@example.com",
         "gender": "1",
-        "name": "admin",
-        "role": "Admin"
+        "name": "admin-hulala",
+        "role": "ADMIN"
       }
     ]
 }

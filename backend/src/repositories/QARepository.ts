@@ -16,9 +16,7 @@ export class QuestionRepository extends BaseRepository<Question>{
                 userId: userId}
             }
         }
-        console.log("filter: ", filter)
-        console.log("update: ", update)
-
+        console.log("filter: ", filter, "update: ", update)
         return this.documentModel.findOneAndUpdate(filter, update, {new:true})
     }
 }

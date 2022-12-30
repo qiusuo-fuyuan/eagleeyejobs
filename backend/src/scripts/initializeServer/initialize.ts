@@ -15,6 +15,6 @@ mongoClient.init()
 
 let { populateInitialUsers } = await import( './populateInitialUsers.js')
 //initialize users
-await populateInitialUsers("src/scripts/server/data/users.json")
+await populateInitialUsers("src/scripts/initializeServer/data/users.json")
 
 mongoClient.disconnect()
