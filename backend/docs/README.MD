@@ -22,6 +22,11 @@ Before running the docker-compose up, add 127.0.0.1 mongo1 in the /etc/hosts fil
 docker-compose -f docker-compose-dev.yml up --force-recreate --remove-orphans --build
 
 
+
+## initialize database
+
+we need to populate some initial data for the database, such as admin, anonymous users. Run the command "npm run initialize:dev" before starting server
+
 ## How to debug backend
 
 U have to use vscode
@@ -45,18 +50,18 @@ npm run start:mock
 
 Our mockserver contains the functionality for mocking wechat for local development. How to test
 
-run mock server
-npm run start:mock
+git clone git@github.com:qiusuo-fuyuan/thirdparty-mockserver.git
+npm install && npm run start =>  will start wechat-mockserver. By default wechat-mockserver listens on 5000
 
 open the link in browser
-http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our mockserver
+http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our wechat-mockserver
 
-http://localhost:4000/connect/qrconnect?appId=djl%C3%B6ajfdlkasjfoidwquroei%C3%B6dfsa&redirect_url=%2FauthorizeCallback%3Fprovider%3Dwechat&response_type=code&scope=snsapi_login&state=b1f50b74-18ce-4870-9066-170ff35c6fc9
+http://localhost:5000/connect/qrconnect?appId=djl%C3%B6ajfdlkasjfoidwquroei%C3%B6dfsa&redirect_url=%2FauthorizeCallback%3Fprovider%3Dwechat&response_type=code&scope=snsapi_login&state=b1f50b74-18ce-4870-9066-170ff35c6fc9
 
 
 directly open this url in browser. It will show the qrcode for login. This qrcode contains a link. But we can open the link directly from another tab to simulate user scans.
 
-http://localhost:4000/connect/confirm?uuid=0215MUmK2z350w3w
+http://localhost:5000/connect/confirm?uuid=0215MUmK2z350w3w
 
 
 After opening the link. the qrcode page will show as scanned. 
@@ -78,22 +83,3 @@ We should use volume for all docker container data
 To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic. 
 
 Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside docker-compose/elasticsearch/playground. U can fire request to elasticsearch here.
-
-
-
-rs.reconfig(
-  {
-    "_id" : "eagleeyejobs-replica-set",
-    "members" : [
-    {
-        "_id" : 0,
-        "host" : "mongo1:27017",
-        "priority": 100,
-    }
-    ]
-  },
-  {
-    "force" : true,
-    "maxTimeMS" : 100
-  }
-)

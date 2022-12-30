@@ -2,7 +2,7 @@ import { Request } from "express";
 import crypto from 'crypto';
 import { WeChatUserInfo } from "../../../core/thirdparty/wechat/DataTypes.js";
 import wechatGateway, { WeChatAPIGateway } from "../../../core/thirdparty/wechat/WeChatAPIGateway.js";
-import { User } from "../../../models/User.js";
+import { User, UserType } from "../../../models/User.js";
 import userRepository, {UserRepository} from "../../../repositories/UserRepository.js";
 import { ThirdPartyUserLoginStrategy } from "./ThirdPartyUserLoginStrategy.js";
 
@@ -40,8 +40,10 @@ export class WeChatUserLoginStrategy implements ThirdPartyUserLoginStrategy {
         if (wechatUserInDB == null) {
             const newWeChatUser = new User()
             newWeChatUser.platform = "wechat"
+            newWeChatUser.userId = wechatUserInfo.openid
             newWeChatUser.openid = wechatUserInfo.openid
             newWeChatUser.gender = wechatUserInfo.sex
+            newWeChatUser.role = UserType.NORMAL_USER
             newWeChatUser.nickName = wechatUserInfo.nickname
             wechatUserInDB = await this.userRepository.save(newWeChatUser)
         }

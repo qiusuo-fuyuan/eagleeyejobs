@@ -1,14 +1,47 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
+import  JsonWebTokenError, { JwtPayload }  from "jsonwebtoken";
+import { User } from "../models/User.js";
+import userService, { UserService } from "../services/user/UserService.js";
 import { BackendError, ErrorCodeEnum } from "../utils/error/ErrorCode.js";
-import jwtTokenValidator from "../validators/jwt/JwtTokenValidator.js";
+import * as JwtUtil from "../utils/jwt/JwtUtil.js";
+import { isIntrospectionQuery } from "../utils/Utils.js";
 
-export async function jwtAuthenticationValidationMiddleware(req: Request, res: Response, next: NextFunction) {
-    const jwtToken = req.headers.authorization
-    const isTokenValid = await jwtTokenValidator.isTokenValid(jwtToken)
+export async function getAuthenticatedUserFromToken(req: Request, res: Response) {
+    /*introspection query is only used during development. For PROD, introspection is turned off. This if is used to 
+      make local development easier
+    */
+    if(isIntrospectionQuery(req)) {
+      return await userService.getAnonymousUser()
+    }
     
-    if(isTokenValid) {
-        next()
-    } else {
-        next(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
+    const authorizationHeader = req.headers.authorization
+
+    if (authorizationHeader) {
+        // Split the header into an array containing the type and the token
+        const parts = authorizationHeader.split(' ');
+        const type = parts[0];
+        const jwtToken = parts[1];    
+        if (type === 'Bearer') {
+          /**
+           * there are multiple exceptions this verify function might throw. Please refer to this file
+           * /node_modules/jsonwebtoken/verify.js
+           */
+          let jwtPayload: JwtPayload =  JwtUtil.verifyJwtToken(jwtToken) as JwtPayload
+          
+          let userId = jwtPayload['userId']
+          if( userId === undefined) {
+            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
+          } 
+          else {
+            let user: User =  await userService.getUserByUserId(userId);  
+            return user; 
+          }
+        } 
+        else {
+            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
+        }
+    } 
+    else {
+        return await userService.getAnonymousUser()
     }
 }

@@ -39,6 +39,14 @@ export class MongoClient {
     }
 
     /**
+     * Disconnect mongoose with mongodb server
+     */
+    async disconnect() {
+        await mongoose.disconnect()
+        console.log("disconnected mongodb successfully")
+    }
+
+    /**
      * get the docuemnt model by the schema name
      * 
      * @param schemaName 

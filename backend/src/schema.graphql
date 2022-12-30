@@ -1,9 +1,11 @@
 enum UserType {
   RECRUITER
-  TEMPORARY_USER
+  NORMAL_USER
   ENTRY_MEMBERSHIP
   INTERMEDIATE_MEMBERSHIP
   ADVANCED_MEMBERSHIP
+  ANONYMOUS
+  ADMIN
 }
 
 enum UserPlatform {
@@ -19,7 +21,9 @@ type MemberShipStatus {
 }
 
 type User {
-  _id: String!
+  _id: String! #mongodb internal id
+  
+  userId: String!
   email: String
   name: String
   nickName: String
