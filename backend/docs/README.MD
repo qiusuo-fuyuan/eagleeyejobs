@@ -50,8 +50,8 @@ npm run start:mock
 
 Our mockserver contains the functionality for mocking wechat for local development. How to test
 
-run mock server
-npm run start:mock
+enter wechat-mockserver
+npm run start =>  will start wechat-mockserver. By default wechat-mockserver listens on 5000
 
 open the link in browser
 http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our wechat-mockserver
