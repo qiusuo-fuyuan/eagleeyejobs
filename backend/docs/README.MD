@@ -69,6 +69,14 @@ After opening the link. the qrcode page will show as scanned.
 Now click the confirmed button.  The qrcode page will redirect to authorizationCallback and return the jwtToken.
 
 
+<<<<<<< Updated upstream
+=======
+## Mongo DB
+install MongoDB  extention https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode
+
+set the mongo endpoint in mongo extention , input mongodb://localhost:27017
+
+>>>>>>> Stashed changes
 ## ElasticSearch
 
 For local development, the http-ssl is disabled      
@@ -81,4 +89,4 @@ We should use volume for all docker container data
 
 To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic. 
 
-Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside docker-compose/elasticsearch/playground. U can fire request to elasticsearch here.
+Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside src/scripts/elastic/playground.es. U can fire request to elasticsearch here.
