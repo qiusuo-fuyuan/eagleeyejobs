@@ -30,7 +30,7 @@ services:
 # finally, we can define the initialization server
 # this runs the `rs.initiate` command to intialize
 # the replica set and connect the three servers to each other
-  mongoinit:
+  mongo-init:
     build: ./mongo-init
     image: mongo-init:latest
     # this container will exit after executing the command
@@ -39,7 +39,7 @@ services:
       - mongo1
       - mongo2
 ##### setting up elastic search docker container
-  setup:
+  es-setup:
     build: 
       context: ./elasticsearch/setup
       args:
@@ -140,19 +140,12 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
-  mongo-connector:
-    build: 
-      context: ./mongo-connector
-      args:
-        STACK_VERSION: ${STACK_VERSION}
-    environment:
-      - MONGO=mongo1
-      - ELASTICSEARCH=es01
-    image: mongo-connector:latest
+  monstache:
+    build: ./monstache
+    image: eagleeyejobs-monstache:latest
     depends_on:
       - mongo1
       - es01
-    tty: true
 
 volumes:
   certs:
