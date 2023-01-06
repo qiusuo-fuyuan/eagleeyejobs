@@ -1,4 +1,5 @@
 # Backend Workflow
+
 Please refer to the Backend diagram.drawoio. This diagram contains major designs of this application
 
 (1) Define the graphql operations in schema.ts.
@@ -12,8 +13,7 @@ https://www.apollographql.com/blog/backend/auth/setting-up-authentication-and-au
 
 ## Start All Docker Containers
 
-There is a docker-compose folder. 
-In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, and mongo-connector which will synchronize the mongo database to elasticsearch. We currently do not have any configuration yet. But will add configuration later. 
+There is a docker-compose folder. In this docker-compose, we setup the mongodb cluster, elasticsearch cluster, an which will synchronize the mongo database to elasticsearch. We currently do not have any configuration yet. But will add configuration later.
 
 
 Before running the docker-compose up, add "127.0.0.1 mongo1" in the /etc/hosts both MAC and Linux file
@@ -32,9 +32,9 @@ If you want to add more users, u can do it from the users.json file. U can also 
 U have to use vscode
 just click the Launch Program
 
-![Debug In VScode](./DebugBackendInVSCode.png)
+ ![Debug In VScode](./DebugBackendInVSCode.png)
 
-![Set breakpoint](./SetDebugBreakPoint.png)
+ ![Set breakpoint](./SetDebugBreakPoint.png)
 
 
 # Mock Server
@@ -64,29 +64,27 @@ directly open this url in browser. It will show the qrcode for login. This qrcod
 http://localhost:5000/connect/confirm?uuid=0215MUmK2z350w3w
 
 
-After opening the link. the qrcode page will show as scanned. 
+After opening the link. the qrcode page will show as scanned.
 
 Now click the confirmed button.  The qrcode page will redirect to authorizationCallback and return the jwtToken.
 
 
-<<<<<<< Updated upstream
-=======
 ## Mongo DB
-install MongoDB  extention https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode
 
+install MongoDB  extention https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode
 set the mongo endpoint in mongo extention , input mongodb://localhost:27017
 
->>>>>>> Stashed changes
 ## ElasticSearch
 
-For local development, the http-ssl is disabled      
-- xpack.security.http.ssl.enabled=false. For production, we should turn it on. 
+For local development, the http-ssl is disabled
+
+* xpack.security.http.ssl.enabled=false. For production, we should turn it on.
 
 We should use volume for all docker container data
 
 
 ### Test ElasticSearch
 
-To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic. 
+To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic.
 
 Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside src/scripts/elastic/playground.es. U can fire request to elasticsearch here.
