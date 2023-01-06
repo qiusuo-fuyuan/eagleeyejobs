@@ -1,6 +1,3 @@
-# 
-
-
 # Description
 
 Currently both backend and frontend exist in the same repository eagleeyejobs.git.
@@ -56,11 +53,9 @@ nvm install v16.13.0 => install node 16.13.0
 nvm use v16.13.0 => this command will use the node 16.13.0
 
 
-
 # Architecture
 
 Please open the diagrams.drawio.png file. This file contains a architecture tab.
-
 
 
 # Installation Guide
@@ -73,12 +68,14 @@ git clone git@github.com:qiusuo-fuyuan/eagleeyejobs.git
 
 Add `"127.0.0.1 mongo1"` to `/etc/hosts`
 
+`cd backend`
+
 Start all docker containers for the first time for local development.
 
 Create docker network, and volume used for this project. With docker volume, even though we recreate the image, the original data still exists
 
 ```bash
-docker-compose -f backend/dock/docker-compose-dev.yml up --force-recreate --remove-orphans --build
+docker-compose -f docker/docker-compose-dev.yml up --force-recreate --remove-orphans --build
 ```
 
 
@@ -112,21 +109,69 @@ Connect to mongodb from vscode
 
 Connect to elasticsearch from vscode
 
+```javascript
+Ctrl+Shift+P => Type ES:Elastic, select ES SetHost => use http://elastic:test1234@127.0.0.1:9200.
+```
 
-For elasticsearch, we have created a playground script inside backend/script/elasticsearch. U can verify whether elasticsearch is reachable from there
+
+For elasticsearch, we have created a playground script inside `/backend/src/scripts/elastic/playground.es`. U can verify whether elasticsearch is reachable from there. There are some test queries as well.
 
 
+# Initialize database
+
+we need to populate some initial data for the database, such as admin, anonymous users. Run the command "`npm run initialize:dev`"
+
+If you want to add more users, u can do it from the users.json file. U can also update the roles of some users
+
+
+# Backend Server
+
+The backend uses dotenv to manage development and production environment. For local development, u can use
+
+`npm run start:dev` to start backend server.
+
+
+## Mock Server
+
+GraphQL provides us with easy mocking for data, based on graphql, backend also provide a mockserver. You can start the mockserver by `npm run start:mock `Mockserver will start to return data from the resolver. It does not call any service.
+
+
+# thirdparty-mockserver
+
+To make local development for login easier, we have created thirdparty-mockserver. Currently it simulates the tencent open platform. It provides API to return  the login QR code, the access_token, refresh_token, wechat user info.
+
+`git clone git@github.com:qiusuo-fuyuan/thirdparty-mockserver.git && npm install && npm run start` =>
+
+By default thirdparty-mockserver listens on 5000
+
+
+Open the link in browser http://localhost:4000/wechat/requestLoginUrl   => the backend will return the qrcode url for wechat. This url is provided by our wechat-mockserver
+
+http://localhost:5000/connect/qrconnect?appId=djl%C3%B6ajfdlkasjfoidwquroei%C3%B6dfsa&redirect_url=%2FauthorizeCallback%3Fprovider%3Dwechat&response_type=code&scope=snsapi_login&state=b1f50b74-18ce-4870-9066-170ff35c6fc9
+
+
+directly open this url in browser. It will show the qrcode for login. This qrcode contains a link. But we can open the link directly from another tab to simulate user scans.
+
+http://localhost:5000/connect/confirm?uuid=0215MUmK2z350w3w
+
+
+After opening the link. the qrcode page will show as scanned.
+
+Now click the confirmed button.  The qrcode page will redirect to authorizationCallback and return the jwtToken.
 
 ## Frontend Installation
 
+The frontend is using vite vue3.
 
-cd frontend && npm install
+`cd frontend && npm install && npm run codegen`
 
+
+codegen will generate the GraphQL types which will be used for graphql queries.
+
+Start frontend server `npm run dev`
 
 
 # Production Deployment
-
-We will deploy main server to two servers. One is “Zhubingqing”,
 
 
 
