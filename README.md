@@ -37,7 +37,7 @@ GitLens: git tools to view the changes  <https://marketplace.visualstudio.com/it
 
 <https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github>
 
-Git
+Git: optional. can be used to view github issues in vscode <https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github>
 
 Markdown Editor: used to easily update README.MD  <https://marketplace.visualstudio.com/items?itemName=patmood.rich-markdown-editor>
 
@@ -72,7 +72,6 @@ Add `"127.0.0.1 mongo1"` to `/etc/hosts`
 
 Start all docker containers for the first time for local development.
 
-Create docker network, and volume used for this project. With docker volume, even though we recreate the image, the original data still exists
 
 ```bash
 docker-compose -f docker-compose/docker-compose-dev.yml up --force-recreate --remove-orphans --build
