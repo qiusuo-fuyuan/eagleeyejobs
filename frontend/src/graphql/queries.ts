@@ -10,7 +10,9 @@ export const WechatLoginUrl = gql`query WechatLoginUrl {
 }`
 
 export const WechatAuthorizationCallback = gql`query WechatAuthorizationCallback($authorizationCode: String!, $state: String!) {
-  wechatAuthorizationCallback(authorizationCode: $authorizationCode, state: $state)
+  wechatAuthorizationCallback(authorizationCode: $authorizationCode, state: $state) {
+    jwtToken
+  }
 }
 `
 

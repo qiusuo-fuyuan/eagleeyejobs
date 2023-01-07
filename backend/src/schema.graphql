@@ -13,8 +13,6 @@ enum ThirdPartyPlatform {
   ALIPAY
 }
 
-
-
 type MemberShipStatus {
   lastPaymentAt: String!
   willExpireAt: String!
@@ -103,6 +101,10 @@ type Comment {
   user: User
 }
 
+type AuthorizationResponse {
+  jwtToken: String!
+}
+
 
 type Query {
   ### Job related
@@ -115,13 +117,13 @@ type Query {
 
   ### Wechat Related
   wechatLoginUrl: String!
-  wechatAuthorizationCallback(authorizationCode: String!, state: String!): String!
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): AuthorizationResponse!
 
   ### google Related
 
 
   ### User related
-  queryUserDetail(userId: String!): User
+  currentUserDetails: User
 }
 
 type Mutation {

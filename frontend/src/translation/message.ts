@@ -7,8 +7,8 @@ export const messages = {
             header: {
                 menu: {
                     job: 'Job',
-                    referral: 'Referral',
                     forum: 'Forum',
+                    stories: 'stories',
                     aboutUs: 'aboutUs',
                     login: 'login'
                 }
@@ -29,8 +29,8 @@ export const messages = {
             header: {
                 menu: {
                     job: '职位',
-                    referral: '内推',
                     forum: '论坛',
+                    stories: '社区故事',
                     aboutUs: '关于我们',
                     login: '登录'
                 }

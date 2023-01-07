@@ -5,7 +5,7 @@ import qaService from "./services/qa/QAService.js";
 import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
-
+import logger from "./utils/Logger.js";
 /**
  * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
  * is really bad
@@ -30,16 +30,16 @@ export const resolvers = {
          * Jobs query resolvers
          */
         jobDetail(_: any, args: any) {
-            console.log("query job detail jobId:" + args.jobId)
+            logger.info("query job detail jobId:" + args.jobId)
             return jobService.queryJobDetail(args.jobId);
         },
 
         searchJobs(_: any, args: any) {
-            console.log("user search job input:" + args.userInput)
+            logger.info("user search job input:" + args.userInput)
             return jobSearchService.searchJobs(args.userInput, args.pageNumber)
         },
         questionDetail(_: any, args: any) {
-            console.log("query question detail questionId:" + args.questionId)
+            logger.info("query question detail questionId:" + args.questionId)
             return qaService.queryQuestionDetail(args.questionId);
         },
 
@@ -70,7 +70,7 @@ export const resolvers = {
          * Jobs Mutation Resolvers
         */
         addJob(_:any, args: any) {
-            console.log("[Mutation] add job:" + args.job)
+            logger.info("[Mutation] add job:" + args.job)
             return jobService.addJob(args.job);
         },
 
@@ -83,7 +83,7 @@ export const resolvers = {
         },
 
         createAnswer:(_:any, args: any, {user2}: any, { fieldName }: any) => { 
-            console.log("createAnswer:" + args.questionId, args.content, args.userId)
+            logger.info("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
 
@@ -107,7 +107,7 @@ export const resolvers = {
          * Question Query Resolvers
          */
         user: (parent:any, args: any) => {
-            console.log("question's user: "+ args)
+            logger.info("question's user: "+ args)
             return userService.getUserByUserId(parent.userId)
         }
     }
