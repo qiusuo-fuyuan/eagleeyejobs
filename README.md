@@ -7,7 +7,7 @@ We are using GraphQL on the backend to interface with the frontend instead of Re
 
 # UI Prototype
 
-The ui prototype currently is in figma. Please open this link to vue the ui protoype. Since we currently still have no UI designer, and the UI prototype also needs to be updated as well according to our development.
+The ui prototype currently is in figma. Please open this link <https://www.figma.com/file/0ToIfqqWl5kw8pey8Rji0A/%E5%BC%80%E6%B6%A6?node-id=0%3A1&t=SxCiBh9pz4SlkolZ-1> to view the ui protoype. Since we currently still have no UI designer, and the UI prototype also needs to be updated as well according to our development.
 
 
 # Business
@@ -37,7 +37,7 @@ GitLens: git tools to view the changes  <https://marketplace.visualstudio.com/it
 
 <https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github>
 
-Git
+Git: optional. can be used to view github issues in vscode <https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github>
 
 Markdown Editor: used to easily update README.MD  <https://marketplace.visualstudio.com/items?itemName=patmood.rich-markdown-editor>
 
@@ -72,10 +72,9 @@ Add `"127.0.0.1 mongo1"` to `/etc/hosts`
 
 Start all docker containers for the first time for local development.
 
-Create docker network, and volume used for this project. With docker volume, even though we recreate the image, the original data still exists
 
 ```bash
-docker-compose -f docker/docker-compose-dev.yml up --force-recreate --remove-orphans --build
+docker-compose -f docker-compose/docker-compose-dev.yml up --force-recreate --remove-orphans --build
 ```
 
 
