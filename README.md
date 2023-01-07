@@ -7,7 +7,7 @@ We are using GraphQL on the backend to interface with the frontend instead of Re
 
 # UI Prototype
 
-The ui prototype currently is in figma. Please open this link to vue the ui protoype. Since we currently still have no UI designer, and the UI prototype also needs to be updated as well according to our development.
+The ui prototype currently is in figma. Please open this link <https://www.figma.com/file/0ToIfqqWl5kw8pey8Rji0A/%E5%BC%80%E6%B6%A6?node-id=0%3A1&t=SxCiBh9pz4SlkolZ-1> to view the ui protoype. Since we currently still have no UI designer, and the UI prototype also needs to be updated as well according to our development.
 
 
 # Business
