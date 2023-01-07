@@ -75,7 +75,7 @@ Start all docker containers for the first time for local development.
 Create docker network, and volume used for this project. With docker volume, even though we recreate the image, the original data still exists
 
 ```bash
-docker-compose -f docker/docker-compose-dev.yml up --force-recreate --remove-orphans --build
+docker-compose -f docker-compose/docker-compose-dev.yml up --force-recreate --remove-orphans --build
 ```
 
 
