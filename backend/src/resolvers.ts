@@ -6,6 +6,10 @@ import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 
+/**
+ * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
+ * is really bad
+ */
 export const resolvers = {
     Query: {
         /**

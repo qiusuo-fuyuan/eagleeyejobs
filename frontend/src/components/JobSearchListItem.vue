@@ -10,5 +10,5 @@
 <script setup lang="ts">
 import type { Job } from "../generated/graphql.js";
 
-const props = defineProps<{ jobItem: Job }>();
+defineProps<{ jobItem: Job }>();
 </script>

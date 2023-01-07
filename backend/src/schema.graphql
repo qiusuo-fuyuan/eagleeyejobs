@@ -114,8 +114,8 @@ type Query {
   allQuestions:[Question]
 
   ### Wechat Related
-  wechatLoginUrl: String
-  wechatAuthorizationCallback(authorizationCode: String!): String
+  wechatLoginUrl: String!
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): String!
 
   ### google Related
 

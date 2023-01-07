@@ -1,9 +1,11 @@
 <template>
     <div class="login-form">
-      <div v-if="selectedLoginOption === 'wechat'">
-        <div v-if="wechatLoginUrl === ''" class="loading">Loading...</div>   
+      <template v-if="selectedLoginOption === 'wechat'">
+        <div v-if="loading && result" class="loading">
+          Loading...
+        </div>  
         <iframe v-else :src="wechatLoginUrl" />
-      </div>
+      </template>
       <div v-else>
         <form>
           <label>
@@ -24,25 +26,23 @@
 </template>
   
 <script setup lang="ts">
-import { reactive, watchEffect, ref } from "vue";
-import axios from 'axios';
+import { ref,computed } from "vue";
+import { useQuery } from "@vue/apollo-composable";
+import type { WechatLoginUrlQuery } from "../generated/graphql";
+import { WechatLoginUrl } from "../graphql/queries";
 
 let selectedLoginOption = ref('wechat')
 let email = ref('')
 let password = ref('')
-let wechatLoginUrl =  ref('')
 
-const VITE_API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT
+const { result, loading, error, refetch } = useQuery<WechatLoginUrlQuery>(WechatLoginUrl);
+
+let wechatLoginUrl = computed(() => { return result.value?.wechatLoginUrl })
 
 async function loginOptionSelected(option: string) {
   if(option == 'wechat') {
     selectedLoginOption.value = 'wechat'
-    try {
-        const response = await axios.get(VITE_API_ENDPOINT + '/wechat/requestLoginUrl');
-        wechatLoginUrl.value = response.data
-    } catch (error) {
-        console.error(error);
-    }
+    refetch();
   }
   if(option == 'recruiter') {
     selectedLoginOption.value = 'recruiter'

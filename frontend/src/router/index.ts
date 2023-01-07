@@ -26,19 +26,24 @@ const router = createRouter({
     {
       path: '/aboutUs',
       name: 'AboutUs',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+
       component: () => import('../pages/AboutUs.vue')
     },
     {
       path: '/login',
       name: 'login',
+      component: () => import('../pages/Login.vue')
+    },
+    {
+      path: '/:provider/authorizationCallback',
+      name: 'authorizationCallback',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../pages/Login.vue')
+      component: () => import('../pages/AuthorizationCallback.vue')
     }
+
+
   ]
 })
 
