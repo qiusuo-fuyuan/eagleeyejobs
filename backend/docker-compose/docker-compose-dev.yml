@@ -20,7 +20,7 @@ services:
 # finally, we can define the initialization server
 # this runs the `rs.initiate` command to intialize
 # the replica set and connect the three servers to each other
-  mongoinit:
+  mongo-init:
     build: ./mongo-init
     image: mongo-init:latest
     # this container will exit after executing the command
@@ -28,7 +28,7 @@ services:
     depends_on:
       - mongo1
 ##### setting up elastic search docker container
-  setup:
+  es-setup:
     build: 
       context: ./elasticsearch/setup
       args:
