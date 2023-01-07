@@ -1,5 +1,6 @@
 import { Client } from '@elastic/elasticsearch'
 import util  from 'util'
+import logger from '../../utils/Logger.js';
 
 export class ElasticClient {
     private static client: Client
@@ -20,7 +21,9 @@ export class ElasticClient {
         const username = process.env.ES_USERNAME
         const password = process.env.ES_PASSWORD
         const db = process.env.MONGO_DATABASE
-        console.log("Start init Es client:" + host + ":" + port + " index:" + db)
+
+        logger.info("Start ElasticSearch Client:" + host + ":" + port + " index:" + db)
+        
         this.client = new Client({
             node: util.format('%s:%d', host, port),
             auth: {

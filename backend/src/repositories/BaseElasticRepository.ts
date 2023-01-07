@@ -1,5 +1,6 @@
 import { ElasticClient } from "../search/es/ElasticClient.js";
 import { Client } from '@elastic/elasticsearch'
+import logger from "../utils/Logger.js";
 
 export class BaseElasticRepository<T> {
     private elasticClient: Client = ElasticClient.getClient()
@@ -10,7 +11,7 @@ export class BaseElasticRepository<T> {
             body: queryBody
         })
         // response body here is `SearchResponse<T>`
-        console.log("es search response hits:", response.body.hits.hits)
+        logger.info("es search response hits:", response.body.hits.hits)
         return response.body.hits.hits.map(hit => hit._source);
         // todo
         // return response.body.hits.hits.map(hit => {

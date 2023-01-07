@@ -85,3 +85,18 @@ export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $con
     }
   }
 }`
+
+export const CurrentUserDetail = gql`query CurrentUserDetail {
+  currentUserDetail {
+    _id
+    companyName
+    email
+    firstName
+    gender
+    lastName
+    nickName
+    name
+    role
+    userId
+  }
+}`

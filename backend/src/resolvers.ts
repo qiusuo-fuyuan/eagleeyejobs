@@ -44,15 +44,16 @@ export const resolvers = {
         },
 
 
-        allQuestions(_: any, args: any, {user2}:any) {
-            permissionService.hasPermission(user2, "allQuestions")
+        allQuestions(_: any, args: any) {
             return qaService.allQuestions()
-        }
+        },
 
         /**
          * User Query Resolvers
          */
-
+        currentUserDetail(_: any, args: any, { user }: any) {
+            return user;
+        }
 
         /**
          * Membership Query Resolvers
@@ -78,11 +79,11 @@ export const resolvers = {
             return jobService.updateJob(args.job);
         },
 
-        createQuestion(_: any, args: any, {user2}: any, { fieldName }: any) {
+        createQuestion(_: any, args: any, { user }: any, { fieldName }: any) {
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
-        createAnswer:(_:any, args: any, {user2}: any, { fieldName }: any) => { 
+        createAnswer:(_:any, args: any, { user }: any, { fieldName }: any) => { 
             logger.info("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }

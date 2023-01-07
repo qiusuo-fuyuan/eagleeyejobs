@@ -9,6 +9,14 @@ export function decodeJwtToken(jwtToken: string): string {
     return  jwt.decode(jwtToken) as string
 }
 
+/**
+ * jwt.verify might throw the following exceptions
+ * JsonWebTokenError
+ * NotBeforeError
+ * TokenExpiredError
+ * @param jwtToken 
+ * @returns 
+ */
 export function verifyJwtToken(jwtToken: string):  JwtPayload | string {
     return jwt.verify(jwtToken, process.env.JWT_TOKEN_SECRET)
 }

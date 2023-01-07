@@ -1,0 +1,5 @@
+export enum ServerErrorCode {
+    JWT_TOKEN_INVALID,
+    PERMISSION_DENIED,
+    HTTP_HEADER_INVALID
+}

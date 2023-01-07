@@ -6,7 +6,7 @@ import {generateJwtToken} from '../../utils/jwt/JwtUtil.js'
 import { AuthorizationResponse } from './DataTypes.js'
 
 class ThirdPartyLoginService {
-    private  thirdPartyUserLoginStrategyFactory: ThirdPartyUserLoginStrategyFactory
+    private thirdPartyUserLoginStrategyFactory: ThirdPartyUserLoginStrategyFactory
 
     constructor() {
         this.thirdPartyUserLoginStrategyFactory = thirdPartyUserLoginStrategyFactory
@@ -17,11 +17,11 @@ class ThirdPartyLoginService {
     }
 
     public async loginUserByAuthorizationCode(providerType: string, authorizationCode: string, state: string): Promise<AuthorizationResponse> {
-        const authorizedUser =  await thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(authorizationCode, state)
-        const jwtToken = await generateJwtToken(authorizedUser.userId)
+        const authorizedUser =  await this.thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(authorizationCode, state)
+        const jwtToken = generateJwtToken(authorizedUser.userId)
         return { jwtToken: jwtToken }
     }
 }
 
-export default  new ThirdPartyLoginService()
+export default new ThirdPartyLoginService()
 

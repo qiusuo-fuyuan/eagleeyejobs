@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import  JsonWebTokenError, { JwtPayload }  from "jsonwebtoken";
 import { User } from "../models/User.js";
-import userService, { UserService } from "../services/user/UserService.js";
-import { BackendError, ErrorCodeEnum } from "../utils/error/ErrorCode.js";
+import { HttpHeaderInvalid, JwtTokenInvalid } from "../services/exceptions/Exceptions.js";
+import userService from "../services/user/UserService.js";
 import * as JwtUtil from "../utils/jwt/JwtUtil.js";
 import { isIntrospectionQuery } from "../utils/Utils.js";
 
@@ -23,22 +23,20 @@ export async function getAuthenticatedUserFromToken(req: Request, res: Response)
         const jwtToken = parts[1];    
         if (type === 'Bearer') {
           /**
-           * there are multiple exceptions this verify function might throw. Please refer to this file
-           * /node_modules/jsonwebtoken/verify.js
+           * ToDo: There are multiple exceptions this verify function might throw. Please refer to this file
+           * /node_modules/jsonwebtoken/verify.js later to fix all the exceptions
            */
-          let jwtPayload: JwtPayload =  JwtUtil.verifyJwtToken(jwtToken) as JwtPayload
-          
-          let userId = jwtPayload['userId']
-          if( userId === undefined) {
-            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
-          } 
-          else {
-            let user: User =  await userService.getUserByUserId(userId);  
-            return user; 
+          try {
+              let { userId } =  JwtUtil.verifyJwtToken(jwtToken) as JwtPayload
+              let user: User =  await userService.getUserByUserId(userId);  
+              return user; 
+          }
+          catch(error) {
+            throw new JwtTokenInvalid("jwt token invalid")
           }
         } 
         else {
-            return Promise.reject(new BackendError(ErrorCodeEnum.JWT_TOKEN_INVALID, "invalid jwt token"))
+          throw new HttpHeaderInvalid("Authorization header does not start with Bearer")
         }
     } 
     else {
