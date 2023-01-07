@@ -113,8 +113,9 @@ type Query {
   questionDetail(questionId: String!): Question
   allQuestions:[Question]
 
-  ### Registration related
-  requestLoginQrCodeImage(provider: String): String
+  ### Login Related
+  wechatLoginQRCodeUrl: String
+  wechatAuthorizationCallback(authorizationCode: String!): String
 
   ### User related
   queryUserDetail(userId: String!): User
