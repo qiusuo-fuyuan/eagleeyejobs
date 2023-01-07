@@ -4,14 +4,27 @@ import jobSearchService from "./services/job/JobSearchService.js";
 import qaService from "./services/qa/QAService.js";
 import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
+import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 
 export const resolvers = {
     Query: {
         /**
-         * Jobs Query Resolvers
+         * Login query resolvers
          */
-        //https://stackoverflow.com/questions/54158775/graphql-schema-query-not-recognizing-passed-input-parameters-in-the-resolver-fun
+         wechatLoginUrl(_: any, args: any) {
+            return thirdPartyLoginService.getLoginUrl("wechat")
+         },
 
+         wechatAuthorizationCallback(_: any, args: any) {
+            const authorizationCode = args.authorizationCode
+            const state = args.state
+            return thirdPartyLoginService.loginUserByAuthorizationCode("wechat", authorizationCode, state)
+         },
+
+        
+        /**
+         * Jobs query resolvers
+         */
         jobDetail(_: any, args: any) {
             console.log("query job detail jobId:" + args.jobId)
             return jobService.queryJobDetail(args.jobId);
@@ -21,16 +34,11 @@ export const resolvers = {
             console.log("user search job input:" + args.userInput)
             return jobSearchService.searchJobs(args.userInput, args.pageNumber)
         },
-
         questionDetail(_: any, args: any) {
             console.log("query question detail questionId:" + args.questionId)
             return qaService.queryQuestionDetail(args.questionId);
         },
 
-        // questionAnswers:(parent, args, context) => {
-        //         const questionId = parent.id;
-        //         return s.filter(product => product.category === categeryId);
-        // }, 
 
         allQuestions(_: any, args: any, {user2}:any) {
             permissionService.hasPermission(user2, "allQuestions")

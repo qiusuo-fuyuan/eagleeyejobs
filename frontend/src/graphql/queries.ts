@@ -1,6 +1,23 @@
 import gql from 'graphql-tag'
 
 
+/**
+ * login related
+ */
+
+export const WechatLoginUrl = gql`query WechatLoginUrl {
+  wechatLoginUrl
+}`
+
+
+export const WechatAuthorizationCallback = gql`query WechatAuthorizationCallback($authorizationCode: String!) {
+  wechatAuthorizationCallback(authorizationCode: $authorizationCode)
+}
+`
+
+/**
+ * Job related
+ */
 export const jobBaseAttributes = gql`fragment JobBaseAttributes on Job { 
     title
     country

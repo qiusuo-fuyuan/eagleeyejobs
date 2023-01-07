@@ -16,8 +16,8 @@ class ThirdPartyLoginService {
         return thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).getLoginUrl()
     }
 
-    public async loginUserByAuthorizationCode(providerType: string, req: Request): Promise<string> {
-        const authorizedUser =  await thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(req)
+    public async loginUserByAuthorizationCode(providerType: string, authorizationCode: string, state: string): Promise<string> {
+        const authorizedUser =  await thirdPartyUserLoginStrategyFactory.getLoginStrategy(providerType).authorizeUser(authorizationCode, state)
         return generateJwtToken(authorizedUser.userId)
     }
 }

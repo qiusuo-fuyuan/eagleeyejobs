@@ -90,12 +90,6 @@ let { resolvers } = await import('./resolvers.js');
    path: '/graphql'
  });
 
-
-let { thirdPartyLoginRouter } = await import('./router/ThirdPartyLoginRouter.js')
-
- //other requests router
- app.use("/", thirdPartyLoginRouter);
-
  // Modified server startup
  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);

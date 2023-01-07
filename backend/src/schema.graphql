@@ -8,7 +8,7 @@ enum UserType {
   ADMIN
 }
 
-enum UserPlatform {
+enum ThirdPartyPlatform {
   WECHAT
   ALIPAY
 }
@@ -113,9 +113,12 @@ type Query {
   questionDetail(questionId: String!): Question
   allQuestions:[Question]
 
-  ### Login Related
-  wechatLoginQRCodeUrl: String
+  ### Wechat Related
+  wechatLoginUrl: String
   wechatAuthorizationCallback(authorizationCode: String!): String
+
+  ### google Related
+
 
   ### User related
   queryUserDetail(userId: String!): User

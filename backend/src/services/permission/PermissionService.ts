@@ -8,7 +8,7 @@ export class PermissionService {
     };
 
     hasPermission(user: User, targetFunction: string) {
-      console.log("checking whether user:"+ user.userId + "name: "+user.name + " has permission to call function:" + targetFunction)
+      console.log("checking whether user:"+ user.userId + " name: "+user.name + " role: "+ user.role + " has permission to call function:" + targetFunction)
       const role = user.role;
       const permissions = this.userPermissions[role];
 
