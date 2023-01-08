@@ -1,5 +1,6 @@
 import { Question } from '../../models/Question.js'
 import { QuestionRepository } from '../../repositories/QARepository.js';
+import logger from '../../utils/Logger.js';
 export class QAService {
     private questionRepository: QuestionRepository
 
@@ -10,7 +11,7 @@ export class QAService {
     // hasPermission
 
     async addQuestion(title: string, content: string, userId: string): Promise<Question> {
-        console.log("createQuestion for user:"+ userId + "title: " + title + "content: "+content)
+        logger.info("createQuestion for user:"+ userId + "title: " + title + "content: "+content)
         
         return this.questionRepository.save(new Question(title, content, userId))
     }

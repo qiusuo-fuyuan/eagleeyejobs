@@ -23,10 +23,7 @@ export class WeChatUserLoginStrategy implements ThirdPartyUserLoginStrategy {
     }
 
 
-    async authorizeUser(req: Request): Promise<User> {
-        const authorizationCode = req.query.code as string
-        const state = req.query.state as string
-
+    async authorizeUser(authorizationCode: string, state: string): Promise<User> {
         const accessTokenResponse = await this.wechatGateway.requestAccessToken(authorizationCode, state)
 
         const wechatUserInfo = await this.wechatGateway.requestUserInfo(accessTokenResponse.access_token, accessTokenResponse.openid)

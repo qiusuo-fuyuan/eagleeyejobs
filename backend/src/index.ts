@@ -23,6 +23,9 @@ import http from 'http';
 
 import { MongoClient } from './core/db/MongoClient.js'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import cors from 'cors';
+import logger from './utils/Logger.js';
+import { formatServerError } from './graphqlErrorFormatter.js';
 
 dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
 
@@ -46,6 +49,9 @@ let { resolvers } = await import('./resolvers.js');
  // Required logic for integrating with Express
  const app = express();
 
+ app.use(cors({ origin: 'http://localhost:4173' }));
+
+
  // Our httpServer handles incoming requests to our Express app.
  // Below, we tell Apollo Server to "drain" this httpServer,
  // enabling our servers to shut down gracefully.
@@ -64,7 +70,8 @@ let { resolvers } = await import('./resolvers.js');
    resolvers,
    csrfPrevention: true,
    cache: 'bounded',
-   introspection: true,
+   introspection: process.env.NODE_ENV !== 'production',
+   formatError: formatServerError,
    plugins: [
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
@@ -86,12 +93,6 @@ let { resolvers } = await import('./resolvers.js');
    path: '/graphql'
  });
 
-
-let { thirdPartyLoginRouter } = await import('./router/ThirdPartyLoginRouter.js')
-
- //other requests router
- app.use("/", thirdPartyLoginRouter);
-
  // Modified server startup
  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
- console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+ logger.info(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);

@@ -1,5 +1,4 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
-import  { Types } from 'mongoose'
 
 export const JobDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
 {

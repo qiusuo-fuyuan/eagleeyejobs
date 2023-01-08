@@ -15,6 +15,7 @@ import http from 'http';
 import { MongoClient } from '../core/db/MongoClient.js';
 import ejs from 'ejs';
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import logger from '../utils/Logger.js';
 dotenv.config({ path: `config/env.${process.env.NODE_ENV}` })
 
 /**
@@ -62,16 +63,11 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     path: '/graphql'
   });
 
-
-  let { thirdPartyLoginRouter } = await import('../router/ThirdPartyLoginRouter.js')
-  app.use("/", thirdPartyLoginRouter)
-
-
   // apply alipay router
   
   // Modified server startup
   await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  logger.info(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
 //init mongoDB

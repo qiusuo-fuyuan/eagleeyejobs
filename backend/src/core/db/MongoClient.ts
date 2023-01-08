@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import util  from 'util'
 import { DocumentSchemaDefinitionType } from '../../models/BaseTypes.js'
 import { AllDocumentSchemaDefinitions as allDocumentSchemaDefinitions } from '../../models/DocumentSchema.js'
+import logger from '../../utils/Logger.js'
 
 /**
  * Mongoose is based on Mongodb nodejs driver 
@@ -43,7 +44,7 @@ export class MongoClient {
      */
     async disconnect() {
         await mongoose.disconnect()
-        console.log("disconnected mongodb successfully")
+        logger.info("disconnected mongodb successfully")
     }
 
     /**
@@ -77,13 +78,12 @@ export class MongoClient {
         };
 
         mongoose.connect(connectAddress, options).then(
-            () => { console.log("Mongodb connected %s successfully", connectAddress) },
+            () => { logger.info(`Mongodb connected ${connectAddress} successfully`) },
             errors => {
-                console.log("Mongodb connected %s failed!", connectAddress)
+                logger.info(`Mongodb connected ${connectAddress} failed!`)
                 throw new Error(errors)
             }
         )
-
     }
 
     /**

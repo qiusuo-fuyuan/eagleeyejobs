@@ -5,5 +5,5 @@ export interface ThirdPartyUserLoginStrategy {
 
     getLoginUrl(): string
 
-    authorizeUser(req: Request): Promise<User>
+    authorizeUser(authorizationCode: string, state: string): Promise<User>
 }

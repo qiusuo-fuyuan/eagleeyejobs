@@ -8,12 +8,10 @@ enum UserType {
   ADMIN
 }
 
-enum UserPlatform {
+enum ThirdPartyPlatform {
   WECHAT
   ALIPAY
 }
-
-
 
 type MemberShipStatus {
   lastPaymentAt: String!
@@ -103,6 +101,10 @@ type Comment {
   user: User
 }
 
+type AuthorizationResponse {
+  jwtToken: String!
+}
+
 
 type Query {
   ### Job related
@@ -113,11 +115,15 @@ type Query {
   questionDetail(questionId: String!): Question
   allQuestions:[Question]
 
-  ### Registration related
-  requestLoginQrCodeImage(provider: String): String
+  ### Wechat Related
+  wechatLoginUrl: String!
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): AuthorizationResponse!
+
+  ### google Related
+
 
   ### User related
-  queryUserDetail(userId: String!): User
+  currentUserDetail: User
 }
 
 type Mutation {

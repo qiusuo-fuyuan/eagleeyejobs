@@ -1,5 +1,6 @@
 import { BaseRepository } from "./BaseRepository.js"
 import { Question, QuestionDocumentSchemaDefinition } from "../models/Question.js"
+import logger from "../utils/Logger.js"
 
 export class QuestionRepository extends BaseRepository<Question>{
     private QuestionDocumentModel: any
@@ -16,7 +17,7 @@ export class QuestionRepository extends BaseRepository<Question>{
                 userId: userId}
             }
         }
-        console.log("filter: ", filter, "update: ", update)
+        logger.info("filter: ", filter, "update: ", update)
         return this.documentModel.findOneAndUpdate(filter, update, {new:true})
     }
 }

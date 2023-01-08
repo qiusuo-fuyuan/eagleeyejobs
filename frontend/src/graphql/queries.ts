@@ -1,6 +1,24 @@
 import gql from 'graphql-tag'
 
 
+/**
+ * login related
+ */
+
+export const WechatLoginUrl = gql`query WechatLoginUrl {
+  wechatLoginUrl
+}`
+
+export const WechatAuthorizationCallback = gql`query WechatAuthorizationCallback($authorizationCode: String!, $state: String!) {
+  wechatAuthorizationCallback(authorizationCode: $authorizationCode, state: $state) {
+    jwtToken
+  }
+}
+`
+
+/**
+ * Job related
+ */
 export const jobBaseAttributes = gql`fragment JobBaseAttributes on Job { 
     title
     country
@@ -65,5 +83,20 @@ export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $con
       _id
       content
     }
+  }
+}`
+
+export const CurrentUserDetail = gql`query CurrentUserDetail {
+  currentUserDetail {
+    _id
+    companyName
+    email
+    firstName
+    gender
+    lastName
+    nickName
+    name
+    role
+    userId
   }
 }`

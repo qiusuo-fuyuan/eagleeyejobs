@@ -1,8 +1,3 @@
-export enum ErrorCodeEnum {
-    JWT_TOKEN_INVALID
-}
-
-
 export class BackendError {
     errCode: number
     errMessage: string
@@ -12,4 +7,3 @@ export class BackendError {
         this.errMessage = errMessage
     } 
 }
-

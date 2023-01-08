@@ -7,7 +7,7 @@ export class AlipayUserLoginStrategy implements ThirdPartyUserLoginStrategy {
     getLoginUrl(): string {
         throw new Error("Method not implemented.");
     }
-    authorizeUser(req: Request): Promise<User> {
+    authorizeUser(authorizationCode: string, state: string): Promise<User> {
         throw new Error("Method not implemented.");
     }
 }
