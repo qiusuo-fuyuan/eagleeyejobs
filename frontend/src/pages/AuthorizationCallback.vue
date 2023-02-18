@@ -24,7 +24,8 @@ const { result, loading, error } = useQuery<WechatAuthorizationCallbackQuery, We
 watchEffect(() => {
   // works for reactivity tracking
   if(!loading.value) {
-    setAuthToken(result.value?.wechatAuthorizationCallback.jwtToken as string)
+    setAuthToken(result.value?.wechatAuthorizationCallback.jwtAccessToken as string, 
+    result.value?.wechatAuthorizationCallback.jwtRefreshToken as string)
     router.push({ name: 'jobs' })
   }
 })

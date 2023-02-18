@@ -11,8 +11,9 @@ export function getAuthToken(): string | null {
     }
 }
 
-export function setAuthToken(token: string) {
-    localStorage.setItem('token', token);
+export function setAuthToken(jwtAccessToken: string, jwtRefreshToken: string) {
+    localStorage.setItem('token', jwtAccessToken);
+    localStorage.setItem('refreshToken', jwtRefreshToken)
     //dispatchEvent(authEvent);
 }
 

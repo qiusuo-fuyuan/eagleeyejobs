@@ -4,7 +4,6 @@ import { User } from "../models/User.js";
 import { HttpHeaderInvalid, JwtTokenInvalid } from "../services/exceptions/Exceptions.js";
 import jwtTokenService from "../services/jwt/JwtTokenService.js";
 import userService from "../services/user/UserService.js";
-import * as JwtUtil from "../utils/jwt/JwtUtil.js";
 import logger from "../utils/Logger.js";
 import { isIntrospectionQuery } from "../utils/Utils.js";
 

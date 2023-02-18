@@ -1,7 +1,7 @@
-import { JwtToken } from "./JwtToken";
+import { JwtToken } from "./JwtToken.js";
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { User } from "../../models/User";
-import { UserService } from "../user/UserService";
+import { User } from "../../models/User.js";
+import { UserService } from "../user/UserService.js";
 
 class JwtTokenService {
     private userService: UserService
@@ -47,8 +47,6 @@ class JwtTokenService {
         jwtToken.jwtRefreshToken = jwtRefreshToken
 
         return jwtToken
-
-
     }
 }
 

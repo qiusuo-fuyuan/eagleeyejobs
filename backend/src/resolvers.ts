@@ -6,6 +6,9 @@ import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 import logger from "./utils/Logger.js";
+import { JwtToken } from "./services/jwt/JwtToken.js";
+import jwtTokenService from "./services/jwt/JwtTokenService.js";
+
 /**
  * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
  * is really bad
@@ -86,9 +89,7 @@ export const resolvers = {
         createAnswer:(_:any, args: any, { user }: any, { fieldName }: any) => { 
             logger.info("createAnswer:" + args.questionId, args.content, args.userId)
             return qaService.addAnswer(args.questionId, args.content, args.userId)
-        }
-
-
+        },
         /**
          * User Mutation Resolvers
          */
@@ -102,17 +103,17 @@ export const resolvers = {
         /**
          * Community Story Mutation Resolvers
          */
-    },
-    Question: {
+
+
         /**
-         * Question Query Resolvers
+         * Jwt Token Mutations Resolvers
          */
-        user: (parent:any, args: any) => {
-            logger.info("question's user: "+ args)
-            return userService.getUserByUserId(parent.userId)
+        refreshJwtToken(_:any, args: any): JwtToken {
+            return jwtTokenService.refreshJwtToken(args.jwtRefreshToken)
         }
     }
 };
+
 
 function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     // Loop through the Query and Mutation attributes of the resolvers object
