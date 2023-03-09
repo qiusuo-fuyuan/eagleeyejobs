@@ -1,5 +1,6 @@
 export enum ErrorCode {
     JWT_TOKEN_INVALID,
+    JWT_TOKEN_EXPIRED,
     PERMISSION_DENIED,
     HTTP_HEADER_INVALID
 }

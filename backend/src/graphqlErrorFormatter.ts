@@ -1,20 +1,27 @@
 import { unwrapResolverError } from '@apollo/server/errors';
 import { GraphQLError } from 'graphql/error';
-import { ErrorCode, HttpHeaderInvalid, JwtTokenInvalid, PermissionDenied } from './services/exceptions/Exceptions.js';
+import jsonwebtokan_pkg from 'jsonwebtoken';
+import { ErrorCode, HttpHeaderInvalid, PermissionDenied } from './services/exceptions/Exceptions.js';
+
+const { JsonWebTokenError, TokenExpiredError } = jsonwebtokan_pkg
 
 export function formatServerError(error: GraphQLError) {
     const originalError = unwrapResolverError(error)
 
     if (originalError instanceof HttpHeaderInvalid) {
-        error.extensions.code = ErrorCode.HTTP_HEADER_INVALID.toString()
+        error.extensions.code = ErrorCode.HTTP_HEADER_INVALID
     }
 
-    if (originalError instanceof JwtTokenInvalid) {
-        error.extensions.code = ErrorCode.JWT_TOKEN_INVALID.toString()
+    if (originalError instanceof JsonWebTokenError) {
+        error.extensions.code = ErrorCode.JWT_TOKEN_INVALID        
+    }
+
+    if (originalError instanceof TokenExpiredError) {
+        error.extensions.code = ErrorCode.JWT_TOKEN_EXPIRED                
     }
 
     if (originalError instanceof PermissionDenied) {
-        error.extensions.code = ErrorCode.PERMISSION_DENIED.toString()
+        error.extensions.code = ErrorCode.PERMISSION_DENIED
     }
 
     return error

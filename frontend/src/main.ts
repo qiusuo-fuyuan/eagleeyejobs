@@ -6,8 +6,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core
 import { createI18n } from 'vue-i18n'
 
 import { messages } from './translation/message'
-import { authLink } from './services/auth';
-import { errorLink } from './services/errorLink';
+import { authLink } from './links/auth'
+import { errorLink } from './links/errorLink'
 
 const cache = new InMemoryCache()
 

@@ -1,6 +1,3 @@
-import type { GraphQLRequest } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-
 export const authEvent = new Event('auth');
 
 export function getAuthToken(): string | null {
@@ -27,22 +24,6 @@ export function clearStorage(): void {
     dispatchEvent(authEvent);
 }
 
-export function isLoggedIn(): boolean {
+export function isTokenAvailable(): boolean {
     return !!getAuthToken();
 }
-
-/**
- * request is graphql operation
- * previousContext contains the previous data
- */
-export const authLink = setContext((request: GraphQLRequest, { headers }) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-        return {
-            headers: {
-                ...headers,
-                Authorization: authToken ? `Bearer ${authToken}` : null,
-            }
-        };
-    } return {};
-});

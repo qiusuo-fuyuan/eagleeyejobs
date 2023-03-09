@@ -7,7 +7,9 @@
     </div>
 </template>
   
-<script setup lang="ts">
+<script setup lang="ts">import type { ApolloError } from '@apollo/client/errors';
+  defineProps<{ graphqlError: ApolloError}>();
+
   
 </script>
   

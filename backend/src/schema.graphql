@@ -24,6 +24,7 @@ type User {
   userId: String!
   email: String
   name: String
+  profilePicture: String!
   nickName: String
   firstName: String
   lastName: String
@@ -124,7 +125,6 @@ type Query {
 
   ### Wechat Related
   wechatLoginUrl: String!
-  wechatAuthorizationCallback(authorizationCode: String!, state: String!): JwtToken!
 
   ### google Related
 
@@ -140,8 +140,11 @@ type Mutation {
   removeJob(jobId: String!): Job
 
   ### Question related
-  createQuestion(title: String, content: String, userId: String): Question
-  createAnswer(content: String, userId: String, questionId: String!): Question
+  createQuestion(title: String, content: String): Question
+  createAnswer(content: String, questionId: String!): Question
+
+  ## third party callback
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): JwtToken!
 
   ### Registration related
   registerNewUser: String

@@ -52,13 +52,16 @@ console.log("title: " + title.value + " content: " + content.value)
 
 let createQuestionMutationVariables: CreateQuestionMutationVariables = reactive({userId: '63133', content: content.value, title: title.value})
 
+/*here we have to use a function. If we do not use a function, then the variables will become one constant
+This constant is created for the first time, and stored internally inside userMutation. If the
+content or title change, then we do not have to update
+*/
 const { mutate: createQuestion } = useMutation<CreateQuestionMutation, CreateQuestionMutationVariables>(CreateQuestion, () => ({
     variables:  {
-        userId: '63787c45f763a263f00c643c', 
         content: content.value, 
         title: title.value
     },
-    update: (cache, { data:  createQuestion  }) => {
+    update: (cache, { data:  createQuestionReturn }) => {
         let data = cache.readQuery({ query: AllQuestions })
         console.log("cache: " + cache)
         console.log("data: " + data.allQuestions)
@@ -66,7 +69,7 @@ const { mutate: createQuestion } = useMutation<CreateQuestionMutation, CreateQue
           ...data,
           allQuestions: [
             ...data.allQuestions,
-            createQuestion,
+            createQuestionReturn,
           ],
         }
         cache.writeQuery({ query: AllQuestions, data })

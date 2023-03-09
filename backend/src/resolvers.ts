@@ -8,7 +8,12 @@ import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 import logger from "./utils/Logger.js";
 import { JwtToken } from "./services/jwt/JwtToken.js";
 import jwtTokenService from "./services/jwt/JwtTokenService.js";
+import { User } from "./models/User.js";
 
+
+type Context = {
+    user: User
+}
 /**
  * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
  * is really bad
@@ -21,13 +26,6 @@ export const resolvers = {
          wechatLoginUrl(_: any, args: any) {
             return thirdPartyLoginService.getLoginUrl("wechat")
          },
-
-         wechatAuthorizationCallback(_: any, args: any) {
-            const authorizationCode = args.authorizationCode
-            const state = args.state
-            return thirdPartyLoginService.loginUserByAuthorizationCode("wechat", authorizationCode, state)
-         },
-
         
         /**
          * Jobs query resolvers
@@ -71,6 +69,14 @@ export const resolvers = {
 
     Mutation: {
         /**
+         * Login related
+         */
+        wechatAuthorizationCallback(_: any, args: any) {
+            const authorizationCode = args.authorizationCode
+            const state = args.state
+            return thirdPartyLoginService.loginUserByAuthorizationCode("wechat", authorizationCode, state)
+         },
+        /**
          * Jobs Mutation Resolvers
         */
         addJob(_:any, args: any) {
@@ -82,13 +88,13 @@ export const resolvers = {
             return jobService.updateJob(args.job);
         },
 
-        createQuestion(_: any, args: any, { user }: any, { fieldName }: any) {
-            return qaService.addQuestion(args.title, args.content, args.userId)
+        createQuestion(_: any, args: any, { user }: Context, { fieldName }: any) {
+            return qaService.addQuestion(args.title, args.content, user.userId)
         },
 
-        createAnswer:(_:any, args: any, { user }: any, { fieldName }: any) => { 
-            logger.info("createAnswer:" + args.questionId, args.content, args.userId)
-            return qaService.addAnswer(args.questionId, args.content, args.userId)
+        createAnswer:(_:any, args: any, { user }: Context, { fieldName }: any) => { 
+            logger.info("createAnswer:" + args.questionId, args.content, user.userId)
+            return qaService.addAnswer(args.questionId, args.content, user.userId)
         },
         /**
          * User Mutation Resolvers
