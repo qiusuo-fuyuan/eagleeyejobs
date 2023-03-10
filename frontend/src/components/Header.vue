@@ -2,6 +2,9 @@
   <div class="header">
     <div class="header_topright">
       <div v-if="showLoginButton">
+        <router-link id="button_login" to="/login">{{ $t("message.header.menu.login") }}</router-link>
+      </div>
+      <div v-else>
         <div v-if="loading">
           <div class="loading-overlay">
             <div class="spinner"></div>
@@ -14,9 +17,6 @@
             <a class="dropdown-link" href="#" @click.prevent="logout()">{{ $t("message.header.menu.logout")}}</a>
           </div>
         </div>
-      </div>
-      <div v-else>
-        <router-link id="button_login" to="/login">{{ $t("message.header.menu.login") }}</router-link>
       </div>
     </div>
     <LanguagePicker />
@@ -43,13 +43,13 @@ import type { CurrentUserDetailQuery } from "../generated/graphql";
 import { CurrentUserDetail } from "../graphql/queries";
 import { isTokenAvailable } from '../services/accessToken'
 import { useQuery } from '@vue/apollo-composable'
-import { computed, ref, type Ref } from "vue";
+import { computed, ref, watchEffect, type Ref } from "vue";
 import type { ApolloError } from "@apollo/client";
 
 
 let showDropdown = ref(false);
 const showLoginButton = computed(() => {
-      return isTokenAvailable();
+      return !isTokenAvailable();
     });
 
 let result: Ref<CurrentUserDetailQuery | undefined>, loading: Ref<boolean>, error: Ref<ApolloError | null>;
@@ -57,6 +57,11 @@ if (!showLoginButton.value) {
     ({result, loading, error } = useQuery<CurrentUserDetailQuery>(CurrentUserDetail));
 }
 
+watchEffect(() => {
+  if(result) {
+    console.log("currentUserDetailQuery has new result" + result.value)
+  }
+})
 const logout = () => {
   console.log("logging out")
 }

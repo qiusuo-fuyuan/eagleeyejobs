@@ -12,6 +12,7 @@ export const errorLink = onError(({ graphQLErrors, networkError, operation, forw
                 console.log('[GraphQL error]: Invalid JWT token');
                 removeAuthToken();
             } else if (isJwtTokenExpiredError(extensions)) {
+                removeAuthToken();
                 const refreshToken = localStorage.getItem('refreshToken');
                 if (refreshToken) {
                     triggerRefreshTokenMutation(refreshToken, operation, forward)
