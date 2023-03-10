@@ -9,12 +9,20 @@ export const WechatLoginUrl = gql`query WechatLoginUrl {
   wechatLoginUrl
 }`
 
-export const WechatAuthorizationCallback = gql`query WechatAuthorizationCallback($authorizationCode: String!, $state: String!) {
+export const WechatAuthorizationCallback = gql`mutation WechatAuthorizationCallback($authorizationCode: String!, $state: String!) {
   wechatAuthorizationCallback(authorizationCode: $authorizationCode, state: $state) {
-    jwtToken
+    jwtAccessToken
+    jwtRefreshToken
   }
 }
 `
+
+export const RefreshJwtToken = gql`mutation RefreshJwtToken($jwtRefreshToken: String) {
+  refreshJwtToken(jwtRefreshToken: $jwtRefreshToken) {
+    jwtAccessToken
+    jwtRefreshToken
+  }
+}`
 
 /**
  * Job related
@@ -48,8 +56,8 @@ export const SearchJobs = gql`query SearchJobs($userInput: String, $pageNumber: 
 ${jobBaseAttributes}
 `
 
-export const CreateQuestion = gql`mutation CreateQuestion($userId: String, $content: String, $title: String) {
-  createQuestion(userId: $userId, content: $content, title: $title) {
+export const CreateQuestion = gql`mutation CreateQuestion($content: String, $title: String) {
+  createQuestion(content: $content, title: $title) {
     _id
     title
     content
@@ -76,8 +84,8 @@ export const QuestionDetail = gql`query QuestionDetail($questionId: String!) {
   }
 }`
 
-export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $content: String, $userId: String){
-  createAnswer(questionId: $questionId, content: $content, userId: $userId){
+export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $content: String){
+  createAnswer(questionId: $questionId, content: $content){
     _id
     answers{
       _id
@@ -86,17 +94,25 @@ export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $con
   }
 }`
 
+
+export const userDetails = gql`fragment UserDetails on User { 
+  _id
+  companyName
+  email
+  firstName
+  profilePicture
+  gender
+  lastName
+  nickName
+  name
+  role
+  userId
+}`
+
 export const CurrentUserDetail = gql`query CurrentUserDetail {
   currentUserDetail {
-    _id
-    companyName
-    email
-    firstName
-    gender
-    lastName
-    nickName
-    name
-    role
-    userId
+    ...UserDetails
   }
-}`
+}
+${userDetails}
+`

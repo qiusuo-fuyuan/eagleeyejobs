@@ -10,7 +10,8 @@ export const messages = {
                     forum: 'Forum',
                     stories: 'stories',
                     aboutUs: 'aboutUs',
-                    login: 'login'
+                    login: 'login',
+                    logout: 'logout'
                 }
             },
             page: {
@@ -19,6 +20,15 @@ export const messages = {
                         country: 'Country',
                         city: 'City'
                     }
+                }
+            },
+            error: {
+                graphql: {
+
+                },
+                network: {
+                    jwt_token_invalid: 'Login Invalid',
+                    jwt_token_expired: 'Token Expired'
                 }
             }
 
@@ -42,7 +52,17 @@ export const messages = {
                         city: '城市'
                     }
                 }
+            },
+            error: {
+                graphql: {
+
+                },
+                network: {
+                    jwt_token_invalid: '登录失败',
+                    jwt_token_expired: '密钥过期'
+                }
             }
+
         }
 
     }

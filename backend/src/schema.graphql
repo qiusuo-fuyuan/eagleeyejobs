@@ -24,6 +24,7 @@ type User {
   userId: String!
   email: String
   name: String
+  profilePicture: String!
   nickName: String
   firstName: String
   lastName: String
@@ -101,8 +102,15 @@ type Comment {
   user: User
 }
 
-type AuthorizationResponse {
-  jwtToken: String!
+type createQuestionInput {
+  title: String,
+  content: String,
+  userId: String
+}
+
+type JwtToken {
+  jwtAccessToken: String!
+  jwtRefreshToken: String!
 }
 
 
@@ -113,11 +121,10 @@ type Query {
 
   ### Question related
   questionDetail(questionId: String!): Question
-  allQuestions:[Question]
+  allQuestions: [Question]
 
   ### Wechat Related
   wechatLoginUrl: String!
-  wechatAuthorizationCallback(authorizationCode: String!, state: String!): AuthorizationResponse!
 
   ### google Related
 
@@ -133,18 +140,18 @@ type Mutation {
   removeJob(jobId: String!): Job
 
   ### Question related
-  createQuestion(title: String, content: String, userId: String): Question
-  createAnswer(content: String, userId: String, questionId: String!): Question
+  createQuestion(title: String, content: String): Question
+  createAnswer(content: String, questionId: String!): Question
+
+  ## third party callback
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): JwtToken!
 
   ### Registration related
   registerNewUser: String
 
   ### User related
   createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
-}
 
-type createQuestionInput {
-  title: String,
-  content: String,
-  userId: String
+  ### Jwt Token related
+  refreshJwtToken(jwtRefreshToken: String): JwtToken!
 }

@@ -8,9 +8,9 @@
     </div>
   </template>
   
-  <script setup>
+<script setup lang="ts">
  const langs =  ['en', 'zh']
-  </script>
+</script>
 
 <style>
 .language_picker {
