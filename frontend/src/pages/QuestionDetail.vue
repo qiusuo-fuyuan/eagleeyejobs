@@ -11,21 +11,14 @@
           <p>Title:{{ result.questionDetail.title }} </p>
          <p>Content:{{ result.questionDetail.content}} </p>
         </div>
-        
       </div>
-
-      
-        <div  class="question" >
-          <p class="text-center"> Answers</p>
-          <p v-if="result.questionDetail.answers">
-            <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
-          </p>
-        </div>
-        
+      <div  class="question" >
+        <p class="text-center"> Answers</p>
+        <p v-if="result?.questionDetail?.answers">
+          <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
+        </p>
+      </div>
     </div>
-   
-        
-
      <!-- add answer to question -->
      <div>
       <p class="text-center">Add answer</p>
@@ -34,7 +27,6 @@
     </div>
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { watchEffect, ref } from 'vue'
@@ -78,7 +70,6 @@ const { mutate: createAnswer } = useMutation<CreateAnswerMutation, CreateAnswerM
     variables:  {
         questionId: route.params.questionId as string,
         content: content.value,
-        userId: '63787c45f763a263f00c643c'  
     },
 }))
 

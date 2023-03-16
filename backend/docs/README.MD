@@ -88,3 +88,12 @@ We should use volume for all docker container data
 To test elasticsearch, install the extention https://marketplace.visualstudio.com/items?itemName=ria.elastic.
 
 Ctrl+Shift+P  => enter ES => input http://elastic:test1234@127.0.0.1:9200. There is a playground.es file inside src/scripts/elastic/playground.es. U can fire request to elasticsearch here.
+
+
+
+kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/master/content/en/exampl/es/application/nginx-app.yaml
+
+
+ kubeadm join 192.168.0.6:6443 --token z39xo6.xg1j3pjh9f22uuq2     --discovery-token-ca-cert-hash sha256:bb1cfd921b9003b046019b237dca8af9cae2116b3b7f02a687571
