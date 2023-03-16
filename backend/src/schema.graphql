@@ -13,6 +13,8 @@ enum ThirdPartyPlatform {
   ALIPAY
 }
 
+
+
 type MemberShipStatus {
   lastPaymentAt: String!
   willExpireAt: String!
@@ -20,7 +22,6 @@ type MemberShipStatus {
 
 type User {
   _id: String! #mongodb internal id
-  
   userId: String!
   email: String
   name: String
@@ -33,6 +34,17 @@ type User {
   companyName: String
   role: UserType
   membershipStatus: MemberShipStatus
+}
+
+type Membership {
+  _id: String!
+  name: String
+  price: String
+  plan: String
+  status: String
+  payAt: String
+  expireAt: String
+  user: User
 }
 
 input UserRegistrationInput {
@@ -115,6 +127,9 @@ type Query {
   questionDetail(questionId: String!): Question
   allQuestions:[Question]
 
+  ### Registration related
+  requestLoginQrCodeImage(provider: String): String
+  
   ### Wechat Related
   wechatLoginUrl: String!
   wechatAuthorizationCallback(authorizationCode: String!, state: String!): AuthorizationResponse!
@@ -124,6 +139,12 @@ type Query {
 
   ### User related
   currentUserDetail: User
+  ### User related
+  queryUserDetail(userId: String!): User
+
+  ### Membership
+  queryMembershipDetail(membershipId: String!): Membership
+  allMemberships:[Membership]
 }
 
 type Mutation {
@@ -141,10 +162,19 @@ type Mutation {
 
   ### User related
   createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
+
+  ### Membership
+  setMembership(name: String, status: String, payAt: String, expireAt: String):Membership
+
 }
 
 type createQuestionInput {
   title: String,
   content: String,
   userId: String
+}
+
+type Subscription {
+  questionCreated: Question
+  answerCreated: Question
 }

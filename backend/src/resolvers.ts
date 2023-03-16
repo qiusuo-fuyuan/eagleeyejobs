@@ -6,6 +6,10 @@ import userService  from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 import logger from "./utils/Logger.js";
+
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub();
 /**
  * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
  * is really bad
@@ -80,11 +84,13 @@ export const resolvers = {
         },
 
         createQuestion(_: any, args: any, { user }: any, { fieldName }: any) {
+            pubsub.publish('QUESTION_CREATED', { questionCreated: args }); 
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
         createAnswer:(_:any, args: any, { user }: any, { fieldName }: any) => { 
             logger.info("createAnswer:" + args.questionId, args.content, args.userId)
+            pubsub.publish('ANSWER_CREATED', { answerCreated: args }); 
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         }
 
@@ -103,6 +109,14 @@ export const resolvers = {
          * Community Story Mutation Resolvers
          */
     },
+    Subscription: {
+        questionCreated: {
+          subscribe: () => pubsub.asyncIterator(['QUESTION_CREATED'])
+      },
+        answerCreated: { 
+            subscribe:() => pubsub.asyncIterator(['ANSWER_CREATED'])
+        }
+      },
     Question: {
         /**
          * Question Query Resolvers
@@ -134,6 +148,6 @@ function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     }
 }
 
-let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
+// let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
 
-patchResolvers(resolvers, permissionCheckBeforeResolver)
+// patchResolvers(resolvers, permissionCheckBeforeResolver)
