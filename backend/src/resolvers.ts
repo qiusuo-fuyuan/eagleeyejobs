@@ -98,7 +98,7 @@ export const resolvers = {
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
-        createAnswer:(_: any, args: any, { user }: Context, { fieldName }: any) {
+        createAnswer(_: any, args: any, { user }: Context, { fieldName }: any) {
             logger.info("createAnswer:" + args.questionId, args.content, args.userId)
             pubsub.publish('ANSWER_CREATED', { answerCreated: args }); 
             return qaService.addAnswer(args.questionId, args.content, args.userId)

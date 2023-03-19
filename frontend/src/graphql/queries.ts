@@ -113,8 +113,9 @@ export const CurrentUserDetail = gql`query CurrentUserDetail {
   currentUserDetail {
     ...UserDetails
   }
-  ${userDetails}
-}`
+}
+${userDetails}
+`
 
 
 export const QuestionCreated = gql`subscription QuestionCreated {
