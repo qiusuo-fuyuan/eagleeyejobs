@@ -12,6 +12,15 @@ import express, { Request, Response }  from 'express';
 
 import http from 'http';
 
+// subscriptions
+import { createServer } from 'http';
+// import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+
+
+
 
 /**
  * Here, js ending has to be used, and the problem is reported here.
@@ -64,23 +73,55 @@ let { resolvers } = await import('./resolvers.js');
 
  let { getAuthenticatedUserFromToken } = await import('./middleware/JWTAuthenticationValidationMiddleware.js');
 
- const server = new ApolloServer({
-   typeDefs,
-   // mocks: true,
-   resolvers,
+
+
+// Subscriptions 
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+ // Creating the WebSocket server
+const wsServer = new WebSocketServer({
+  // This is the `httpServer` we created in a previous step.
+  server: httpServer,
+  // Pass a different path here if app.use
+  // serves expressMiddleware at a different path
+  path: '/subscription',
+});
+
+// Hand in the schema we just created and have the WebSocketServer start listening.
+const serverCleanup = useServer({ 
+  schema,
+ }, 
+ wsServer
+ );
+
+const server = new ApolloServer({
+   schema,
    csrfPrevention: true,
    cache: 'bounded',
    introspection: process.env.NODE_ENV !== 'production',
    formatError: formatServerError,
    plugins: [
+     //  // Proper shutdown for the HTTP server.
      ApolloServerPluginDrainHttpServer({ httpServer }),
      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    // Proper shutdown for the WebSocket server.
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
    ],
    context: async ({req, res}: {req: Request, res: Response}) => { 
       let user =  await getAuthenticatedUserFromToken(req, res)
       return { user }
     } 
  });
+
+
 
  // More required logic for integrating with Express
  await server.start();
@@ -92,6 +133,8 @@ let { resolvers } = await import('./resolvers.js');
    // /graphql. Optionally provide this to match apollo-server.
    path: '/graphql'
  });
+
+
 
  // Modified server startup
  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));

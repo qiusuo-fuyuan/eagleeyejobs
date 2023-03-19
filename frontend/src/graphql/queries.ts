@@ -116,3 +116,27 @@ export const CurrentUserDetail = gql`query CurrentUserDetail {
 }
 ${userDetails}
 `
+
+
+export const QuestionCreated = gql`subscription QuestionCreated {
+  questionCreated {
+    _id
+    content
+    title
+  }
+}`
+
+
+export const AnswerCreated = gql`subscription AnswerCreated {
+  answerCreated {
+    _id
+    content
+    answers{
+      _id
+      content
+    }
+  }
+}`
+
+
+

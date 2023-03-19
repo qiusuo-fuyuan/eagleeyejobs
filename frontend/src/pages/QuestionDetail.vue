@@ -30,19 +30,34 @@
 
 <script setup lang="ts">
 import { watchEffect, ref } from 'vue'
-import { useQuery, useMutation } from '@vue/apollo-composable'
-import { QuestionDetail, CreateAnswer } from "../graphql/queries";
-import type { QuestionDetailQuery, CreateAnswerMutation } from "../generated/graphql";
+import { useQuery, useMutation, useSubscription } from '@vue/apollo-composable'
+import { QuestionDetail, CreateAnswer, AnswerCreated } from "../graphql/queries";
+import type { QuestionDetailQuery, CreateAnswerMutation, AnswerCreatedSubscription } from "../generated/graphql";
 import type { QuestionDetailQueryVariables, CreateAnswerMutationVariables } from "../generated/graphql";
 import { useRoute } from 'vue-router';
 // details
 const route = useRoute(); 
 const questionDetailQueryVariables: QuestionDetailQueryVariables = { questionId: route.params.questionId as string }
-const { result, loading, error } = useQuery<QuestionDetailQuery, QuestionDetailQueryVariables>(QuestionDetail, questionDetailQueryVariables);
-
+const { result, loading, error } = useQuery<QuestionDetailQuery, QuestionDetailQueryVariables>(QuestionDetail, questionDetailQueryVariables, );
 watchEffect(() => {
     console.log(result.value)   // result: reactive variable
 })
+
+// subscriptions
+const { result: result2 } = useSubscription<AnswerCreatedSubscription>(AnswerCreated,
+  {
+    onSubscriptionData: ({ subscriptionData: { data } }) => {
+      // do something with `data` here
+      console.log(data)
+    }
+  },  
+);
+  watchEffect(() => {
+    console.log("subscription value: ", result2.value)
+})
+
+
+
 
 // create answer
 let content = ref('')

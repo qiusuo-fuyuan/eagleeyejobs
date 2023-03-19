@@ -24,19 +24,45 @@
 
 
 <script setup lang="ts">
-import { watchEffect, ref, computed } from 'vue'
+import { watchEffect, ref, watch, computed } from 'vue'
 import { reactive } from 'vue';
-import { useQuery } from '@vue/apollo-composable'
-import { useMutation } from '@vue/apollo-composable'
-import { CreateQuestion, AllQuestions } from "../graphql/queries";
-import type { CreateQuestionMutation, AllQuestionsQuery } from "../generated/graphql";
+import { useQuery, useMutation, useSubscription } from '@vue/apollo-composable'
+import { CreateQuestion, AllQuestions, QuestionCreated } from "../graphql/queries";
+import type { CreateQuestionMutation, AllQuestionsQuery, QuestionCreatedSubscription } from "../generated/graphql";
 import type { CreateQuestionMutationVariables } from "../generated/graphql";
 
 
+
+// subscriptions
+const { result: result2 } = useSubscription<QuestionCreatedSubscription>(QuestionCreated);
+  watchEffect(() => {
+    console.log("subscription value: ", result2.value)
+})
+
+const subscriptionData = computed(() => result2.value?.questionCreated);
+console.log(subscriptionData, result2)
+
+
+
 // all questions
-const { result: result1} = useQuery<AllQuestionsQuery>(AllQuestions);
+const { result: result1, subscribeToMore } = useQuery<AllQuestionsQuery>(AllQuestions, {
+  subscribeToMore: { 
+        document: useSubscription<QuestionCreatedSubscription>(QuestionCreated),
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev
+          return {
+            allQuestions: [
+              ...prev.allQuestions,
+              subscriptionData.data.questionCreated
+            ]
+          }
+        }
+      }
+    }
+  )
+
 watchEffect(() => {
-    console.log(result1.value)
+    console.log("all questions query: ", result1.value)
 })
 const questions = computed(() => result1.value?.allQuestions ?? [])
 
@@ -47,8 +73,9 @@ let content = ref('')
 let title = ref('')
 
 watchEffect(() => {
-console.log("title: " + title.value + " content: " + content.value)
+// console.log("title: " + title.value + " content: " + content.value)
 })
+
 
 let createQuestionMutationVariables: CreateQuestionMutationVariables = reactive({userId: '63133', content: content.value, title: title.value})
 
