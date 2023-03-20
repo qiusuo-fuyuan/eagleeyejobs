@@ -1,0 +1,4 @@
+{
+        "host": "http://elastic:test1234@127.0.0.1:9200",
+        "name": "dev"
+    }

@@ -124,6 +124,7 @@ type Query {
 
   ### User related
   currentUserDetail: User
+  searchUser:[User]
 }
 
 type Mutation {
@@ -137,7 +138,7 @@ type Mutation {
   createAnswer(content: String, userId: String, questionId: String!): Question
 
   ### Registration related
-  registerNewUser: String
+  registerNewUser(email:String, companyName:String, pass:String): User
 
   ### User related
   createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User

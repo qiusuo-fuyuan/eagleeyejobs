@@ -10,7 +10,8 @@ export const messages = {
                     forum: 'Forum',
                     stories: 'stories',
                     aboutUs: 'aboutUs',
-                    login: 'login'
+                    login: 'login',
+                    registor: 'registor'
                 }
             },
             page: {
@@ -19,6 +20,10 @@ export const messages = {
                         country: 'Country',
                         city: 'City'
                     }
+                },
+                registor: {
+                    companyName: 'Company Name',
+                    email: 'Email'
                 }
             }
 
@@ -32,7 +37,8 @@ export const messages = {
                     forum: '论坛',
                     stories: '社区故事',
                     aboutUs: '关于我们',
-                    login: '登录'
+                    login: '登录',
+                    registor: '注册'
                 }
             },
             page: {
@@ -41,6 +47,10 @@ export const messages = {
                         country: '国家',
                         city: '城市'
                     }
+                },
+                registor: {
+                    companyName: '公司名称',
+                    email: '邮箱'
                 }
             }
         }
