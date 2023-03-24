@@ -50,7 +50,11 @@ export class User {
     /**
      * This is the id that we  use in our business case. For example, in Europe, normally
      * user email will be set as the ID. For wechat, or alipay users, we will set this value
-     * as as the openid
+     * as as the openid. 
+     * 
+     * For example, in Europe, when people register for the website, they normally will use email address.
+     * We have to check the email address collision. If we use email address as userId, then its easy to check collision.
+     * 
      */
     userId: string
     email: string
