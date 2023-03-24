@@ -6,6 +6,12 @@ import { createI18n } from 'vue-i18n'
 
 import { messages } from './translation/message'
 
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
 import apolloClient from './apolloClient';
 
 
@@ -24,4 +30,5 @@ const app = createApp({
     render: () => h(App),
 })
 
-app.use(i18n).use(router).mount('#app');
+const vuetify = createVuetify({ components, directives });
+app.use(i18n).use(router).use(vuetify).mount('#app');

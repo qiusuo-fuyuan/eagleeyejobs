@@ -1,7 +1,10 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
 
+
+
+
 // create table
-export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
+export const MembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
 {
     name: "Membership",
     tableName: 'membership',
@@ -17,14 +20,14 @@ export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
     }
 }
 
-
-export class Membership {
+export class MembershipStatus {
     name: String
     price: String
     status: String
     payAt: String
     expireAt: String
     userId: String
+    internalUserId: String
 
     constructor(name: String, status: String, userId: String) {
         this.name = name;

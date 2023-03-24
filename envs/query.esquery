@@ -1,0 +1,22 @@
+GET /workabroad.question/_search
+{
+ "query": {
+    "match": {
+      "title": "Angular"
+    }
+  }
+}
+GET /workabroad.job/_search
+{
+  "query": {
+    "match": {
+      "title": "hello"
+    }
+  }
+}
+
+GET /_cat/nodes
+
+GET /_cat/indices?v
+
+
