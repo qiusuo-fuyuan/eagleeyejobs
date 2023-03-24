@@ -24,18 +24,30 @@ import { useMutation } from '@vue/apollo-composable';
 
 import type { RegisterNewUserMutationVariables } from '../generated/graphql';
 import type { RegisterNewUserMutation } from '../generated/graphql';
+import { useRouter } from 'vue-router';
+
 
 const email = ref('');
 const companyName = ref('');
+const router = useRouter();
 
 // Here you can add your logic to register the user with the email and companyName data
 // You can use a backend framework or library to handle this logic
 
 const { mutate: registerNewUser } = useMutation<RegisterNewUserMutation, RegisterNewUserMutationVariables>(RegisterNewUser, () => ({
   variables: {
+    userId: '',
     email: email.value,
     companyName: companyName.value
   },
+  update: (cache, { data: resdata }) => {
+    const { registerNewUser: newUser } = resdata;
+    console.log('registerNewUser:', newUser, cache, resdata)
+    if (newUser.email) {
+      
+      router.push({ name: 'login' });
+    }
+  }
 }));
 
 console.log(`Registered user with email: ${email.value} and company name: ${companyName.value}`);

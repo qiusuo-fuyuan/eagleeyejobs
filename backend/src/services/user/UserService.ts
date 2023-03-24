@@ -30,12 +30,12 @@ export class UserService {
     }
 
     async registerUser(user: User): Promise<User> {
-        let existUser = await this.getUserByEmail(user.email)
-        if (existUser == null) {
-            return this.userRepository.save(user)
-        }
+        let existUser = await this.getUserByEmail(user.email);
         if (!user.userId) {
             user.userId = user.email;
+        }
+        if (existUser == null) {
+            return this.userRepository.save(user)
         }
         copyMatchingKeyValues(user, existUser);
         (existUser as any).save()
