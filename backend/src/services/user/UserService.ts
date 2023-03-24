@@ -1,4 +1,4 @@
-import { User } from "../../models/User.js"
+import { User, UserType } from "../../models/User.js"
 import userRepository, { UserRepository } from "../../repositories/UserRepository.js"
 import { copyMatchingKeyValues } from "../../utils/Utils.js"
 
@@ -21,11 +21,29 @@ export class UserService {
      */
     async addUser(user: User): Promise<User> {
         let existingUser = await this.getUserByUserId(user.userId)
-        if(existingUser == null) {
+        if (existingUser == null) {
             return this.userRepository.save(user)
         }
         copyMatchingKeyValues(user, existingUser);
         (existingUser as any).save()
+        return existingUser;
+    }
+
+    async registerUser(user: User): Promise<User> {
+        // User register is currently only design for Recruiter, 
+        // ToDo: send a verify email(include a token)
+        let existUser = await this.getUserByEmail(user.email);
+        user.role = UserType.RECRUITER;
+        if (!user.userId) {
+            user.userId = user.email;
+        }
+        if (existUser == null) {
+            return this.userRepository.save(user)
+        }
+
+        copyMatchingKeyValues(user, existUser);
+        (existUser as any).save()
+        return existUser;
     }
 
     getUserById(id: string): Promise<User> {
@@ -33,15 +51,23 @@ export class UserService {
     }
 
     getUserByUserId(userId: string): Promise<User> {
-        return this.userRepository.findOne({userId: userId})
+        return this.userRepository.findOne({ userId: userId })
+    }
+
+    getUserByEmail(email: string): Promise<User> {
+        return this.userRepository.findOne({ email })
     }
 
     getAnonymousUser(): Promise<User> {
-        return this.userRepository.findOne({userId: "anonymous"});
+        return this.userRepository.findOne({ userId: "anonymous" });
     }
 
     getAdminUser(): Promise<User> {
-        return this.userRepository.findOne({userId: "admin"});
+        return this.userRepository.findOne({ userId: "admin" });
+    }
+
+    async getAllUser(): Promise<User[]> {
+        return this.userRepository.findAll();
     }
 }
 

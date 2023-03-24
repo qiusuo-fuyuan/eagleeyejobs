@@ -2,7 +2,7 @@ import { Job } from "./models/Job.js";
 import jobService from "./services/job/JobService.js";
 import jobSearchService from "./services/job/JobSearchService.js";
 import qaService from "./services/qa/QAService.js";
-import userService  from "./services/user/UserService.js";
+import userService from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 import logger from "./utils/Logger.js";
@@ -28,7 +28,7 @@ export const resolvers = {
         /**
          * Login query resolvers
          */
-         wechatLoginUrl(_: any, args: any) {
+        wechatLoginUrl(_: any, args: any) {
             return thirdPartyLoginService.getLoginUrl("wechat")
          },
         
@@ -59,7 +59,11 @@ export const resolvers = {
          */
         currentUserDetail(_: any, args: any, { user }: any) {
             return user;
-        }
+        },
+
+        searchUser(_: any, args: any, { user }: any) {
+            return userService.getAllUser()
+        },
 
         /**
          * Membership Query Resolvers
@@ -84,12 +88,12 @@ export const resolvers = {
         /**
          * Jobs Mutation Resolvers
         */
-        addJob(_:any, args: any) {
+        addJob(_: any, args: any) {
             logger.info("[Mutation] add job:" + args.job)
             return jobService.addJob(args.job);
         },
 
-        updateJob(_:any, args: any) {
+        updateJob(_: any, args: any) {
             return jobService.updateJob(args.job);
         },
 
@@ -108,14 +112,17 @@ export const resolvers = {
          */
         refreshJwtToken(_:any, args: any): JwtToken {
             return jwtTokenService.refreshJwtToken(args.jwtRefreshToken)
-        }
+        },
 
 
 
         /**
          * User Mutation Resolvers
          */
-
+        registerNewUser: (_: any, args: any, { user }: any, { fieldName }: any) => {
+            logger.info('registerNewUser:' + args.email);
+            return userService.registerUser(args)
+        },
 
         /**
          * Membership Mutation Resolvers
@@ -140,20 +147,20 @@ export const resolvers = {
 function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     // Loop through the Query and Mutation attributes of the resolvers object
     for (const type of ['Query', 'Mutation']) {
-      const typeResolvers = resolvers[type];
-      // Loop through the attributes of the Query or Mutation object
-      for (const field in typeResolvers) {
-        // Check if the attribute is a function
-        if (typeof typeResolvers[field] === 'function') {
-          // Save a reference to the original function
-          const originalResolver = typeResolvers[field];
-          // Replace the function with a new function that calls the beforeResolverCheck function before executing the original function
-          typeResolvers[field] = function(source: any, args: any, context: any, info: any) {
-            beforeResolverCheck(source, args, context, info);
-            return originalResolver(source, args, context, info);
-          }
+        const typeResolvers = resolvers[type];
+        // Loop through the attributes of the Query or Mutation object
+        for (const field in typeResolvers) {
+            // Check if the attribute is a function
+            if (typeof typeResolvers[field] === 'function') {
+                // Save a reference to the original function
+                const originalResolver = typeResolvers[field];
+                // Replace the function with a new function that calls the beforeResolverCheck function before executing the original function
+                typeResolvers[field] = function (source: any, args: any, context: any, info: any) {
+                    beforeResolverCheck(source, args, context, info);
+                    return originalResolver(source, args, context, info);
+                }
+            }
         }
-      }
     }
 }
 

@@ -1,6 +1,6 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
 
-export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
+export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
 {
     name: "User",
     tableName: 'user',
@@ -12,7 +12,7 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
         },
         email: {
             type: String,
-            unique: true 
+            unique: true
         },
         name: String,
         nickName: String,
@@ -21,14 +21,15 @@ export const UserDocumentSchemaDefinition: DocumentSchemaDefinitionType =
         gender: Number,
         role: String,
         platform: String,
+        companyName: String,
         openid: String, //this can not be empty when platform="wechat" or others for identifying one user
     }
 }
 
 export enum UserType {
     RECRUITER = "RECRUITER",
-    NORMAL_USER = "NORMAL_USER", 
-    ENTRY_MEMBERSHIP = "ENTRY_MEMBERSHIP", 
+    NORMAL_USER = "NORMAL_USER",
+    ENTRY_MEMBERSHIP = "ENTRY_MEMBERSHIP",
     INTERMEDIATE_MEMBERSHIP = "INTERMEDIATE_MEMBERSHIP",
     ADVANCED_MEMBERSHIP = "ADVANCED_MEMBERSHIP",
     ANONYMOUS = "ANONYMOUS",
@@ -62,7 +63,7 @@ export class User {
     lastName?: string
     companyName?: string
     membershipStatus?: MemberShipStatus
-        
+
     //platform denotes where the user come from "wechat or alipay"
     platform?: string
     openid?: string

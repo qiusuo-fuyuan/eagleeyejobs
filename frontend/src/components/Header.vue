@@ -3,6 +3,7 @@
     <div class="header_topright">
       <div v-if="showLoginButton">
         <router-link id="button_login" to="/login">{{ $t("message.header.menu.login") }}</router-link>
+      <router-link id="button_registor" to="/registor">{{ $t("message.header.menu.registor") }}</router-link>
       </div>
       <div v-else>
         <div v-if="loading">

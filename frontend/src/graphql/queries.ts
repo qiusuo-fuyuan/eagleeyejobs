@@ -95,6 +95,26 @@ export const CreateAnswer = gql`mutation CreateAnswer($questionId: String!, $con
 }`
 
 
+export const RegisterNewUser = gql`mutation RegisterNewUser($email: String, $companyName: String) {
+  registerNewUser(email: $email, companyName: $companyName) {
+    companyName
+    email
+    userId
+    _id
+    name
+    nickName
+    firstName
+    lastName
+    gender
+    platform
+    role
+    membershipStatus {
+      lastPaymentAt
+      willExpireAt
+    }
+  }
+}`
+
 export const userDetails = gql`fragment UserDetails on User { 
   _id
   companyName
@@ -137,6 +157,5 @@ export const AnswerCreated = gql`subscription AnswerCreated {
     }
   }
 }`
-
 
 
