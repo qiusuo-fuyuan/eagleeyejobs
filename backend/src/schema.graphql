@@ -13,6 +13,8 @@ enum ThirdPartyPlatform {
   ALIPAY
 }
 
+
+
 type MemberShipStatus {
   lastPaymentAt: String!
   willExpireAt: String!
@@ -20,10 +22,10 @@ type MemberShipStatus {
 
 type User {
   _id: String! #mongodb internal id
-  
   userId: String!
   email: String
   name: String
+  profilePicture: String!
   nickName: String
   firstName: String
   lastName: String
@@ -33,6 +35,17 @@ type User {
   companyName: String
   role: UserType
   membershipStatus: MemberShipStatus
+}
+
+type Membership {
+  _id: String!
+  name: String
+  price: String
+  plan: String
+  status: String
+  payAt: String
+  expireAt: String
+  user: User
 }
 
 input UserRegistrationInput {
@@ -101,8 +114,15 @@ type Comment {
   user: User
 }
 
-type AuthorizationResponse {
-  jwtToken: String!
+type createQuestionInput {
+  title: String,
+  content: String,
+  userId: String
+}
+
+type JwtToken {
+  jwtAccessToken: String!
+  jwtRefreshToken: String!
 }
 
 
@@ -113,11 +133,13 @@ type Query {
 
   ### Question related
   questionDetail(questionId: String!): Question
-  allQuestions:[Question]
+  allQuestions: [Question]
 
+  ### Registration related
+  requestLoginQrCodeImage(provider: String): String
+  
   ### Wechat Related
   wechatLoginUrl: String!
-  wechatAuthorizationCallback(authorizationCode: String!, state: String!): AuthorizationResponse!
 
   ### google Related
 
@@ -125,6 +147,12 @@ type Query {
   ### User related
   currentUserDetail: User
   searchUser:[User]
+  ### User related
+  queryUserDetail(userId: String!): User
+
+  ### Membership
+  queryMembershipDetail(membershipId: String!): Membership
+  allMemberships:[Membership]
 }
 
 type Mutation {
@@ -134,18 +162,33 @@ type Mutation {
   removeJob(jobId: String!): Job
 
   ### Question related
-  createQuestion(title: String, content: String, userId: String): Question
-  createAnswer(content: String, userId: String, questionId: String!): Question
+  createQuestion(title: String, content: String): Question
+  createAnswer(content: String, questionId: String!): Question
+
+  ## third party callback
+  wechatAuthorizationCallback(authorizationCode: String!, state: String!): JwtToken!
 
   ### Registration related
   registerNewUser(email:String, companyName:String, pass:String): User
 
   ### User related
   createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
+
+  ### Membership
+  setMembership(name: String, status: String, payAt: String, expireAt: String):Membership
+
+  ### Jwt Token related
+  refreshJwtToken(jwtRefreshToken: String): JwtToken!
+
 }
 
 type createQuestionInput {
   title: String,
   content: String,
   userId: String
+}
+
+type Subscription {
+  questionCreated: Question
+  answerCreated: Question
 }

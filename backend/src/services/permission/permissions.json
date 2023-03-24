@@ -1,5 +1,5 @@
  {
-    "ANONYMOUS": ["searchJobs", "wechatLoginUrl", "wechatAuthorizationCallback", "currentUserDetail","searchUser","registerNewUser","addJob"],
+    "ANONYMOUS": ["searchJobs", "wechatLoginUrl", "wechatAuthorizationCallback", "currentUserDetail","refreshJwtToken","searchUser","registerNewUser","addJob"],
     "ADMIN": ["create", "update", "delete"],
     "NORMAL_USER": ["addJob","searchJobs", "delete", "allQuestions", "questionDetail"],
     "ENTRY_MEMBERSHIP": ["searchJobs","jobDetail", "searchJobs","allQuestions","questionDetail", "createQuestion", "createAnswer"],

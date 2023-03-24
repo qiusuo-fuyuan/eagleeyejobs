@@ -11,7 +11,8 @@ export const messages = {
                     stories: 'stories',
                     aboutUs: 'aboutUs',
                     login: 'login',
-                    registor: 'registor'
+                    registor: 'registor',
+                    logout: 'logout'
                 }
             },
             page: {
@@ -24,6 +25,15 @@ export const messages = {
                 registor: {
                     companyName: 'Company Name',
                     email: 'Email'
+                }
+            },
+            error: {
+                graphql: {
+
+                },
+                network: {
+                    jwt_token_invalid: 'Login Invalid',
+                    jwt_token_expired: 'Token Expired'
                 }
             }
 
@@ -52,7 +62,17 @@ export const messages = {
                     companyName: '公司名称',
                     email: '邮箱'
                 }
+            },
+            error: {
+                graphql: {
+
+                },
+                network: {
+                    jwt_token_invalid: '登录失败',
+                    jwt_token_expired: '密钥过期'
+                }
             }
+
         }
 
     }

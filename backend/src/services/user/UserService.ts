@@ -1,4 +1,4 @@
-import { User } from "../../models/User.js"
+import { User, UserType } from "../../models/User.js"
 import userRepository, { UserRepository } from "../../repositories/UserRepository.js"
 import { copyMatchingKeyValues } from "../../utils/Utils.js"
 
@@ -30,13 +30,17 @@ export class UserService {
     }
 
     async registerUser(user: User): Promise<User> {
+        // User register is currently only design for Recruiter, 
+        // ToDo: send a verify email(include a token)
         let existUser = await this.getUserByEmail(user.email);
+        user.role = UserType.RECRUITER;
         if (!user.userId) {
             user.userId = user.email;
         }
         if (existUser == null) {
             return this.userRepository.save(user)
         }
+
         copyMatchingKeyValues(user, existUser);
         (existUser as any).save()
         return existUser;

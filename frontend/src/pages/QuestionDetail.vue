@@ -11,21 +11,14 @@
           <p>Title:{{ result.questionDetail.title }} </p>
          <p>Content:{{ result.questionDetail.content}} </p>
         </div>
-        
       </div>
-
-      
-        <div  class="question" >
-          <p class="text-center"> Answers</p>
-          <p v-if="result.questionDetail.answers">
-            <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
-          </p>
-        </div>
-        
+      <div  class="question" >
+        <p class="text-center"> Answers</p>
+        <p v-if="result?.questionDetail?.answers">
+          <p v-for="answer of result.questionDetail.answers"> content:{{answer?.content}}</p>
+        </p>
+      </div>
     </div>
-   
-        
-
      <!-- add answer to question -->
      <div>
       <p class="text-center">Add answer</p>
@@ -35,21 +28,36 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { watchEffect, ref } from 'vue'
-import { useQuery, useMutation } from '@vue/apollo-composable'
-import { QuestionDetail, CreateAnswer } from "../graphql/queries";
-import type { QuestionDetailQuery, CreateAnswerMutation } from "../generated/graphql";
+import { useQuery, useMutation, useSubscription } from '@vue/apollo-composable'
+import { QuestionDetail, CreateAnswer, AnswerCreated } from "../graphql/queries";
+import type { QuestionDetailQuery, CreateAnswerMutation, AnswerCreatedSubscription } from "../generated/graphql";
 import type { QuestionDetailQueryVariables, CreateAnswerMutationVariables } from "../generated/graphql";
 import { useRoute } from 'vue-router';
 // details
 const route = useRoute(); 
 const questionDetailQueryVariables: QuestionDetailQueryVariables = { questionId: route.params.questionId as string }
-const { result, loading, error } = useQuery<QuestionDetailQuery, QuestionDetailQueryVariables>(QuestionDetail, questionDetailQueryVariables);
+const { result, loading, error } = useQuery<QuestionDetailQuery, QuestionDetailQueryVariables>(QuestionDetail, questionDetailQueryVariables, );
 watchEffect(() => {
     console.log(result.value)   // result: reactive variable
 })
+
+// subscriptions
+const { result: result2 } = useSubscription<AnswerCreatedSubscription>(AnswerCreated,
+  {
+    onSubscriptionData: ({ subscriptionData: { data } }) => {
+      // do something with `data` here
+      console.log(data)
+    }
+  },  
+);
+  watchEffect(() => {
+    console.log("subscription value: ", result2.value)
+})
+
+
+
 
 // create answer
 let content = ref('')
@@ -62,7 +70,6 @@ const { mutate: createAnswer } = useMutation<CreateAnswerMutation, CreateAnswerM
     variables:  {
         questionId: route.params.questionId as string,
         content: content.value,
-        userId: '63787c45f763a263f00c643c'  
     },
 }))
 

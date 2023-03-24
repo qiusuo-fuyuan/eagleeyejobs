@@ -6,6 +6,19 @@ import userService from "./services/user/UserService.js";
 import permissionService from "./services/permission/PermissionService.js";
 import thirdPartyLoginService from "./services/login/ThirdPartyLoginService.js";
 import logger from "./utils/Logger.js";
+import { JwtToken } from "./services/jwt/JwtToken.js";
+import jwtTokenService from "./services/jwt/JwtTokenService.js";
+import { User } from "./models/User.js";
+
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub();
+
+
+
+type Context = {
+    user: User
+}
 /**
  * ToDo: The arguments of resolvers need to be defined. Otherwise, the code readability
  * is really bad
@@ -17,15 +30,8 @@ export const resolvers = {
          */
         wechatLoginUrl(_: any, args: any) {
             return thirdPartyLoginService.getLoginUrl("wechat")
-        },
-
-        wechatAuthorizationCallback(_: any, args: any) {
-            const authorizationCode = args.authorizationCode
-            const state = args.state
-            return thirdPartyLoginService.loginUserByAuthorizationCode("wechat", authorizationCode, state)
-        },
-
-
+         },
+        
         /**
          * Jobs query resolvers
          */
@@ -72,6 +78,14 @@ export const resolvers = {
 
     Mutation: {
         /**
+         * Login related
+         */
+        wechatAuthorizationCallback(_: any, args: any) {
+            const authorizationCode = args.authorizationCode
+            const state = args.state
+            return thirdPartyLoginService.loginUserByAuthorizationCode("wechat", authorizationCode, state)
+         },
+        /**
          * Jobs Mutation Resolvers
         */
         addJob(_: any, args: any) {
@@ -83,14 +97,23 @@ export const resolvers = {
             return jobService.updateJob(args.job);
         },
 
-        createQuestion(_: any, args: any, { user }: any, { fieldName }: any) {
+        createQuestion(_: any, args: any, { user }: Context, { fieldName }: any) {
+            pubsub.publish('QUESTION_CREATED', { questionCreated: args }); 
             return qaService.addQuestion(args.title, args.content, args.userId)
         },
 
-        createAnswer: (_: any, args: any, { user }: any, { fieldName }: any) => {
+        createAnswer(_: any, args: any, { user }: Context, { fieldName }: any) {
             logger.info("createAnswer:" + args.questionId, args.content, args.userId)
+            pubsub.publish('ANSWER_CREATED', { answerCreated: args }); 
             return qaService.addAnswer(args.questionId, args.content, args.userId)
         },
+         /**
+         * Jwt Token Mutations Resolvers
+         */
+        refreshJwtToken(_:any, args: any): JwtToken {
+            return jwtTokenService.refreshJwtToken(args.jwtRefreshToken)
+        },
+
 
 
         /**
@@ -99,7 +122,7 @@ export const resolvers = {
         registerNewUser: (_: any, args: any, { user }: any, { fieldName }: any) => {
             logger.info('registerNewUser:' + args.email);
             return userService.registerUser(args)
-        }
+        },
 
         /**
          * Membership Mutation Resolvers
@@ -110,16 +133,16 @@ export const resolvers = {
          * Community Story Mutation Resolvers
          */
     },
-    Question: {
-        /**
-         * Question Query Resolvers
-         */
-        user: (parent: any, args: any) => {
-            logger.info("question's user: " + args)
-            return userService.getUserByUserId(parent.userId)
+    Subscription: {
+        questionCreated: {
+          subscribe: () => pubsub.asyncIterator(['QUESTION_CREATED'])
+      },
+        answerCreated: { 
+            subscribe:() => pubsub.asyncIterator(['ANSWER_CREATED'])
         }
-    }
+    },
 };
+
 
 function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     // Loop through the Query and Mutation attributes of the resolvers object
@@ -141,6 +164,6 @@ function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     }
 }
 
-let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
+// let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
 
-patchResolvers(resolvers, permissionCheckBeforeResolver)
+// patchResolvers(resolvers, permissionCheckBeforeResolver)
