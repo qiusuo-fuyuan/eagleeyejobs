@@ -117,7 +117,7 @@ export const resolvers = {
 
 
         /**
-         * User Mutation Resolvers
+         * User Registration Mutation Resolvers
          */
         registerNewUser: (_: any, args: any, { user }: any, { fieldName }: any) => {
             logger.info('registerNewUser:' + args.email);
@@ -133,6 +133,10 @@ export const resolvers = {
          * Community Story Mutation Resolvers
          */
     },
+
+
+
+
     Subscription: {
         questionCreated: {
           subscribe: () => pubsub.asyncIterator(['QUESTION_CREATED'])

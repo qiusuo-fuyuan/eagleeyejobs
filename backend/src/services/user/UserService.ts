@@ -29,9 +29,15 @@ export class UserService {
         return existingUser;
     }
 
+    /**
+     * User registration is currently only design for Recruiter, 
+     * So we set the user.role as Recruiter 
+     * ToDo: send a verify email(include a token)
+     * @param user 
+     * @returns 
+     */
     async registerUser(user: User): Promise<User> {
-        // User register is currently only design for Recruiter, 
-        // ToDo: send a verify email(include a token)
+
         let existUser = await this.getUserByEmail(user.email);
         user.role = UserType.RECRUITER;
         if (!user.userId) {

@@ -14,7 +14,6 @@ enum ThirdPartyPlatform {
 }
 
 
-
 type MemberShipStatus {
   lastPaymentAt: String!
   willExpireAt: String!
@@ -120,6 +119,7 @@ type createQuestionInput {
   userId: String
 }
 
+
 type JwtToken {
   jwtAccessToken: String!
   jwtRefreshToken: String!
@@ -155,6 +155,7 @@ type Query {
   allMemberships:[Membership]
 }
 
+
 type Mutation {
   ### Job related
   addJob(job: JobInput): Job
@@ -165,27 +166,20 @@ type Mutation {
   createQuestion(title: String, content: String): Question
   createAnswer(content: String, questionId: String!): Question
 
-  ## third party callback
+  ## third party authorization callback
   wechatAuthorizationCallback(authorizationCode: String!, state: String!): JwtToken!
 
   ### Registration related
   registerNewUser(email:String, companyName:String, pass:String): User
 
-  ### User related
-  createUser(email: String, name: String, nickName: String, firstName: String, lastName: String, gender: Int, companyName: String, role: String): User
-
-  ### Membership
+  ### Membership related
   setMembership(name: String, status: String, payAt: String, expireAt: String):Membership
 
   ### Jwt Token related
   refreshJwtToken(jwtRefreshToken: String): JwtToken!
 
-}
-
-type createQuestionInput {
-  title: String,
-  content: String,
-  userId: String
+  ## request membership payment will return the link for the qrcode
+  requestMembershipPayment(membershipId: Int, paymentProvider: String!): String!
 }
 
 type Subscription {

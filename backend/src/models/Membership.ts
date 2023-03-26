@@ -1,7 +1,20 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
 
 
+enum MembershipLevel {
+    ENTRY = "entry",
+    MEDIUM = "medium",
+    ADVANCED = "advanced",
+  }
 
+export class Membership {
+    _id: string;
+    level: MembershipLevel;
+    price: number;   
+    prices: {
+        [currencyCode: string]: number;
+    };
+}
 
 // create table
 export const MembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
@@ -20,7 +33,7 @@ export const MembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionT
     }
 }
 
-export class MembershipStatus {
+export class UserMembershipStatus {
     name: String
     price: String
     status: String
