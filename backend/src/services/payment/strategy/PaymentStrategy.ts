@@ -1,4 +1,4 @@
-export interface ThirdPartyPaymentStrategy {
+export interface PaymentStrategy {
     /**
      * Creates a new payment transaction with the specified details.
      *

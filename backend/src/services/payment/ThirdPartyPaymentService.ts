@@ -1,6 +1,6 @@
 import { PaymentStrategyFactory } from './PaymentStrategyFactory';
 import { PaymentTransaction, PaymentStatus } from './PaymentTypes';
-import { ThirdPartyPaymentStrategy } from './strategy/ThirdPartyPaymentStrategy';
+import { ThirdPartyPaymentStrategy } from './strategy/PaymentStrategy';
 
 export class ThirdPartyPaymentService {
   private readonly paymentStrategyFactory: PaymentStrategyFactory;

@@ -2,16 +2,14 @@
     "compilerOptions": {
       "outDir": "./dist/",
       "sourceMap": true,
-      "lib": [
-        "ESNext" /* ESNext includes new Level-4 features that were
-                 recently added to the ECMA-262 JS spec */
-       ],
+      "lib": ["ESNext"],
       "noImplicitAny": true,
       "moduleResolution": "node", 
       "module": "esNext",
       "esModuleInterop": true,
       "target": "ES2021",
-      "allowJs": true
+      "allowJs": true,
+      "resolveJsonModule": true
     },
     "baseUrl": ".",
     "paths": {
@@ -21,7 +19,5 @@
     "ts-node": {
       "esm": true
     },
-    "exclude":[
-      "node_modules"
-    ],
-  }
+    "exclude":["node_modules"]
+}

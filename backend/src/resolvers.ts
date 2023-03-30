@@ -132,6 +132,14 @@ export const resolvers = {
         /**
          * Community Story Mutation Resolvers
          */
+
+        /**
+         * payment related
+         */
+        requestMembershipPayment: (_: any, {membershipId, paymentProvider}: { membershipId: number, paymentProvider: string}) => {
+            
+        }
+
     },
 
 

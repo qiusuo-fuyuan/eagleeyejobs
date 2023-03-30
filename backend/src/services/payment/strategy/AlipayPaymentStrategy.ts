@@ -1,11 +1,11 @@
-import AlipayAPIGateway from '../../../core/thirdparty/alipay/AlipayAPIGateway';
+import alipayAPIGateway, {AlipayAPIGateway} from '../../../core/thirdparty/alipay/AlipayAPIGateway';
+import { PaymentStrategy } from './PaymentStrategy';
 import { AlipayPaymentResponse, PaymentStatus, PaymentTransaction } from './PaymentTypes';
-import { ThirdPartyPaymentStrategy } from './ThirdPartyPaymentStrategy';
 
-export class AlipayPaymentStrategy implements ThirdPartyPaymentStrategy {
+export class AlipayPaymentStrategy implements PaymentStrategy {
   private readonly alipayAPIGateway: AlipayAPIGateway;
 
-  constructor(alipayAPIGateway: AlipayAPIGateway) {
+  constructor() {
     this.alipayAPIGateway = alipayAPIGateway;
   }
 
@@ -63,3 +63,6 @@ export class AlipayPaymentStrategy implements ThirdPartyPaymentStrategy {
     return transaction;
   }
 }
+
+
+export default new AlipayPaymentStrategy()

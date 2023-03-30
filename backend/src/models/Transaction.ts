@@ -14,7 +14,7 @@ export const TransactionDocumentSchemaDefinition: DocumentSchemaDefinitionType =
             type: String,
             index: true
         },
-        membershipId: {
+        internalUserId: {
             type: String,
             index: true
         },
@@ -32,14 +32,14 @@ export const TransactionDocumentSchemaDefinition: DocumentSchemaDefinitionType =
 }
 
 
-enum PaymentProviderEnum {
+export enum PaymentProviderEnum {
     WECHAT = "wechat",
     ALIPAY = "alipay"
 }
 
 
 // Transaction.ts
-enum TransactionStatus {
+export enum TransactionStatusEnum {
     PENDING = "pending",
     SUCCESS = "success",
     FAILED = "failed",
@@ -47,11 +47,11 @@ enum TransactionStatus {
 
 export class Transaction {
     _id: string;
-    userId: string;
+    internalUserId: string;
     membershipId: string;
     amount: number;
     currency: string;
-    status: TransactionStatus;
+    status: TransactionStatusEnum;
     paymentProvider: string;
     paymentId: string;
     createdAt: Date;

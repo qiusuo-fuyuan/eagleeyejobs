@@ -4,12 +4,12 @@ import alipayUserLoginStrategy, {AlipayUserLoginStrategy} from "./AlipayUserLogi
 
 
 
-enum PROVIDER_TYPE {
+enum LONG_PROVIDER_TYPE {
     WECHAT = "wechat",
     ALIPAY = "alipay"
 }
 
-export type PROVIDER_TYPE_STRINGS = keyof typeof PROVIDER_TYPE
+export type PROVIDER_TYPE_STRINGS = keyof typeof LONG_PROVIDER_TYPE
 
 
 export class ThirdPartyUserLoginStrategyFactory {
@@ -17,8 +17,8 @@ export class ThirdPartyUserLoginStrategyFactory {
 
     constructor() {    
         this.userLoginStrategies = {}
-        this.userLoginStrategies[PROVIDER_TYPE.ALIPAY] = alipayUserLoginStrategy
-        this.userLoginStrategies[PROVIDER_TYPE.WECHAT] = weChatUserLoginStrategy
+        this.userLoginStrategies[LONG_PROVIDER_TYPE.ALIPAY] = alipayUserLoginStrategy
+        this.userLoginStrategies[LONG_PROVIDER_TYPE.WECHAT] = weChatUserLoginStrategy
     }
 
     public getLoginStrategy(providerType: string) {

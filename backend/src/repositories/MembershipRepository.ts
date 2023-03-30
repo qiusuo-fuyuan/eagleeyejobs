@@ -1,10 +1,12 @@
-import { BaseRepository } from "./BaseRepository.js"
-import { Membership, MembershipDocumentSchemaDefinition } from "../models/Membership.js"
+import { BaseRepository } from './BaseRepository';
+import { Membership, MembershipDocumentSchemaDefinition } from '../models/Membership';
 
-export class MembershipRepository extends BaseRepository<Membership>{
-    private MembershipDocumentModel: any
-
+export class MembershipRepository extends BaseRepository<Membership> {
     constructor() {
-        super(MembershipDocumentSchemaDefinition.name)
+        super(MembershipDocumentSchemaDefinition.name);
     }
+
+    // Add any additional methods specific to MembershipRepository here.
 }
+
+export default new MembershipRepository();

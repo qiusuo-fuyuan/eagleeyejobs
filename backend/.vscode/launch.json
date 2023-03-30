@@ -9,44 +9,87 @@
             "request": "launch",
             "name": "Prod",
             "runtimeExecutable": "npx",
-            "runtimeArgs": ["--nolazy", "--inspect",  "ts-node"],
-            "args": ["src/index.ts"],
-            "skipFiles": ["<node_internals>/**", "node_modules/**"],
+            "runtimeArgs": [
+                "--nolazy",
+                "--inspect",
+                "ts-node"
+            ],
+            "args": [
+                "src/index.ts"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "node_modules/**"
+            ],
             "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}",
             "env": {
                 "NODE_ENV": "production"
             }
-
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Dev",
             "runtimeExecutable": "npx",
-            "runtimeArgs": ["--nolazy", "--inspect",  "ts-node"],
-            "args": ["src/index.ts"],
-            "skipFiles": ["<node_internals>/**", "node_modules/**"],
+            "runtimeArgs": [
+                "--nolazy",
+                "--inspect",
+                "ts-node"
+            ],
+            "args": [
+                "src/index.ts"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "node_modules/**"
+            ],
             "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}",
             "env": {
-                "NODE_ENV": "development",
+                "NODE_ENV": "development"
             }
-
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Mock Dev",
             "runtimeExecutable": "npx",
-            "runtimeArgs": ["--nolazy", "--inspect",  "ts-node"],
-            "args": ["src/mockserver/mock-server.ts"],
-            "skipFiles": ["<node_internals>/**", "node_modules/**"],
+            "runtimeArgs": [
+                "--nolazy",
+                "--inspect",
+                "ts-node"
+            ],
+            "args": [
+                "src/mockserver/mock-server.ts"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "node_modules/**"
+            ],
             "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}",
             "env": {
                 "NODE_ENV": "development"
             }
+        },
+        {
+            "type": "node",
+            "name": "vscode-jest-tests.v2",
+            "request": "launch",
+            "args": [
+                "--runInBand",
+                "--watchAll=false",
+                "--testNamePattern",
+                "${jest.testNamePattern}",
+                "--runTestsByPath",
+                "${jest.testFile}"
+            ],
+            "cwd": "/home/ryan/Learning/WorkInGermany/eagleeyejobs.com/backend",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "program": "/home/ryan/Learning/WorkInGermany/eagleeyejobs.com/backend/node_modules/.bin/jest"
         }
     ]
 }

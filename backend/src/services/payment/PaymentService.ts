@@ -1,11 +1,18 @@
+import { PaymentProviderEnum, Transaction, TransactionStatusEnum } from '../../models/Transaction';
+import { User } from '../../models/User';
+import { MembershipRepository } from '../../repositories/MembershipRepository';
+import transactionRepository, { TransactionRepository } from '../../repositories/TransactionRepository';
 import { PaymentStrategyFactory } from './PaymentStrategyFactory';
 import { PaymentTransaction, PaymentStatus } from './PaymentTypes';
-import { ThirdPartyPaymentStrategy } from './strategy/ThirdPartyPaymentStrategy';
 
 export class PaymentService {
+  private membershipRepository: MembershipRepository
+  private transactionRepository: TransactionRepository;
+
   private readonly paymentStrategyFactory: PaymentStrategyFactory;
 
-  constructor(paymentStrategies: Map<string, ThirdPartyPaymentStrategy>) {
+  constructor(transactionRepository: TransactionRepository, paymentStrategies: Map<string, ThirdPartyPaymentStrategy>) {
+    this.transactionRepository = transactionRepository
     this.paymentStrategyFactory = new PaymentStrategyFactory(paymentStrategies);
   }
 
@@ -31,5 +38,35 @@ export class PaymentService {
 
   async handlePaymentNotification(data: any): Promise<AlipayPayment> {
     
+  }
+
+  /**
+   * This function will create a pending transaction and return the qrcode as a string
+   * 
+   * @param membershipId 
+   * @param paymentProvider 
+   */
+  async requestNewPaymentTransaction(membershipId: number, paymentProvider: string, user: User, currency: string): Promise<String> {
+      // Fetch membership from the database
+      const membership = await this.membershipRepository.findById(membershipId+'');
+
+      if (!membership) {
+        throw new Error('Membership not found');
+      }
+  
+      // Create a new Transaction object
+      const transaction = new Transaction()
+      transaction.internalUserId = user._id
+      transaction.amount = membership.prices[currency],
+      transaction.currency = currency
+      transaction.status = TransactionStatusEnum.PENDING
+      transaction.paymentProvider = paymentProvider
+  
+      // Store the transaction in the database
+      const savedTransaction = await this.transactionRepository.save(transaction);
+  
+      // Initiate the payment process with the chosen payment provider
+      const paymentStrategy = this.paymentStrategyFactory[paymentProvider];
+      return paymentStrategy.createPayment(savedTransaction);
   }
 }

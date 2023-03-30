@@ -10,11 +10,29 @@ enum MembershipLevel {
 export class Membership {
     _id: string;
     level: MembershipLevel;
-    price: number;   
     prices: {
         [currencyCode: string]: number;
     };
 }
+
+export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
+{
+    name: "Membership",
+    tableName: 'membership',
+    schemaDefinition: {
+        level: {
+            type: String,
+            required: true,
+            enum: Object.values(MembershipLevel),
+        },
+        prices: {
+            type: Map,
+            of: Number,
+            required: true
+        },
+    }
+}
+
 
 // create table
 export const MembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionType = 

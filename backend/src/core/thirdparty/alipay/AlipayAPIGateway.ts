@@ -1,19 +1,21 @@
 import axios from 'axios';
 import { AlipayTradePrecreateRequest } from './DataTypes';
 
-const ALIPAY_API_ENDPOINT = 'https://openapi.alipay.com/gateway.do';
+const API_ENDPOINT = '/gateway.do';
 
 export class AlipayAPIGateway {
   private APP_ID: string;
   private APP_PRIVATE_KEY: string;
   private ALIPAY_PUBLIC_KEY: string;
   private ALIPAY_NOTIFY_URL: string;
+  private ALIPAY_API_HOST: string
 
   constructor() {
     this.APP_ID = process.env.ALIPAY_APP_ID;
     this.APP_PRIVATE_KEY = process.env.ALIPAY_APP_PRIVATE_KEY;
     this.ALIPAY_PUBLIC_KEY = process.env.ALIPAY_PUBLIC_KEY;
     this.ALIPAY_NOTIFY_URL = process.env.ALIPAY_NOTIFY_URL;
+
   }
 
   async requestQRCodePayment(subject: string, outTradeNo: string, totalAmount: string): Promise<string> {
@@ -33,7 +35,7 @@ export class AlipayAPIGateway {
     };
 
     const response = await axios.post<{ alipay_trade_precreate_response: { qr_code: string } }>(
-      ALIPAY_API_ENDPOINT,
+      this.ALIPAY_API_HOST + API_ENDPOINT,
       this.buildRequestBody(request),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );
