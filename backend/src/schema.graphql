@@ -134,6 +134,13 @@ type JwtToken {
 }
 
 
+type Permission {
+  id: ID!
+  role: String!
+  actions: String
+  createdAt: String!
+  updatedAt: String
+}
 
 
 type Query {
@@ -163,6 +170,9 @@ type Query {
   ### Membership
   queryMembershipDetail(membershipId: String!): Membership
   allMemberships:[Membership]
+
+  ### Permission related
+  hasPermission: [Permission]
 }
 
 
@@ -188,8 +198,20 @@ type Mutation {
   ### Jwt Token related
   refreshJwtToken(jwtRefreshToken: String): JwtToken!
 
+<<<<<<< HEAD
   ## request membership payment will return the link for the qrcode
   requestMembershipPaymentQrCode(membershipCode: Int, paymentProvider: String!, currency: String!): String!
+=======
+   ### Permission related
+  createPermission(name: String, description: String): Permission
+
+}
+
+type createQuestionInput {
+  title: String,
+  content: String,
+  userId: String
+>>>>>>> 2cee662... issue-55/migrate-permission-from-json-to-database: add permision model,repo,service, initialize the permission data
 }
 
 type Subscription {

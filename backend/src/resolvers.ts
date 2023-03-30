@@ -181,6 +181,6 @@ function patchResolvers(resolvers: any, beforeResolverCheck: any) {
     }
 }
 
-// let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
+let permissionCheckBeforeResolver = (source: any, args: any, context: any, info: any) => permissionService.hasPermission(context.user, info.fieldName)
 
-// patchResolvers(resolvers, permissionCheckBeforeResolver)
+patchResolvers(resolvers, permissionCheckBeforeResolver)

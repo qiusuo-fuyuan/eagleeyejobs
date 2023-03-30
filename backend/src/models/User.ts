@@ -59,7 +59,7 @@ export class User {
     userId: string
     email: string
     name: string
-    profilePicture: string
+    profilePicture?: string
     gender: number
     role: UserType
     nickName?: string

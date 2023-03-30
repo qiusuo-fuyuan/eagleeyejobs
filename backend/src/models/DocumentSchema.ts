@@ -3,7 +3,8 @@ import { JobDocumentSchemaDefinition } from "./Job.js";
 import { MembershipDocumentSchemaDefinition, UserMembershipStatusDocumentSchemaDefinition } from "./Membership.js";
 import { QuestionDocumentSchemaDefinition } from "./Question.js";
 import { UserDocumentSchemaDefinition } from "./User.js";
-MembershipDocumentSchemaDefinition
+import { PermissionDocumentSchemaDefinition } from "./Permission.js";
+
 
 
 

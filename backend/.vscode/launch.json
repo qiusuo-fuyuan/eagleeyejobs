@@ -85,14 +85,13 @@
                 "--runTestsByPath",
                 "${jest.testFile}"
             ],
-            "cwd": "/home/ryan/Learning/WorkInGermany/eagleeyejobs.com/backend",
+            "cwd": "${workspaceFolder}/backend",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
             "env": {
                 "NODE_ENV": "development"
             },
-            "program": "/home/ryan/Learning/WorkInGermany/eagleeyejobs.com/backend/node_modules/.bin/jest"
+            "program": "${workspaceFolder}/backend/node_modules/.bin/jest"
         }
     ]
 }
