@@ -89,6 +89,9 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "disableOptimisticBPs": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
             "program": "/home/ryan/Learning/WorkInGermany/eagleeyejobs.com/backend/node_modules/.bin/jest"
         }
     ]

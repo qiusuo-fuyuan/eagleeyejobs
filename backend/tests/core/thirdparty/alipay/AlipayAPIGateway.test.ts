@@ -1,8 +1,9 @@
 // AlipayAPIGateway.test.ts
-import crypto from 'crypto';
+import * as crypto from "crypto";
 import { AlipayAPIGateway } from '../../../../src/core/thirdparty/alipay/AlipayAPIGateway';
 
-jest.mock('crypto');
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+
 
 describe('AlipayAPIGateway', () => {
   let gateway: AlipayAPIGateway;
@@ -12,29 +13,15 @@ describe('AlipayAPIGateway', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
   });
 
   it('should request QR code payment', async () => {
-    const mockCryptoCreateSign = crypto.createSign as jest.MockedFunction<typeof crypto.createSign>;
-
-    const mockSignInstance = {
-      write: jest.fn(),
-      end: jest.fn(),
-      sign: jest.fn().mockReturnValue('sample_signature'),
-    };
-    mockCryptoCreateSign.mockReturnValue(mockSignInstance);
-
     const subject = 'Test product';
     const outTradeNo = '123456789';
     const totalAmount = '10.00';
 
     const result = await gateway.requestQRCodePayment(subject, outTradeNo, totalAmount);
 
-    expect(mockCryptoCreateSign).toHaveBeenCalledWith('RSA-SHA256');
-    expect(mockSignInstance.write).toHaveBeenCalled();
-    expect(mockSignInstance.end).toHaveBeenCalled();
-    expect(mockSignInstance.sign).toHaveBeenCalledWith(process.env.ALIPAY_APP_PRIVATE_KEY, 'base64');
     expect(result).toBeTruthy(); // Check if the returned QR code is truthy since we can't know the exact value
   });
 

@@ -1,12 +1,6 @@
 export type AlipayTradePrecreateRequest = {
-    app_id: string;
-    method: 'alipay.trade.precreate';
-    charset: 'utf-8';
-    sign_type: 'RSA2';
-    timestamp: string;
-    version: '1.0';
     notify_url: string;
-    biz_content: {
+    bizContent: {
       subject: string;
       out_trade_no: string;
       total_amount: string;

@@ -1,69 +1,50 @@
-import axios from 'axios';
+import AlipaySdk from 'alipay-sdk';
 import { AlipayTradePrecreateRequest } from './DataTypes';
 
 const API_ENDPOINT = '/gateway.do';
-
 export class AlipayAPIGateway {
-  private APP_ID: string;
-  private APP_PRIVATE_KEY: string;
-  private ALIPAY_PUBLIC_KEY: string;
-  private ALIPAY_NOTIFY_URL: string;
-  private ALIPAY_API_HOST: string
+  private APP_ID: string
+  private APP_PRIVATE_KEY: string
+  private ALIPAY_PUBLIC_KEY: string
+  private ALIPAY_NOTIFY_URL: string
+
+  private alipaySdk: AlipaySdk;
 
   constructor() {
     this.APP_ID = process.env.ALIPAY_APP_ID;
     this.APP_PRIVATE_KEY = process.env.ALIPAY_APP_PRIVATE_KEY;
     this.ALIPAY_PUBLIC_KEY = process.env.ALIPAY_PUBLIC_KEY;
-    this.ALIPAY_NOTIFY_URL = process.env.ALIPAY_NOTIFY_URL;
+    this.ALIPAY_NOTIFY_URL = process.env.ALIPAY_NOTIFIY_URL;
 
+    this.alipaySdk = new AlipaySdk({
+      appId: process.env.ALIPAY_APP_ID,
+      privateKey: process.env.ALIPAY_APP_PRIVATE_KEY,
+      alipayPublicKey: process.env.ALIPAY_PUBLIC_KEY,
+      signType: 'RSA2',
+      gateway: process.env.ALIPAY_API_HOST + API_ENDPOINT,
+      timeout: 30000,
+      camelcase: true,
+    });
   }
 
   async requestQRCodePayment(subject: string, outTradeNo: string, totalAmount: string): Promise<string> {
     const request: AlipayTradePrecreateRequest = {
-      app_id: this.APP_ID,
-      method: 'alipay.trade.precreate',
-      charset: 'utf-8',
-      sign_type: 'RSA2',
-      timestamp: new Date().toISOString(),
-      version: '1.0',
-      notify_url: this.ALIPAY_NOTIFY_URL,
-      biz_content: {
-        subject: subject,
+      bizContent: {
+        subject,
         out_trade_no: outTradeNo,
         total_amount: totalAmount,
       },
+      notify_url: this.ALIPAY_NOTIFY_URL,
     };
 
-    const response = await axios.post<{ alipay_trade_precreate_response: { qr_code: string } }>(
-      this.ALIPAY_API_HOST + API_ENDPOINT,
-      this.buildRequestBody(request),
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-    );
-
-    return response.data.alipay_trade_precreate_response.qr_code;
-  }
-
-  private buildRequestBody(request: AlipayTradePrecreateRequest): string {
-    const unsignedRequestBody = JSON.stringify(request);
-    const signedRequestBody = unsignedRequestBody.slice(0, -1) + `, "sign":"${this.generateSign(unsignedRequestBody)}"}`;
-
-    return Object.entries(JSON.parse(signedRequestBody))
-      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-      .join('&');
-  }
-
-  private generateSign(unsignedRequestBody: string): string {
-    const crypto = require('crypto');
-
-    const sign = crypto.createSign('RSA-SHA256');
-    sign.write(unsignedRequestBody);
-    sign.end();
-
-    const signature = sign.sign(this.APP_PRIVATE_KEY, 'base64');
-    return signature;
+    try {
+      const response = await this.alipaySdk.exec('alipay.trade.precreate', request);
+      return response.qrCode;
+    } catch (error) {
+      console.error('Error in requestQRCodePayment', error);
+      throw error;
+    }
   }
 }
 
-
-
-export default new AlipayAPIGateway()
+export default new AlipayAPIGateway();
