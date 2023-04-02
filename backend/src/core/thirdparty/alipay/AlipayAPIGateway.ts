@@ -27,7 +27,7 @@ export class AlipayAPIGateway {
     });
   }
 
-  async requestQRCodePayment(subject: string, outTradeNo: string, totalAmount: string): Promise<string> {
+  async initiatePrecreatePayment(subject: string, outTradeNo: string, totalAmount: string): Promise<string> {
     const request: AlipayTradePrecreateRequest = {
       bizContent: {
         subject,

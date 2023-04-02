@@ -1,5 +1,5 @@
-import { BaseRepository } from './BaseRepository';
-import { Membership, MembershipDocumentSchemaDefinition } from '../models/Membership';
+import { BaseRepository } from './BaseRepository.js';
+import { Membership, MembershipDocumentSchemaDefinition } from '../models/Membership.js';
 
 export class MembershipRepository extends BaseRepository<Membership> {
     constructor() {

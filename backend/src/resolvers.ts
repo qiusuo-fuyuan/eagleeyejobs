@@ -9,8 +9,8 @@ import logger from "./utils/Logger.js";
 import { JwtToken } from "./services/jwt/JwtToken.js";
 import jwtTokenService from "./services/jwt/JwtTokenService.js";
 import { User } from "./models/User.js";
-
 import { PubSub } from 'graphql-subscriptions';
+import membershipService, { MembershipService } from "./services/membership/MembershipService.js";
 
 const pubsub = new PubSub();
 
@@ -68,7 +68,9 @@ export const resolvers = {
         /**
          * Membership Query Resolvers
          */
-
+        allMemberships(_: any, args: any, { user }: any) {
+            return membershipService.getAllMemberships()
+        }
 
         /**
          * Community Story Query Resolvers
@@ -133,13 +135,16 @@ export const resolvers = {
          * Community Story Mutation Resolvers
          */
 
-        /**
-         * payment related
-         */
-        requestMembershipPayment: (_: any, {membershipId, paymentProvider}: { membershipId: number, paymentProvider: string}) => {
-            
-        }
 
+        /**
+         * Payment Muations Resolvers
+         */
+        requestMembershipPayment: (_: any, args: any, { user }: any, { fieldName }: any) => {
+            const membershipCode = args.membershipCode
+            const paymentProvider = args.paymentProvider
+            const currency = args.currency
+
+        }
     },
 
 

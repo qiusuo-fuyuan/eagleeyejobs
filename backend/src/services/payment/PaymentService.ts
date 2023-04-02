@@ -1,9 +1,9 @@
-import { PaymentProviderEnum, Transaction, TransactionStatusEnum } from '../../models/Transaction';
+import { PaymentProviderEnum, Transaction, TransactionStatusEnum } from '../../models/Transaction.js';
 import { User } from '../../models/User';
-import { MembershipRepository } from '../../repositories/MembershipRepository';
-import transactionRepository, { TransactionRepository } from '../../repositories/TransactionRepository';
-import { PaymentStrategyFactory } from './PaymentStrategyFactory';
-import { PaymentTransaction, PaymentStatus } from './PaymentTypes';
+import { MembershipRepository } from '../../repositories/MembershipRepository.js';
+import transactionRepository, { TransactionRepository } from '../../repositories/TransactionRepository.js';
+import paymentStrategyFactory, { PaymentStrategyFactory } from './strategy/PaymentStrategyFactory.js';
+import { PaymentTransaction, PaymentStatus } from './PaymentTypes.js';
 
 export class PaymentService {
   private membershipRepository: MembershipRepository
@@ -11,9 +11,9 @@ export class PaymentService {
 
   private readonly paymentStrategyFactory: PaymentStrategyFactory;
 
-  constructor(transactionRepository: TransactionRepository, paymentStrategies: Map<string, ThirdPartyPaymentStrategy>) {
+  constructor() {
     this.transactionRepository = transactionRepository
-    this.paymentStrategyFactory = new PaymentStrategyFactory(paymentStrategies);
+    this.paymentStrategyFactory = paymentStrategyFactory
   }
 
   async createTransaction(providerType: string, userId: string, amount: number, description: string): Promise<string> {
@@ -46,9 +46,9 @@ export class PaymentService {
    * @param membershipId 
    * @param paymentProvider 
    */
-  async requestNewPaymentTransaction(membershipId: number, paymentProvider: string, user: User, currency: string): Promise<String> {
+  async requestNewPaymentTransaction(membershipCode: string, paymentProvider: string, user: User, currency: string): Promise<String> {
       // Fetch membership from the database
-      const membership = await this.membershipRepository.findById(membershipId+'');
+      const membership = await this.membershipRepository.findById(membershipCode);
 
       if (!membership) {
         throw new Error('Membership not found');
@@ -66,7 +66,10 @@ export class PaymentService {
       const savedTransaction = await this.transactionRepository.save(transaction);
   
       // Initiate the payment process with the chosen payment provider
-      const paymentStrategy = this.paymentStrategyFactory[paymentProvider];
-      return paymentStrategy.createPayment(savedTransaction);
+      const paymentStrategy = this.paymentStrategyFactory.getPaymentStrategy(paymentProvider);
+      return await paymentStrategy.createTransaction(savedTransaction.internalUserId, savedTransaction.amount, null);
   }
 }
+
+
+export default new PaymentService()

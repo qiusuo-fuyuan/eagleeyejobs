@@ -20,7 +20,7 @@ describe('AlipayAPIGateway', () => {
     const outTradeNo = '123456789';
     const totalAmount = '10.00';
 
-    const result = await gateway.requestQRCodePayment(subject, outTradeNo, totalAmount);
+    const result = await gateway.initiatePrecreatePayment(subject, outTradeNo, totalAmount);
 
     expect(result).toBeTruthy(); // Check if the returned QR code is truthy since we can't know the exact value
   });

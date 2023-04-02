@@ -1,4 +1,4 @@
-enum UserType {
+enum UserRole {
   RECRUITER
   NORMAL_USER
   ENTRY_MEMBERSHIP
@@ -14,8 +14,26 @@ enum ThirdPartyPlatform {
 }
 
 
-type MemberShipStatus {
-  lastPaymentAt: String!
+# membership related
+enum MembershipCode {
+  ENTRY
+  MEDIUM
+  ADVANCED
+}
+
+# Define a custom scalar type for the currency-price mapping
+scalar CurrencyPriceMap
+
+# Define the Membership type
+type Membership {
+  _id: ID!
+  code: MembershipCode!
+  prices: CurrencyPriceMap!
+}
+
+type UserMembershipStatus {
+  code: MembershipCode!
+  lastPaidAt: String!
   willExpireAt: String!
 }
 
@@ -32,20 +50,10 @@ type User {
   gender: Int
   platform: String
   companyName: String
-  role: UserType
-  membershipStatus: MemberShipStatus
+  role: UserRole
+  membershipStatus: UserMembershipStatus
 }
 
-type Membership {
-  _id: String!
-  name: String
-  price: String
-  plan: String
-  status: String
-  payAt: String
-  expireAt: String
-  user: User
-}
 
 input UserRegistrationInput {
   email: String!
@@ -126,6 +134,8 @@ type JwtToken {
 }
 
 
+
+
 type Query {
   ### Job related
   searchJobs(userInput: String, pageNumber: Int): JobSearchPagingResult
@@ -173,13 +183,13 @@ type Mutation {
   registerNewUser(email:String, companyName:String, pass:String): User
 
   ### Membership related
-  setMembership(name: String, status: String, payAt: String, expireAt: String):Membership
+  setMembership(name: String, status: String, payAt: String, expireAt: String):Membership ## maybe not needed
 
   ### Jwt Token related
   refreshJwtToken(jwtRefreshToken: String): JwtToken!
 
   ## request membership payment will return the link for the qrcode
-  requestMembershipPayment(membershipId: Int, paymentProvider: String!): String!
+  requestMembershipPayment(membershipCode: Int, paymentProvider: String!, currency: String!): String!
 }
 
 type Subscription {

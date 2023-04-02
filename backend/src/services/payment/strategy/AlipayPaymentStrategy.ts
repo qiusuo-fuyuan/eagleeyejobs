@@ -11,7 +11,7 @@ export class AlipayPaymentStrategy implements PaymentStrategy {
 
   async createTransaction(userId: string, amount: number, description: string): Promise<string> {
     // Use the Alipay API gateway to create a new payment transaction with the specified details.
-    const response: AlipayPaymentResponse = await this.alipayAPIGateway.createPaymentTransaction(amount, description);
+    const response: AlipayPaymentResponse = await this.alipayAPIGateway.initiatePrecreatePayment(amount, description);
 
     // If the transaction was created successfully, return the transaction ID.
     if (response.code === '10000') {
@@ -59,7 +59,6 @@ export class AlipayPaymentStrategy implements PaymentStrategy {
       new Date(response.send_pay_date),
       new Date(response.gmt_payment)
     );
-
     return transaction;
   }
 }

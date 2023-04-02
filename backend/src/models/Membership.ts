@@ -1,15 +1,15 @@
 import { DocumentSchemaDefinitionType } from "./BaseTypes.js"
 
 
-enum MembershipLevel {
+enum MembershipCode {
     ENTRY = "entry",
     MEDIUM = "medium",
     ADVANCED = "advanced",
-  }
+}
 
 export class Membership {
     _id: string;
-    level: MembershipLevel;
+    code: MembershipCode;
     prices: {
         [currencyCode: string]: number;
     };
@@ -20,10 +20,10 @@ export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
     name: "Membership",
     tableName: 'membership',
     schemaDefinition: {
-        level: {
+        code: {
             type: String,
             required: true,
-            enum: Object.values(MembershipLevel),
+            enum: Object.values(MembershipCode),
         },
         prices: {
             type: Map,
@@ -33,36 +33,35 @@ export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
     }
 }
 
-
 // create table
-export const MembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionType = 
-{
-    name: "Membership",
-    tableName: 'membership',
+export const UserMembershipStatusDocumentSchemaDefinition: DocumentSchemaDefinitionType = {
+    name: "UserMembershipStatus",
+    tableName: "user_membership_status",
     schemaDefinition: {
-        name: {
-            type: String, 
-            required: true 
-        },
-        price: String,
-        status: String,
-        payAt: String,
-        expireAt: String
-    }
-}
+      code: {
+        type: String,
+        required: true,
+        enum: Object.values(MembershipCode),
+    },
+      lastPaidAt: {
+        type: Date,
+        required: true,
+      },
+      willExpireAt: {
+        type: Date,
+        required: true,
+      },
+    },
+};
 
 export class UserMembershipStatus {
-    name: String
-    price: String
-    status: String
-    payAt: String
-    expireAt: String
-    userId: String
-    internalUserId: String
+    code: MembershipCode
+    lastPaidAt: Date
+    willExpireAt: Date
 
-    constructor(name: String, status: String, userId: String) {
-        this.name = name;
-        this.status = status;
-        this.userId = userId;
+    constructor(code: MembershipCode,  lastPaidAt: Date, willExpireAt: Date) {
+        this.code = code;
+        this.lastPaidAt = lastPaidAt;
+        this.willExpireAt = willExpireAt;
     }
 }
