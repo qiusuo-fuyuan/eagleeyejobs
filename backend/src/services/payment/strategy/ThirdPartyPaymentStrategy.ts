@@ -1,4 +1,4 @@
-export interface PaymentStrategy {
+export interface ThirdPartyPaymentStrategy {
     /**
      * Creates a new payment transaction with the specified details.
      *
@@ -7,7 +7,7 @@ export interface PaymentStrategy {
      * @param description a description of the payment
      * @returns the ID of the new payment transaction
      */
-    createTransaction(userId: string, amount: number, description: string): Promise<string>;
+    createTransaction(platformTransactionId: string, amount: number, userId: string, description: string): Promise<string>;
   
     /**
      * Updates the status of the specified payment transaction.

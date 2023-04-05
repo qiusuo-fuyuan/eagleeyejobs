@@ -27,7 +27,7 @@ export class AlipayAPIGateway {
     });
   }
 
-  async initiatePrecreatePayment(subject: string, outTradeNo: string, totalAmount: string): Promise<string> {
+  async initiatePrecreatePayment(outTradeNo: string, totalAmount: string, subject: string): Promise<string> {
     const request: AlipayTradePrecreateRequest = {
       bizContent: {
         subject,

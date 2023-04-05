@@ -7,14 +7,7 @@ enum MembershipCode {
     ADVANCED = "advanced",
 }
 
-export class Membership {
-    _id: string;
-    code: MembershipCode;
-    prices: {
-        [currencyCode: string]: number;
-    };
-}
-
+// create table
 export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
 {
     name: "Membership",
@@ -30,7 +23,21 @@ export const MembershipDocumentSchemaDefinition: DocumentSchemaDefinitionType =
             of: Number,
             required: true
         },
+        description: {
+            type: String,
+            required: true,
+        }
     }
+}
+
+
+export class Membership {
+    _id: string;
+    code: MembershipCode;
+    prices: {
+        [currencyCode: string]: number;
+    };
+    description: string;
 }
 
 // create table

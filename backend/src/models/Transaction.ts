@@ -56,5 +56,6 @@ export class Transaction {
     paymentId: string;
     createdAt: Date;
     updatedAt: Date;
+    description: string;
 }
  

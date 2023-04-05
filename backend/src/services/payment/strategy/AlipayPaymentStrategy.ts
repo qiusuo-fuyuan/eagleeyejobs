@@ -1,17 +1,17 @@
-import alipayAPIGateway, {AlipayAPIGateway} from '../../../core/thirdparty/alipay/AlipayAPIGateway';
-import { PaymentStrategy } from './PaymentStrategy';
-import { AlipayPaymentResponse, PaymentStatus, PaymentTransaction } from './PaymentTypes';
+import alipayAPIGateway, {AlipayAPIGateway} from '../../../core/thirdparty/alipay/AlipayAPIGateway.js';
+import { ThirdPartyPaymentStrategy } from './ThirdPartyPaymentStrategy.js';
+import { AlipayPaymentResponse, PaymentStatus, PaymentTransaction } from './PaymentTypes.js';
 
-export class AlipayPaymentStrategy implements PaymentStrategy {
+export class AlipayPaymentStrategy implements ThirdPartyPaymentStrategy {
   private readonly alipayAPIGateway: AlipayAPIGateway;
 
   constructor() {
     this.alipayAPIGateway = alipayAPIGateway;
   }
 
-  async createTransaction(userId: string, amount: number, description: string): Promise<string> {
+  async createTransaction(platformTransactionId: string, amount: number, userId: string, description: string): Promise<string> {
     // Use the Alipay API gateway to create a new payment transaction with the specified details.
-    const response: AlipayPaymentResponse = await this.alipayAPIGateway.initiatePrecreatePayment(amount, description);
+    const response: AlipayPaymentResponse = await this.alipayAPIGateway.initiatePrecreatePayment(platformTransactionId, amount, description);
 
     // If the transaction was created successfully, return the transaction ID.
     if (response.code === '10000') {

@@ -19,7 +19,13 @@ export class MembershipService {
     }
 
     async requestMembershipPayment(membershipCode: string, paymentProvider: string, user: User, currency: string): Promise<String> {
-        return await paymentService.requestNewPaymentTransaction(membershipCode, paymentProvider, user, currency)
+              // Fetch membership from the database
+        const membership = await this.membershipRepository.findById(membershipCode);
+
+        if (!membership) {
+            throw new Error('Membership not found');
+        }
+        return await paymentService.requestPaymentTransaction(paymentProvider, user, membership, currency)
     }
 
 }

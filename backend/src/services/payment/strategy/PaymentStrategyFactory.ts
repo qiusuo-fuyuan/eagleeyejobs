@@ -1,8 +1,8 @@
-import alipayPaymentStrategy, { AlipayPaymentStrategy } from './AlipayPaymentStrategy';
+import alipayPaymentStrategy, { AlipayPaymentStrategy } from './AlipayPaymentStrategy.js';
 
-import { PaymentStrategy } from './PaymentStrategy';
+import { ThirdPartyPaymentStrategy } from './ThirdPartyPaymentStrategy.js';
 
-import wechatPaymentStrategy, { WechatPaymentStrategy } from './WechatPaymentStrategy';
+import wechatPaymentStrategy, { WechatPaymentStrategy } from './WechatPaymentStrategy.js';
 
 enum PAYMENT_PROVIDER_TYPE {
     WECHAT = 'wechat',
@@ -12,7 +12,7 @@ enum PAYMENT_PROVIDER_TYPE {
 export type PAYMENT_PROVIDER_TYPE_STRINGS = keyof typeof PAYMENT_PROVIDER_TYPE;
 
 export class PaymentStrategyFactory {
-    private paymentStrategies: { [providerType: string]: PaymentStrategy };
+    private paymentStrategies: { [providerType: string]: ThirdPartyPaymentStrategy };
 
     constructor() {
         this.paymentStrategies = {};
@@ -20,7 +20,7 @@ export class PaymentStrategyFactory {
         this.paymentStrategies[PAYMENT_PROVIDER_TYPE.WECHAT] = wechatPaymentStrategy;
     }
 
-    public getPaymentStrategy(providerType: PAYMENT_PROVIDER_TYPE_STRINGS): PaymentStrategy {
+    public getPaymentStrategy(providerType: string): ThirdPartyPaymentStrategy {
         return this.paymentStrategies[providerType];
     }
 }

@@ -1,6 +1,6 @@
  
 import wechatAPIGateway, {WeChatAPIGateway} from '../../../core/thirdparty/wechat/WeChatAPIGateway';
-import { PaymentStrategy } from './PaymentStrategy';
+import { PaymentStrategy } from './ThirdPartyPaymentStrategy';
 import { WechatPaymentResponse, PaymentStatus, PaymentTransaction } from './PaymentTypes';
 
 export class WechatPaymentStrategy implements PaymentStrategy {
