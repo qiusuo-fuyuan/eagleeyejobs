@@ -91,9 +91,79 @@ export class WeChatAPIGateway {
      * third party request wechat => wechat return qr code => user scan qr code to finish the payment. Our frontend will 
      * update the qr code to reflect the user payment has finished
      */
-    requestPayment() {
-        
+    initiateUnifiedOrderPayment() {
+        const UNIFIED_ORDER_API = 'pay/unifiedorder' 
     }
+
+    async generateWeChatQRCode(outTradeNo, totalFee, body, notifyUrl, ip) {
+        const unifiedOrderUrl = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+    
+        const nonceStr = this.generateNonceStr();
+        const sign = this.generateSign({
+          appid: this.appId,
+          mch_id: this.mchId,
+          nonce_str: nonceStr,
+          body,
+          out_trade_no: outTradeNo,
+          total_fee: totalFee,
+          spbill_create_ip: ip,
+          notify_url: notifyUrl,
+          trade_type: 'NATIVE',
+        });
+    
+        const xmlData = `
+          <xml>
+            <appid>${this.appId}</appid>
+            <mch_id>${this.mchId}</mch_id>
+            <nonce_str>${nonceStr}</nonce_str>
+            <sign>${sign}</sign>
+            <body>${body}</body>
+            <out_trade_no>${outTradeNo}</out_trade_no>
+            <total_fee>${totalFee}</total_fee>
+            <spbill_create_ip>${ip}</spbill_create_ip>
+            <notify_url>${notifyUrl}</notify_url>
+            <trade_type>NATIVE</trade_type>
+          </xml>
+        `;
+    
+        try {
+          const response = await axios.post(unifiedOrderUrl, xmlData, {
+            headers: { 'Content-Type': 'application/xml' },
+          });
+    
+          const jsonResponse = await xml2js.parseStringPromise(response.data);
+          if (jsonResponse.xml.return_code[0] === 'SUCCESS') {
+            return jsonResponse.xml.code_url[0];
+          } else {
+            throw new Error(jsonResponse.xml.return_msg[0]);
+          }
+        } catch (error) {
+          console.error('Error in generateWeChatQRCode', error);
+          throw error;
+        }
+      }
+    
+      generateNonceStr(length = 32) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let nonceStr = '';
+    
+        for (let i = 0; i < length; i++) {
+          nonceStr += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+    
+        return nonceStr;
+      }
+    
+      generateSign(params) {
+        const paramString = Object.keys(params)
+          .sort()
+          .map(key => `${key}=${params[key]}`)
+          .join('&');
+    
+        const stringSignTemp = `${paramString}&key=${this.apiKey}`;
+        const md5hash = crypto.createHash('md5').update(stringSignTemp, 'utf8').digest('hex');
+        return md5hash.toUpperCase();
+      }
 }
 
 

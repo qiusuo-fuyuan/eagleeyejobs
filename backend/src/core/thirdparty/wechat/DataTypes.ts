@@ -42,6 +42,37 @@ export type WeChatAuthorizationSessionData = {
     openId?: string
 }
 
+type WeChatUnifiedOrderRequest = {
+    appId: string;
+    attach: string;
+    body: string;
+    mchId: string;
+    detail: string;
+    nonceStr: string;
+    notifyUrl: string;
+    openid?: string;
+    outTradeNo: string;
+    spbillCreateIp: string;
+    totalFee: number;
+    tradeType: 'JSAPI' | 'NATIVE' | 'APP';
+    sign: string;
+}
+
+
+type WeChatUnifiedOrderResponse = {
+    returnCode: 'SUCCESS' | 'FAIL';
+    returnMsg: string;
+    appId?: string;
+    mchId?: string;
+    nonceStr?: string;
+    openid?: string;
+    sign?: string;
+    resultCode?: 'SUCCESS' | 'FAIL';
+    prepayId?: string;
+    tradeType?: 'JSAPI' | 'NATIVE' | 'APP';
+};
+  
+
 export class WechatPaymentResponse {
     return_code: string; // The return code, either 'SUCCESS' or 'FAIL'
     return_msg: string; // A description of the return code

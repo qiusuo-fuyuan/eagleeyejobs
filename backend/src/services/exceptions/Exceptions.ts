@@ -2,7 +2,8 @@ export enum ErrorCode {
     JWT_TOKEN_INVALID,
     JWT_TOKEN_EXPIRED,
     PERMISSION_DENIED,
-    HTTP_HEADER_INVALID
+    HTTP_HEADER_INVALID,
+    TransactionCreationError,
 }
 
 class BaseException extends Error{
@@ -34,3 +35,14 @@ export class PermissionDenied extends BaseException {
     }
 }
 
+
+export class TransactionCreationError extends BaseException {
+    private paymentProvider: string
+    private reason: string
+
+    public constructor(paymentProvider: string, message: string) {
+        super(ErrorCode.TransactionCreationError, message)
+        this.reason = message
+        this.paymentProvider = paymentProvider
+    }
+}

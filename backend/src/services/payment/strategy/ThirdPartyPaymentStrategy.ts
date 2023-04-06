@@ -7,23 +7,13 @@ export interface ThirdPartyPaymentStrategy {
      * @param description a description of the payment
      * @returns the ID of the new payment transaction
      */
-    createTransaction(platformTransactionId: string, amount: number, userId: string, description: string): Promise<string>;
-  
-    /**
-     * Updates the status of the specified payment transaction.
-     *
-     * @param transactionId the ID of the payment transaction to update
-     * @param status the new status of the payment transaction
-     */
-    updateTransactionStatus(transactionId: string, status: PaymentStatus): Promise<void>;
-  
+    createTransaction(platformTransactionId: string, amount: number, userId: string, description: string): Promise<boolean>;
     /**
      * Gets the status of the specified payment transaction.
      *
      * @param transactionId the ID of the payment transaction to get
      * @returns the status of the payment transaction
      */
-    getTransactionStatus(transactionId: string): Promise<PaymentStatus>;
   
     /**
      * Gets the details of the specified payment transaction.
@@ -31,6 +21,6 @@ export interface ThirdPartyPaymentStrategy {
      * @param transactionId the ID of the payment transaction to get
      * @returns the details of the payment transaction
      */
-    getTransactionDetails(transactionId: string): Promise<PaymentTransaction>;
+    getTransactionStatus(transactionId: string): Promise<boolean>;
   }
   

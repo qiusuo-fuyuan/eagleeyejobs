@@ -1,5 +1,5 @@
 import AlipaySdk from 'alipay-sdk';
-import { AlipayTradePrecreateRequest } from './DataTypes';
+import { AlipayTradePrecreateRequest, AlipayTradePrecreateResponse, AlipayTradeQueryRequest, AlipayTradeQueryResponse } from './DataTypes.js';
 
 const API_ENDPOINT = '/gateway.do';
 export class AlipayAPIGateway {
@@ -38,12 +38,23 @@ export class AlipayAPIGateway {
     };
 
     try {
-      const response = await this.alipaySdk.exec('alipay.trade.precreate', request);
-      return response.qrCode;
+      const precreateResponse = await this.alipaySdk.exec<AlipayTradePrecreateResponse>('alipay.trade.precreate', request);
+      return precreateResponse.alipay_trade_precreate_response.qr_code;
     } catch (error) {
       console.error('Error in requestQRCodePayment', error);
       throw error;
     }
+  }
+
+  async getTransactionDetails(outTradeNo: string): Promise<AlipayTradeQueryResponse> {
+    const request: AlipayTradeQueryRequest = {
+      bizContent: {
+        out_trade_no: outTradeNo,
+      },
+    };
+
+    const response = await this.alipaySdk.exec<AlipayTradeQueryResponse>('alipay.trade.query', request);
+    return response
   }
 }
 

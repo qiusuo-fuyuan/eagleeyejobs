@@ -189,7 +189,7 @@ type Mutation {
   refreshJwtToken(jwtRefreshToken: String): JwtToken!
 
   ## request membership payment will return the link for the qrcode
-  requestMembershipPayment(membershipCode: Int, paymentProvider: String!, currency: String!): String!
+  requestMembershipPaymentQrCode(membershipCode: Int, paymentProvider: String!, currency: String!): String!
 }
 
 type Subscription {

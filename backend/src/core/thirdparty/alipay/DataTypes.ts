@@ -7,6 +7,11 @@ export type AlipayTradePrecreateRequest = {
     };
 };
 
+export type AlipayTradeQueryRequest = {
+  bizContent: {
+    out_trade_no: string;
+  };
+};
   
 export type AlipayTradePrecreateResponse = {
     alipay_trade_precreate_response: {
@@ -17,7 +22,37 @@ export type AlipayTradePrecreateResponse = {
     };
     sign: string;
 };
-  
+
+export enum AlipayTradeStatus {
+  WAIT_BUYER_PAY = "WAIT_BUYER_PAY",
+  TRADE_CLOSED = "TRADE_CLOSED",
+  TRADE_SUCCESS = "TRADE_SUCCESS",
+  TRADE_FINISHED = "TRADE_FINISHED",
+}
+
+export type AlipayTradeQueryResponse = {
+  code: string;
+  msg: string;
+  sub_code?: string;
+  sub_msg?: string;
+  sign: string;
+  out_trade_no: string;
+  trade_no: string;
+  trade_status: string;
+  trans_currency?: string;
+  settle_currency?: string;
+  settle_amount?: number;
+  pay_currency?: string;
+  pay_amount?: number;
+  settle_trans_rate?: string;
+  trans_pay_rate?: string;
+  buyer_logon_id: string;
+  buyer_user_id: string;
+  total_amount: number;
+  terminal_id?: string;
+  store_name?: string;
+};
+
   
 class PaymentTransaction {
     public readonly id: string;

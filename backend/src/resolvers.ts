@@ -139,11 +139,11 @@ export const resolvers = {
         /**
          * Payment Muations Resolvers
          */
-        requestMembershipPayment: (_: any, args: any, { user }: any, { fieldName }: any) => {
+        requestMembershipPaymentQrCode: (_: any, args: any, { user }: any, { fieldName }: any) => {
             const membershipCode = args.membershipCode
             const paymentProvider = args.paymentProvider
             const currency = args.currency
-            
+            return membershipService.requestMembershipPaymentQrCode(membershipCode, paymentProvider, user, currency)
         }
     },
 

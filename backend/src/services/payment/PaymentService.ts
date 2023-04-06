@@ -5,6 +5,7 @@ import transactionRepository, { TransactionRepository } from '../../repositories
 import paymentStrategyFactory, { PaymentStrategyFactory } from './strategy/PaymentStrategyFactory.js';
 import { PaymentTransaction, PaymentStatus } from './PaymentTypes.js';
 import { Membership } from '../../models/Membership.js';
+import { TransactionCreationError } from '../exceptions/Exceptions.js';
 
 export class PaymentService {
   private membershipRepository: MembershipRepository
@@ -47,7 +48,7 @@ export class PaymentService {
    * @param membershipId 
    * @param paymentProvider 
    */
-  async requestPaymentTransaction(paymentProvider: string, user: User, membership: Membership, currency: string): Promise<String> {
+  async requestPaymentTransaction(paymentProvider: string, user: User, membership: Membership, currency: string): Promise<Transaction> {
       // Create a new Transaction object
       const transaction = new Transaction()
       transaction.internalUserId = user._id
@@ -56,13 +57,19 @@ export class PaymentService {
       transaction.status = TransactionStatusEnum.PENDING
       transaction.paymentProvider = paymentProvider
       transaction.description = membership.description
-  
+
+
       // Store the transaction in the database
       const savedTransaction = await this.transactionRepository.save(transaction);
   
       // Initiate the payment process with the chosen payment provider
       const paymentStrategy = this.paymentStrategyFactory.getPaymentStrategy(paymentProvider);
-      return await paymentStrategy.createTransaction(savedTransaction._id, savedTransaction.amount, savedTransaction.internalUserId, membership.description);
+      const success =  await paymentStrategy.createTransaction(savedTransaction._id, savedTransaction.amount, savedTransaction.internalUserId, membership.description);
+
+      if(success) {
+        return transaction
+      }
+      throw new TransactionCreationError(paymentProvider, "error initiating transaction on third party provider")
   }
 }
 
