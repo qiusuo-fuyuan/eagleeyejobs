@@ -5,4 +5,4 @@ export const CHECK_ACCESS_TOKEN_VALIDITY_PATH = "/sns/auth"
 export const REQUEST_USER_INFO_PATH = "/sns/userinfo"
 
 // payment related
-export const UNIFIED_ORDER_PATH = 'pay/unifiedorder' 
+export const UNIFIED_ORDER_PATH = '/pay/unifiedorder' 
